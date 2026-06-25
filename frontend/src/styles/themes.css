@@ -19,6 +19,21 @@
 .theme-red {
   --primary-color: #ef4444;
 }
+.theme-green {
+  --primary-color: #22c55e;
+}
+.theme-pink {
+  --primary-color: #ec4899;
+}
+.theme-amber {
+  --primary-color: #f59e0b;
+}
+.theme-slate {
+  --primary-color: #475569;
+}
+.theme-purple {
+  --primary-color: #9333ea;
+}
 
 .btn-primary {
   background-color: var(--primary-color);

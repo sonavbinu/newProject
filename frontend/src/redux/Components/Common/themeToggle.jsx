@@ -19,6 +19,26 @@ const ThemeToggle = () => {
         className="h-8 w-8 rounded-full bg-red-500"
         onClick={() => dispatch(setTheme("theme-red"))}
       ></button>
+      <button
+        className="h-8 w-8 rounded-full bg-green-500"
+        onClick={() => dispatch(setTheme("theme-green"))}
+      ></button>
+      <button
+        className="h-8 w-8 rounded-full bg-pink-500"
+        onClick={() => dispatch(setTheme("theme-pink"))}
+      ></button>
+      <button
+        className="h-8 w-8 rounded-full bg-amber-500"
+        onClick={() => dispatch(setTheme("theme-amber"))}
+      ></button>
+      <button
+        className="h-8 w-8 rounded-full bg-slate-500"
+        onClick={() => dispatch(setTheme("theme-slate"))}
+      ></button>
+      <button
+        className="h-8 w-8 rounded-full bg-purple-500"
+        onClick={() => dispatch(setTheme("theme-purple"))}
+      ></button>
     </div>
   );
 };

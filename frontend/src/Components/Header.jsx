@@ -1,5 +1,4 @@
 import React from "react";
-import ColorPicker from "../redux/Components/Common/ColorPicker";
 import ThemeToggle from "../redux/Components/Common/themeToggle";
 
 const Header = () => {
