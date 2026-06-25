@@ -1,13 +1,15 @@
 import React from "react";
+import ThemeToggle from "../redux/Components/Common/themeToggle";
 
 const Navbar = () => {
   return (
     <div>
       <nav
         style={{ backgroundColor: "var(--primary-color)" }}
-        className="text-white p-4"
+        className="text-white p-4 flex  justify-between items-center"
       >
-        Navbar
+        <h1>My dashboard</h1>
+        <ThemeToggle />
       </nav>
     </div>
   );
