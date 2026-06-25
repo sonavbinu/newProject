@@ -1,0 +1,38 @@
+:root {
+  --primary-color: #3b83f6;
+  --bg-color: #ffffff;
+  --text-color: #000000;
+}
+
+.dark {
+  --bg-color: #111827;
+  --text-color: #ffffff;
+}
+
+.theme-blue {
+  --primary-color: #2563eb;
+}
+.theme-orange {
+  --primary-color: #f97316;
+}
+
+.theme-red {
+  --primary-color: #ef4444;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+.sidebar-active {
+  color: var(--primary-color);
+}
+
+.heading {
+  color: var(--primary-color);
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
