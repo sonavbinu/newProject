@@ -3,20 +3,22 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   darkMode: false,
   primaryColor: "#3b82f6",
+  color: "theme-blue",
 };
 
 const themeSlice = createSlice({
   name: "theme",
   initialState,
-  reducers: (state) => {
-    state.darkMode = !state.darkMode;
-  },
-
-  setPrimaryColor: (state, action) => {
-    state.primaryColor = action.payload;
-  },
-  setTheme: (state, action) => {
-    state.color = action.payload;
+  reducers: {
+    toggleDarkMode: (state) => {
+      state.darkMode = !state.darkMode;
+    },
+    setPrimaryColor: (state, action) => {
+      state.primaryColor = action.payload;
+    },
+    setTheme: (state, action) => {
+      state.color = action.payload;
+    },
   },
 });
 
