@@ -6,6 +6,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Users from "../Pages/Users/Users";
 import AuthLayout from "../Layouts/AuthLayout";
 import MainLayout from "../Layouts/MainLayout";
+import MobileInput from "../Pages/Login/MobileInput";
 
 const AppRoutes = () => {
   return (
@@ -13,8 +14,9 @@ const AppRoutes = () => {
       <Routes>
         {/* Auth Routes */}
         <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />} />
+          <Route path="/mobile-input" element={<MobileInput />} />
         </Route>
 
         {/* Main Routes */}

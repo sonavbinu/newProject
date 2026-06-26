@@ -1,8 +1,10 @@
 import React from "react";
 import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <div className=" relative min-h-screen w-full  flex  justify-center items-center  ">
       <div
@@ -13,7 +15,7 @@ const Login = () => {
       ></div>
       <div>
         {" "}
-        <div className="flex bg-white overflow-hidden animate-fadeIn  flex-col border border-gray-300 px-30 py-10 justify-center items-center text-center rounded-lg shadow-md relative z-10">
+        <div className="flex bg-white   overflow-hidden animate-fadeIn  flex-col border border-gray-300 px-30 py-10 justify-center items-center text-center rounded-lg shadow-md relative z-10">
           <div>
             <img
               className="w-full h-full  object-contain mb-3"
@@ -34,7 +36,10 @@ const Login = () => {
             <span className="h-2 w-2 rounded-full bg-gray-300"></span>
           </div>
           <div className="w-full space-y-3">
-            <button className="bg-[#8cad2b] text-white border px-4 py-2 w-full shadow-sm cursor-pointer font-medium rounded-md transition-all duraiton-200 ease-in-out hover:bg-[#7a9925] mb-5">
+            <button
+              className="bg-[#8cad2b] text-white border px-4 py-2 w-full shadow-sm cursor-pointer font-medium rounded-md transition-all duraiton-200 ease-in-out hover:bg-[#7a9925] mb-5"
+              onClick={() => navigate("/mobile-input")}
+            >
               Login
             </button>
             <span className="px-4  py-3 mb-5 rounded-md font-medium transition-all duration-200 ease-in-out  w-full bg-transparent text-[#8BAD2B] hover:underline p-2 cursor-pointer">
