@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
+import { useNavigate } from "react-router-dom";
 
 const OtpVerify = () => {
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    if (timer === 0) return;
+
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const handleResend = () => {
+    setTimer(60);
+  };
+
+  const navigate = useNavigate();
   return (
     <div className=" relative min-h-screen w-full border p-10 flex flex-col justify-center items-center rounded-md p-4 md:p-6">
       <div
@@ -55,16 +72,26 @@ const OtpVerify = () => {
           />
         </div>
         <div>
-          <button className="bg-[#8BAD2B] hover:bg-[#7a9925] text-white p-2 w-[400px] cursor-pointer rounded-md  ">
+          <button
+            onClick={() => navigate("/select-store")}
+            className="bg-[#8BAD2B] hover:bg-[#7a9925] text-white p-2 w-[400px] cursor-pointer rounded-md  "
+          >
             Verify and Continue
           </button>
         </div>
         <div>
           <p>
             Didn't receive OTP ?{" "}
-            <span className="text-[#8BAD2B] hover:underline cursor-pointer">
-              Resend
-            </span>
+            {timer > 0 ? (
+              <span className="text-gray-400">Resend in {timer}s</span>
+            ) : (
+              <span
+                onClick={handleResend}
+                className="text-[#8BAD2B] hover:underline cursor-pointer"
+              >
+                Resend
+              </span>
+            )}
           </p>
         </div>
       </div>
