@@ -8,7 +8,7 @@ const Navbar = () => {
         style={{ backgroundColor: "var(--primary-color)" }}
         className="text-white p-4 flex  justify-between items-center"
       >
-        <h1>My dashboard</h1>
+        <h1>Navbar</h1>
         <ThemeToggle />
       </nav>
     </div>

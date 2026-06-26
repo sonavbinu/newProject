@@ -1,7 +1,63 @@
 import React from "react";
+import logo from "../../assets/logo.png";
+import bgimg from "../../assets/bgimg.jpg";
 
 const Login = () => {
-  return <div>Login</div>;
+  return (
+    <div className=" relative min-h-screen w-full  flex  justify-center items-center  ">
+      <div
+        className="absolute inset-0 bg-cover bg-center blur-sm"
+        style={{
+          backgroundImage: `url(${bgimg})`,
+        }}
+      ></div>
+      <div>
+        {" "}
+        <div className="flex bg-white overflow-hidden animate-fadeIn  flex-col border border-gray-300 px-30 py-10 justify-center items-center text-center rounded-lg shadow-md relative z-10">
+          <div>
+            <img
+              className="w-full h-full  object-contain mb-3"
+              src={logo}
+              alt="logo"
+            />
+          </div>
+          <h2 className="text-2xl font-bold flex mb-2">
+            Grow Your Business <br />
+            Exponentially!
+          </h2>
+          <p className="text-gray-600 text-sm  mb-6">
+            Pay less on each transaction you <br /> make with our App.
+          </p>
+          <div className="flex gap-2 justify-center mb-6">
+            <span className="h-2 w-2  rounded-full bg-[#8BAD2B]"></span>
+            <span className="h-2 w-2 rounded-full bg-gray-300"></span>
+            <span className="h-2 w-2 rounded-full bg-gray-300"></span>
+          </div>
+          <div className="w-full space-y-3">
+            <button className="bg-[#8cad2b] text-white border px-4 py-2 w-full shadow-sm cursor-pointer font-medium rounded-md transition-all duraiton-200 ease-in-out hover:bg-[#7a9925] mb-5">
+              Login
+            </button>
+            <span className="px-4  py-3 mb-5 rounded-md font-medium transition-all duration-200 ease-in-out  w-full bg-transparent text-[#8BAD2B] hover:underline p-2 cursor-pointer">
+              Contact Us
+            </span>
+          </div>
+          <div>
+            <p className="text-sm text-center  text-gray-500 mt-4">
+              By clicking, you agree to our <br />{" "}
+              <span className="text-[#8cad2b] font-medium cursor-pointer">
+                Terms & Conditions
+              </span>{" "}
+              and
+              <span className="text-[#8cad2b] font-medium cursor-pointer">
+                {" "}
+                Privacy Policy.
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;

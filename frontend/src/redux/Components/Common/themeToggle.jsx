@@ -22,6 +22,11 @@ const ThemeToggle = () => {
         <option value="theme-green">Green</option>
         <option value="theme-pink">Pink</option>
         <option value="theme-amber">Amber</option>
+        <option value="theme-slate">Slate</option>
+        <option value="theme-purple">Purple</option>
+        <option value="theme-cyan">Cyan</option>
+        <option value="theme-black">Black</option>
+        <option value="theme-green2">Green2</option>
       </select>
     </div>
   );

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Users = () => {
   return (
     <div>
-      <Link to="/Users" style={{ color: "var(--primary-color)" }}>
+      <Link to="/users" style={{ color: "var(--primary-color)" }}>
         Users
       </Link>
     </div>
