@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
+import { useNavigate } from "react-router-dom";
 
 const MobileInput = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,6 +44,7 @@ const MobileInput = () => {
           </div>
           <div>
             <button
+              onClick={() => navigate("/otp-verification")}
               type="submit"
               className="font-medium mb-3 rounded-md transition-all duration-200 ease-in-out px-4 py-2 bg-[#8BAD2B] text-white w-full shadow-sm cursor-pointer hover:bg[#7a9925]"
             >

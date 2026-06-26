@@ -7,6 +7,7 @@ import Users from "../Pages/Users/Users";
 import AuthLayout from "../Layouts/AuthLayout";
 import MainLayout from "../Layouts/MainLayout";
 import MobileInput from "../Pages/Login/MobileInput";
+import OtpVerify from "../Pages/Login/OtpVerify";
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />} />
           <Route path="/mobile-input" element={<MobileInput />} />
+          <Route path="/otp-verification" element={<OtpVerify />} />
         </Route>
 
         {/* Main Routes */}
