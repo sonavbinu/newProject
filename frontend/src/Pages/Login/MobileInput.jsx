@@ -43,9 +43,8 @@ const MobileInput = () => {
       >
         {open && (
           <p
-            className=" success-message text-sm text-center m-2 font-medium  rounded-md  w-full p-1 "
+            className=" success-message text-sm text-center text-green-500 m-2 font-medium  rounded-md  w-full p-1 "
             style={{
-              color: "var(--primary-color)",
               backgroundColor: "var(--secondary-color)",
             }}
           >

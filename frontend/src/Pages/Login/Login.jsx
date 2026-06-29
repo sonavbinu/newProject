@@ -30,7 +30,7 @@ const Login = () => {
               src={logo}
               alt="logo"
             />
-            <select
+            {/* <select
               onChange={(e) => {
                 (i18n.changeLanguage(e.target.value),
                   localStorage.setItem("lang", e.target.value));
@@ -43,7 +43,7 @@ const Login = () => {
               <option value="en">English</option>
               <option value="hi">हिन्दी</option>
               <option value="ml"> മലയാളം</option>
-            </select>
+            </select> */}
           </div>
           <h2 className="text-2xl font-bold flex mb-2">{t("login.heading")}</h2>
           <p className="text-gray-600 text-sm  mb-6">

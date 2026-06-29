@@ -8,17 +8,18 @@ const SelectStore = () => {
   const [selectedStore, setSelectedStore] = useState("1");
   const navigate = useNavigate();
   return (
-    <div className=" relative w-full min-h-screen border border-gray-300 px-4 py-6 rounded-md">
+    <div className=" relative min-h-screen w-full flex flex-col justify-center items-center border border-gray-300 px-4 py-6 rounded-md">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm"
         style={{ backgroundImage: `url(${bgimg})` }}
       ></div>{" "}
-      <ArrowLeft
-        style={{ color: "#555a5f" }}
-        onClick={() => navigate("/mobile-input")}
-      />
-      <div className="flex flex-col justify-center items-center gap-4 w-[400px] bg-white px-2 py-4 relative z-10">
+      <div className="flex flex-col justify-center items-center gap-4 w-[400px] bg-white px-2 py-4 relative z-10 rounded-xl px-10 py-10">
         <div>
+          {" "}
+          <ArrowLeft
+            style={{ color: "#555a5f" }}
+            onClick={() => navigate("/mobile-input")}
+          />
           <h2 className="text-2xl font-bold text-center">Select Your Store</h2>
           <p className="text-gray-500">
             Your number is connected with 2 stores
@@ -87,15 +88,15 @@ const SelectStore = () => {
               className="w-5 h-5 text-[#8BAD2B] border-gray-300 focus:ring-[#8BAD2B]"
             />
           </div>
-        </label>
-      </div>
-      <div>
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="bg-[#8BAD2B] text-white w-full px-4 py-3 rounded-md font-bold cursor-pointer "
-        >
-          Continue
-        </button>
+        </label>{" "}
+        <div className="bg-white">
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="bg-[#8BAD2B] text-white w-full px-4 py-3 rounded-md font-bold cursor-pointer relative z-10 "
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </div>
   );

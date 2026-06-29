@@ -10,6 +10,8 @@ const OtpVerify = () => {
   const inputRefs = useRef([]);
   const { t } = useTranslation();
 
+  const CORRECT_OTP = "1111";
+
   useEffect(() => {
     if (timer === 0) return;
 
@@ -87,7 +89,15 @@ const OtpVerify = () => {
         </div>
         <div>
           <button
-            onClick={() => navigate("/select-store")}
+            onClick={() => {
+              const enteredOTP = otp.join("");
+
+              if (enteredOTP === CORRECT_OTP) {
+                navigate("/select-store");
+              } else {
+                alert("Invalid OTP");
+              }
+            }}
             className={`text-white px-4 py-3 w-[400px] cursor-pointer rounded-md ${
               otp.every((digit) => digit !== "")
                 ? "btn-primary cursor-pointer"
