@@ -39,7 +39,7 @@ const OtpVerify = () => {
         </div>
         <div className="flex gap-3">
           <input
-            className="border border-gray-300 w-15 h-15 focus:ring-2 focus:ring-[#8BAD2B] focus:outline-none text-center rounded-md"
+            className="border border-gray-300 w-15 h-15 focus:ring-2 focus:ring-[#8BAD2B] focus:outline-none text-center text-lg rounded-md"
             type="text"
             maxLength={1}
             inputMode="numeric"
@@ -77,7 +77,7 @@ const OtpVerify = () => {
         <div>
           <button
             onClick={() => navigate("/select-store")}
-            className="btn-primary text-white p-2 w-[400px] cursor-pointer rounded-md  "
+            className="btn-primary text-white px-4 py-3 w-[400px] cursor-pointer rounded-md  "
           >
             Verify and Continue
           </button>
@@ -90,7 +90,7 @@ const OtpVerify = () => {
             ) : (
               <span
                 onClick={handleResend}
-                className="text-[#8BAD2B] hover:underline cursor-pointer"
+                className="text-primary hover:underline cursor-pointer"
               >
                 Resend
               </span>

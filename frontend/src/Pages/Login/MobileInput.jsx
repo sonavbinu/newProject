@@ -17,7 +17,7 @@ const MobileInput = () => {
   return (
     <div className="  theme-green2 relative min-h-screen flex justify-center items-center  w-full ">
       <div
-        className="absolute inset-0 bg-cover bg-center blur-sm  "
+        className="absolute inset-0 bg-cover bg-center blur-sm"
         style={{
           backgroundImage: `url(${bgimg})`,
         }}
@@ -25,7 +25,7 @@ const MobileInput = () => {
 
       <div className="absolute inset-0 bg-black/20"></div>
       <div
-        className="w-full bg-white  border rounded-xl  flex flex-col px-20 py-10
+        className="w-full bg-white  border rounded-2xl shadow-xl max-w-[560px] flex flex-col px-10 py-12
         max-w-md
         justify-center items-center overflow-hidden animate-fadeIn relative z-10"
         style={{ borderColor: "var(--border-color)" }}
@@ -41,28 +41,28 @@ const MobileInput = () => {
             OTP sent successfully!
           </p>
         )}
-        <img src={logo} alt="" className="mb-3" />
+        <img src={logo} alt="" className="mb-6 w-20 h-20" />
         <div>
           <h2 className="text-2xl font-bold mb-2 text-center">
             Get started with REWARDIFY
           </h2>
-          <p className="text-gray-600 text-center mb-3">
+          <p className="text-gray-600 text-center mb-3 leading-9">
             Enter your mobile number or ShopID <br /> to get started
           </p>
         </div>
-        <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+        <form className="flex flex-col w-full " onSubmit={handleSubmit}>
           <div>
             <input
               type="tel"
               placeholder="Enter ShopID/mobile number"
-              className="w-[300px] border  mb-4 px-4 py-3 rounded-md input-theme
+              className="w-full  border  mb-4 px-4 py-3 rounded-md input-theme
               "
             />
           </div>
           <div>
             <button
               type="submit"
-              className="font-medium mb-3 rounded-md  transition-all duration-200 ease-in-out px-4 py-2 btn-primary  w-full shadow-sm cursor-pointer "
+              className="font-medium mb-3 rounded-md  transition-all duration-200 ease-in-out px-4 py-3 btn-primary  w-full shadow-sm cursor-pointer "
             >
               Send OTP
             </button>
