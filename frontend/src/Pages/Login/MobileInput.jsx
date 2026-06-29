@@ -6,8 +6,17 @@ import { useTranslation } from "react-i18next";
 
 const MobileInput = () => {
   const [open, setOpen] = useState(false);
+  const [mobile, setMobile] = useState("");
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const handleMobileaChange = (e) => {
+    const value = e.target.value.replace(/\D/g, "");
+
+    if (value.length <= 10) {
+      setMobile(value);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,6 +65,8 @@ const MobileInput = () => {
           <div>
             <input
               type="tel"
+              value={mobile}
+              onChange={handleMobileaChange}
               placeholder={t("mobileInput.placeholder")}
               className="w-full  border  mb-4 px-4 py-3 rounded-md input-theme
               "
@@ -63,8 +74,11 @@ const MobileInput = () => {
           </div>
           <div>
             <button
+              disabled={mobile.length !== 10}
               type="submit"
-              className="font-medium mb-3 rounded-md  transition-all duration-200 ease-in-out px-4 py-3 btn-primary  w-full shadow-sm cursor-pointer "
+              className={`font-medium mb-3 rounded-md  transition-all duration-200 ease-in-out px-4 py-3 w-full shadow-sm cursor-pointer 
+                ${mobile.length === 10 ? "btn-primary cursor-pointer" : "bg-[#c6d695] text-white cursor-not-allowed"}
+                `}
             >
               {t("mobileInput.sendOtp")}
             </button>

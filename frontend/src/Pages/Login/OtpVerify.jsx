@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 
 const OtpVerify = () => {
   const [timer, setTimer] = useState(0);
+  const [otp, setOtp] = useState(["", "", "", ""]);
+  const inputRefs = useRef([]);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -19,6 +21,31 @@ const OtpVerify = () => {
 
   const handleResend = () => {
     setTimer(60);
+  };
+
+  const handleChange = (index, e) => {
+    const value = e.target.value.replace(/\D/g, "");
+
+    if (!value) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value[0];
+    setOtp(newOtp);
+
+    if (index < otp.length - 1) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+  const handleKeyDown = (index, e) => {
+    if (e.key === "Backspace") {
+      if (otp[index]) {
+        const newOtp = [...otp];
+        newOtp[index] = "";
+        setOtp(newOtp);
+      } else if (index > 0) {
+        inputRefs.current[index - 1].focus();
+      }
+    }
   };
 
   const navigate = useNavigate();
@@ -42,46 +69,30 @@ const OtpVerify = () => {
           </p>
         </div>
         <div className="flex gap-3">
-          <input
-            className="border border-gray-300 w-15 h-15 focus:ring-2 focus:ring-[#8BAD2B] focus:outline-none text-center rounded-md"
-            type="text"
-            maxLength={1}
-            inputMode="numeric"
-            autoComplete="one-time-code"
-          />
-          <input
-            className="border border-gray-300 w-15 h-15
-        focus:ring-2 focus:ring-[#8BAD2B]
-        focus:outline-none text-center rounded-md
-        "
-            type="text"
-            maxLength={1}
-            inputMode="numeric"
-            autoComplete="one-time-code"
-          />
-          <input
-            className="border border-gray-300 w-15 h-15
-        focus:ring-2 focus:ring-[#8BAD2B]
-        focus:outline-none text-center rounded-md
-        "
-            maxLength={1}
-            inputMode="numeric"
-            autoComplete="one-time-code"
-          />
-          <input
-            className="border border-gray-300 w-15 h-15
-        focus:ring-2 focus:ring-[#8BAD2B]
-        focus:outline-none text-center rounded-md
-        "
-            maxLength={1}
-            inputMode="numeric"
-            autoComplete="one-time-code"
-          />
+          {otp.map((digit, index) => (
+            <input
+              type="text"
+              key={index}
+              ref={(el) => (inputRefs.current[index] = el)}
+              value={digit}
+              maxLength={1}
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              onChange={(e) => handleChange(index, e)}
+              onKeyDown={(e) => handleKeyDown(index, e)}
+              className="border border-gray-300 w-15 h-15 text-center rounded-md
+                 focus:ring-2 focus:ring-[#8BAD2B] focus:outline-none"
+            />
+          ))}
         </div>
         <div>
           <button
             onClick={() => navigate("/select-store")}
-            className="btn-primary text-white px-4 py-3 w-[400px] cursor-pointer rounded-md  "
+            className={`text-white px-4 py-3 w-[400px] cursor-pointer rounded-md ${
+              otp.every((digit) => digit !== "")
+                ? "btn-primary cursor-pointer"
+                : "bg-[#c6d695] text-white cursor-not-allowed"
+            }`}
           >
             {t("otpVerify.verifyButton")}
           </button>
@@ -90,7 +101,9 @@ const OtpVerify = () => {
           <p>
             {t("otpVerify.didntReceive")}
             {timer > 0 ? (
-              <span className="text-gray-400">Resend in {timer}s</span>
+              <span className="text-gray-400">
+                {t("otpVerify.resendIn")} {timer}s
+              </span>
             ) : (
               <span
                 onClick={handleResend}
