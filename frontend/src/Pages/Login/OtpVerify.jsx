@@ -39,7 +39,7 @@ const OtpVerify = () => {
         </div>
         <div className="flex gap-3">
           <input
-            className="border border-gray-300 w-15 h-15 focus:ring-2 focus:ring-[#8BAD2B] focus:outline-none text-center text-lg rounded-md"
+            className="border border-gray-300 w-15 h-15 focus:ring-2 focus:ring-[#8BAD2B] focus:outline-none text-center rounded-md"
             type="text"
             maxLength={1}
             inputMode="numeric"

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const MobileInput = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,23 +40,23 @@ const MobileInput = () => {
               backgroundColor: "var(--secondary-color)",
             }}
           >
-            OTP sent successfully!
+            {t("mobileInput.otpSent")}
           </p>
         )}
         <img src={logo} alt="" className="mb-6 w-20 h-20" />
         <div>
           <h2 className="text-2xl font-bold mb-2 text-center">
-            Get started with REWARDIFY
+            {t("mobileInput.heading")}
           </h2>
           <p className="text-gray-600 text-center mb-3 leading-9">
-            Enter your mobile number or ShopID <br /> to get started
+            {t("mobileInput.description")}
           </p>
         </div>
         <form className="flex flex-col w-full " onSubmit={handleSubmit}>
           <div>
             <input
               type="tel"
-              placeholder="Enter ShopID/mobile number"
+              placeholder={t("mobileInput.placeholder")}
               className="w-full  border  mb-4 px-4 py-3 rounded-md input-theme
               "
             />
@@ -64,17 +66,18 @@ const MobileInput = () => {
               type="submit"
               className="font-medium mb-3 rounded-md  transition-all duration-200 ease-in-out px-4 py-3 btn-primary  w-full shadow-sm cursor-pointer "
             >
-              Send OTP
+              {t("mobileInput.sendOtp")}
             </button>
           </div>
         </form>
 
         <div>
-          <p className="text-sm text-center text-gray-500  mt-8 ">
-            By clicking, you agree to <br />
-            our <span className="text-primary">
-              Terms & Conditions{" "}
-            </span> and <span className="text-primary">Privacy Policy</span>
+          <p className="text-sm text-center text-gray-500 leading-6  mt-8 ">
+            {t("mobileInput.agree")}
+            <br />
+            <span className="text-primary">{t("mobileInput.terms")} </span>{" "}
+            {t("mobileInput.and")}
+            <span className="text-primary">{t("mobileInput.privacy")}</span>
           </p>
         </div>
       </div>

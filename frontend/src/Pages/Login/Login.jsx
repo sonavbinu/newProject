@@ -41,8 +41,8 @@ const Login = () => {
               style={{ borderColor: "var(--primary-color)" }}
             >
               <option value="en">English</option>
-              <option value="hi">Hindi</option>
-              <option value="ml"> Malayalam</option>
+              <option value="hi">हिन्दी</option>
+              <option value="ml"> മലയാളം</option>
             </select>
           </div>
           <h2 className="text-2xl font-bold flex mb-2">{t("login.heading")}</h2>
