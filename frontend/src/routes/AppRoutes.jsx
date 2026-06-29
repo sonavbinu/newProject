@@ -16,7 +16,7 @@ const AppRoutes = () => {
       <Routes>
         {/* Auth Routes */}
         <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/" element={<Login />}></Route>
           <Route path="/register" element={<Register />} />
           <Route path="/mobile-input" element={<MobileInput />} />
           <Route path="/otp-verification" element={<OtpVerify />} />

@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import profile from "../../assets/profile.avif";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import bgimg from "../../assets/bgimg.jpg";
 
 const SelectStore = () => {
   const [selectedStore, setSelectedStore] = useState("1");
   const navigate = useNavigate();
   return (
-    <div className="border border-gray-300 px-4 py-6 rounded-md">
-      {" "}
+    <div className=" relative w-full min-h-screen border border-gray-300 px-4 py-6 rounded-md">
+      <div
+        className="absolute inset-0 bg-cover bg-center blur-sm"
+        style={{ backgroundImage: `url(${bgimg})` }}
+      ></div>{" "}
       <ArrowLeft
         style={{ color: "#555a5f" }}
         onClick={() => navigate("/mobile-input")}
       />
-      <div className="flex flex-col justify-center items-center gap-4 w-[400px] h-[400px px-2 py-4">
+      <div className="flex flex-col justify-center items-center gap-4 w-[400px] bg-white px-2 py-4 relative z-10">
         <div>
           <h2 className="text-2xl font-bold text-center">Select Your Store</h2>
           <p className="text-gray-500">

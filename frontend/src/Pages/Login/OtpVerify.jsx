@@ -21,12 +21,15 @@ const OtpVerify = () => {
 
   const navigate = useNavigate();
   return (
-    <div className=" relative min-h-screen w-full border p-10 flex flex-col justify-center items-center rounded-md p-4 md:p-6">
+    <div className="theme-green2 relative min-h-screen w-full border p-10 flex flex-col justify-center items-center rounded-md p-4 md:p-6">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm scale-110"
         style={{ backgroundImage: `url(${bgimg})` }}
       ></div>
-      <div className="relative z-10 bg-white rounded-lg shadow-lg px-10 py-10 w-full max-w-md text-center flex flex-col items-center gap-4 ">
+      <div
+        className="relative z-10 bg-white rounded-lg shadow-lg px-10 py-10 w-full max-w-md text-center flex flex-col items-center gap-4 "
+        style={{ borderColor: "var(--border-color)" }}
+      >
         <div className="relative z-10 ">
           <img src={logo} alt="" />
         </div>
@@ -74,7 +77,7 @@ const OtpVerify = () => {
         <div>
           <button
             onClick={() => navigate("/select-store")}
-            className="bg-[#8BAD2B] hover:bg-[#7a9925] text-white p-2 w-[400px] cursor-pointer rounded-md  "
+            className="btn-primary text-white p-2 w-[400px] cursor-pointer rounded-md  "
           >
             Verify and Continue
           </button>
