@@ -19,5 +19,13 @@
     "terms": "Terms & Conditions",
     "and": "and",
     "privacy": "Privacy Policy"
+  },
+  "otpVerify": {
+    "heading": "Verify your details",
+    "description": "Enter OTP number below",
+    "verifyButton": "Verify and Continue",
+    "didntReceive": "Didn't receive OTP?",
+    "resend": "Resend",
+    "resendIn": "Resend in"
   }
 }

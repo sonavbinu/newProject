@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const OtpVerify = () => {
   const [timer, setTimer] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (timer === 0) return;
@@ -34,8 +36,10 @@ const OtpVerify = () => {
           <img src={logo} alt="" />
         </div>
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-bold">Verify your details</h2>
-          <p className="text-gray-500 text-center">Enter OTP number below</p>
+          <h2 className="text-2xl font-bold">{t("otpVerify.heading")}</h2>
+          <p className="text-gray-500 text-center">
+            {t("otpVerify.description")}
+          </p>
         </div>
         <div className="flex gap-3">
           <input
@@ -79,12 +83,12 @@ const OtpVerify = () => {
             onClick={() => navigate("/select-store")}
             className="btn-primary text-white px-4 py-3 w-[400px] cursor-pointer rounded-md  "
           >
-            Verify and Continue
+            {t("otpVerify.verifyButton")}
           </button>
         </div>
         <div>
           <p>
-            Didn't receive OTP ?{" "}
+            {t("otpVerify.didntReceive")}
             {timer > 0 ? (
               <span className="text-gray-400">Resend in {timer}s</span>
             ) : (
@@ -92,7 +96,7 @@ const OtpVerify = () => {
                 onClick={handleResend}
                 className="text-primary hover:underline cursor-pointer"
               >
-                Resend
+                {t("otpVerify.resend")}
               </span>
             )}
           </p>
