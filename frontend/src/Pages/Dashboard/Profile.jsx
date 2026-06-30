@@ -1,14 +1,16 @@
 import React from "react";
 import { User, Store, Wallet, Info, LogOut } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
+  const { t } = useTranslation();
   const menuItems = [
-    { name: "Profile Details", path: "", icon: User },
-    { name: "Shop Details", path: "shop-details", icon: Store },
-    { name: "My Wallet", path: "wallet", icon: Wallet },
-    { name: "About REWARDIFY", path: "about", icon: Info },
-    { name: "Logout", path: "logout", icon: LogOut },
+    { name: t("profile.profileDetails"), path: "", icon: User },
+    { name: t("profile.shopDetails"), path: "shop-details", icon: Store },
+    { name: t("profile.myWallet"), path: "wallet", icon: Wallet },
+    { name: t("profile.about"), path: "about", icon: Info },
+    { name: t("profile.logout"), path: "logout", icon: LogOut },
   ];
   return (
     <div className="w-full ">

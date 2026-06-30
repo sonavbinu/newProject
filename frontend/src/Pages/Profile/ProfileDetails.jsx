@@ -1,7 +1,90 @@
-import React from "react";
+import { Truck } from "lucide-react";
+import React, { useState } from "react";
 
 const ProfileDetails = () => {
-  return <div>ProfileDetails</div>;
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "Rajesh Kannan",
+    phone: "9876543210",
+    email: "xyz@gmail.com",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    setIsEditing(false);
+  };
+  return (
+    <div className="flex flex-col gap-4 shadow p-4">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-lg font-semibold ">Profile Details</h2>
+        <p className="text-sm text-gray-400">
+          Here you can view and edit your details
+        </p>
+        <form className="flex flex-col gap-4" onSubmit={handleSave}>
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              readOnly={!isEditing}
+              className="border border-gray-200 px-3 py-2 focus:ring-2  focus:ring-[var(--primary-color)] focus:outline-none rounded"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Phone</label>
+            <input
+              type="number"
+              name="phone"
+              value={formData.phone}
+              readOnly={!isEditing}
+              onChange={handleChange}
+              className="border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none rounded"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              readOnly={!isEditing}
+              onChange={handleChange}
+              className=" border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] rounded focus:outline-none"
+            />
+
+            <button
+              type="button"
+              onClick={() => setIsEditing(true)}
+              className="text-[var(--primary-color)] hover:underline"
+            >
+              Change
+            </button>
+          </div>
+          <button
+            type="submit"
+            disabled={!isEditing}
+            className={`rounded py-2 text-white transition ${
+              isEditing
+                ? "bg-[var(--primary-color)] hover:bg-[var(--primary-hover)]"
+                : "bg-gray-300 cursor-not-allowed"
+            }`}
+          >
+            Save Changes
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default ProfileDetails;

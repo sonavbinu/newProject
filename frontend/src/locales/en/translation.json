@@ -27,5 +27,25 @@
     "didntReceive": "Didn't receive OTP?",
     "resend": "Resend",
     "resendIn": "Resend in"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "myProducts": "My Products",
+    "profile": "Profile",
+    "storeName": "Kannan Departmental",
+    "shopId": "Shop ID"
+  },
+  "navbar": {
+    "welcome": "Welcome",
+    "user": "User",
+    "xcoins": "XCoins"
+  },
+  "profile": {
+    "profileDetails": "Profile Details",
+    "shopDetails": "Shop Details",
+    "myWallet": "My Wallet",
+    "about": "About REWARDIFY",
+    "logout": "Logout"
   }
 }

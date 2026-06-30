@@ -27,5 +27,25 @@
     "didntReceive": "ഒ.ടി.പി ലഭിച്ചില്ലേ?",
     "resend": "വീണ്ടും അയയ്ക്കുക",
     "resendIn": "വീണ്ടും അയയ്ക്കാൻ"
+  },
+  "sidebar": {
+    "dashboard": "ഡാഷ്ബോർഡ്",
+    "orders": "ഓർഡറുകൾ",
+    "myProducts": "എന്റെ ഉൽപ്പന്നങ്ങൾ",
+    "profile": "പ്രൊഫൈൽ",
+    "storeName": "കണ്ണൻ ഡിപ്പാർട്മെന്റൽ",
+    "shopId": "ഷോപ്പ് ഐഡി"
+  },
+  "navbar": {
+    "welcome": "സ്വാഗതം",
+    "user": "ഉപയോക്താവ്",
+    "xcoins": "എക്സ് കോയിൻസ്"
+  },
+  "profile": {
+    "profileDetails": "പ്രൊഫൈൽ വിവരങ്ങൾ",
+    "shopDetails": "ഷോപ്പിന്റെ വിവരങ്ങൾ",
+    "myWallet": "എന്റെ വാലറ്റ്",
+    "about": "REWARDIFYയെ കുറിച്ച്",
+    "logout": "ലോഗ് ഔട്ട്"
   }
 }

@@ -1,18 +1,20 @@
 import { NavLink } from "react-router-dom";
 import { LayoutDashboard, ShoppingCart, Package, User } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
+  const { t } = useTranslation();
   const menuItems = [
-    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-    { name: "Orders", path: "/order", icon: ShoppingCart },
+    { name: t("sidebar.dashboard"), path: "/dashboard", icon: LayoutDashboard },
+    { name: t("sidebar.orders"), path: "/order", icon: ShoppingCart },
     {
-      name: "My Products",
+      name: t("sidebar.myProducts"),
       path: "/my-products",
 
       icon: Package,
     },
     {
-      name: "Profile",
+      name: t("sidebar.profile"),
       path: "/profile",
 
       icon: User,
@@ -22,8 +24,8 @@ const Sidebar = () => {
   return (
     <aside className="w-64 h-screen bg-white border-r border-blue-400">
       <div className="flex flex-col items-center justify-center">
-        <div className="p-4 text-md font-bold">Kannan departmental</div>
-        <p className="text-gray-300 text-sm">Shop ID :12345678</p>
+        <div className="p-4 text-md font-bold">{t("sidebar.storeName")}</div>
+        <p className="text-gray-300 text-sm">{t("sidebar.shopId")}:12345678</p>
       </div>
 
       <nav className="flex flex-col gap-2 p-4">

@@ -27,5 +27,25 @@
     "didntReceive": "ओटीपी प्राप्त नहीं हुआ?",
     "resend": "पुनः भेजें",
     "resendIn": "फिर से भेजें"
+  },
+  "sidebar": {
+    "dashboard": "डैशबोर्ड",
+    "orders": "ऑर्डर",
+    "myProducts": "मेरे उत्पाद",
+    "profile": "प्रोफ़ाइल",
+    "storeName": "कन्नन डिपार्टमेंटल",
+    "shopId": "दुकान आईडी"
+  },
+  "navbar": {
+    "welcome": "स्वागत है",
+    "user": "उपयोगकर्ता",
+    "xcoins": "एक्सकॉइन्स"
+  },
+  "profile": {
+    "profileDetails": "प्रोफ़ाइल विवरण",
+    "shopDetails": "दुकान का विवरण",
+    "myWallet": "मेरा वॉलेट",
+    "about": "REWARDIFY के बारे में",
+    "logout": "लॉगआउट"
   }
 }
