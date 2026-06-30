@@ -20,7 +20,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-white border-r">
+    <aside className="w-64 h-screen bg-white border-r border-blue-400">
       <div className="flex flex-col items-center justify-center">
         <div className="p-4 text-md font-bold">Kannan departmental</div>
         <p className="text-gray-300 text-sm">Shop ID :12345678</p>

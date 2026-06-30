@@ -12,6 +12,11 @@ import SelectStore from "../Pages/Login/SelectStore";
 import Orders from "../Pages/Dashboard/Orders";
 import MyProducts from "../Pages/Dashboard/MyProducts";
 import Profile from "../Pages/Dashboard/Profile";
+import ProfileDetails from "../Pages/Profile/ProfileDetails";
+import ShopDetails from "../Pages/Profile/ShopDetails";
+import Wallet from "../Pages/Profile/Wallet";
+import About from "../Pages/Profile/About";
+import Logout from "../Pages/Profile/Logout";
 
 const AppRoutes = () => {
   return (
@@ -32,7 +37,13 @@ const AppRoutes = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/order" element={<Orders />} />
           <Route path="/my-products" element={<MyProducts />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />}>
+            <Route index element={<ProfileDetails />} />
+            <Route path="shop-details" element={<ShopDetails />} />
+            <Route path="wallet" element={<Wallet />} />
+            <Route path="about" element={<About />} />
+            <Route path="logout" element={<Logout />} />
+          </Route>
         </Route>
       </Routes>
     </div>
