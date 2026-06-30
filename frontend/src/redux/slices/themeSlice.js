@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   darkMode: false,
-  primaryColor: "#3b82f6",
+  primaryColor: "#8BAD2B",
+
   color: "theme-blue",
 };
 

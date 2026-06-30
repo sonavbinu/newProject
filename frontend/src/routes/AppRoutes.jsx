@@ -9,6 +9,9 @@ import MainLayout from "../Layouts/MainLayout";
 import MobileInput from "../Pages/Login/MobileInput";
 import OtpVerify from "../Pages/Login/OtpVerify";
 import SelectStore from "../Pages/Login/SelectStore";
+import Orders from "../Pages/Dashboard/Orders";
+import MyProducts from "../Pages/Dashboard/MyProducts";
+import Profile from "../Pages/Dashboard/Profile";
 
 const AppRoutes = () => {
   return (
@@ -27,7 +30,9 @@ const AppRoutes = () => {
 
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/users" element={<Users />} />
+          <Route path="/order" element={<Orders />} />
+          <Route path="/my-products" element={<MyProducts />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </div>

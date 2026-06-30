@@ -10,7 +10,6 @@ const ThemeToggle = () => {
       <select
         className="border rounded p-2"
         style={{
-          backgroundColor: "var(--bg-color)",
           color: "var(--text-color)",
         }}
         onChange={(e) => dispatch(setTheme(e.target.value))}
