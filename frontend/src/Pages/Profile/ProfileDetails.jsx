@@ -22,14 +22,14 @@ const ProfileDetails = () => {
     setIsEditing(false);
   };
   return (
-    <div className="flex flex-col gap-4 shadow p-4">
+    <div className=" w-full max-w-xl mx-auto rounded-lg flex flex-col gap-4 shadow p-4 sm:p-6 bg-white">
       <div className="flex flex-col gap-2">
-        <h2 className="text-lg font-semibold ">Profile Details</h2>
+        <h2 className="text-lg sm:text-xl  font-semibold ">Profile Details</h2>
         <p className="text-sm text-gray-400">
           Here you can view and edit your details
         </p>
-        <form className="flex flex-col gap-4" onSubmit={handleSave}>
-          <div className="flex flex-col gap-2">
+        <form className="flex flex-col gap-2" onSubmit={handleSave}>
+          <div className="flex flex-col gap-2 font-medium text-sm sm:text-base">
             <label className="font-semibold">Name</label>
             <input
               type="text"
@@ -37,18 +37,18 @@ const ProfileDetails = () => {
               value={formData.name}
               onChange={handleChange}
               readOnly={!isEditing}
-              className="border border-gray-200 px-3 py-2 focus:ring-2  focus:ring-[var(--primary-color)] focus:outline-none rounded"
+              className=" w-full border border-gray-300 px-3 py-2.5 focus:ring-2 text-sm sm:text-base  focus:ring-[var(--primary-color)] focus:outline-none rounded"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-semibold">Phone</label>
+            <label className="font-medium text-sm sm:text-base">Phone</label>
             <input
               type="number"
               name="phone"
               value={formData.phone}
               readOnly={!isEditing}
               onChange={handleChange}
-              className="border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none rounded"
+              className="w-full border border-gray-300 px-3 py-2.5 focus:ring-2 text-sm sm:text-base  focus:ring-[var(--primary-color)] focus:outline-none rounded"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -59,7 +59,7 @@ const ProfileDetails = () => {
               value={formData.email}
               readOnly={!isEditing}
               onChange={handleChange}
-              className=" border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] rounded focus:outline-none"
+              className=" w-full border border-gray-300 px-3 py-2.5 focus:ring-2 text-sm sm:text-base  focus:ring-[var(--primary-color)] focus:outline-none rounded"
             />
 
             <button
