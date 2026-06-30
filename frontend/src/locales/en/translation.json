@@ -56,5 +56,35 @@
     "email": "Email",
     "change": "Change",
     "saveChanges": "Save Changes"
+  },
+
+  "shopDetails": {
+    "title": "Shop Details",
+    "subtitle": "Here you can view and edit your details.",
+    "shopName": "Shop Name",
+    "address": "Address",
+    "phone": "Phone",
+    "mapLocation": "Map Location",
+    "workingDays": "Working Days",
+    "selectAll": "Select All",
+    "unselectAll": "Unselect All",
+    "workingTime": "Working Time",
+    "selectTime": "Select the Opening & Closing Time",
+    "editStoreImage": "Edit Store Image",
+    "editStoreImageDesc": "You can edit the Store Image",
+    "changeImage": "Change Image",
+    "removeImage": "Remove Image",
+    "noImage": "No Image",
+    "or": "or",
+    "saveChanges": "Save Changes",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
   }
 }

@@ -56,5 +56,35 @@
     "email": "ईमेल",
     "change": "बदलें",
     "saveChanges": "परिवर्तन सहेजें"
+  },
+
+  "shopDetails": {
+    "title": "दुकान का विवरण",
+    "subtitle": "यहाँ आप अपनी जानकारी देख और संपादित कर सकते हैं।",
+    "shopName": "दुकान का नाम",
+    "address": "पता",
+    "phone": "फ़ोन",
+    "mapLocation": "मैप लोकेशन",
+    "workingDays": "कार्य दिवस",
+    "selectAll": "सभी चुनें",
+    "unselectAll": "सभी हटाएँ",
+    "workingTime": "कार्य समय",
+    "selectTime": "खुलने और बंद होने का समय चुनें",
+    "editStoreImage": "दुकान की तस्वीर संपादित करें",
+    "editStoreImageDesc": "आप दुकान की तस्वीर बदल सकते हैं",
+    "changeImage": "तस्वीर बदलें",
+    "removeImage": "तस्वीर हटाएँ",
+    "noImage": "कोई तस्वीर नहीं",
+    "or": "या",
+    "saveChanges": "परिवर्तन सहेजें",
+    "days": {
+      "monday": "सोमवार",
+      "tuesday": "मंगलवार",
+      "wednesday": "बुधवार",
+      "thursday": "गुरुवार",
+      "friday": "शुक्रवार",
+      "saturday": "शनिवार",
+      "sunday": "रविवार"
+    }
   }
 }
