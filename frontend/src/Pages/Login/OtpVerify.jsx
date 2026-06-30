@@ -8,6 +8,7 @@ const OtpVerify = () => {
   const [timer, setTimer] = useState(0);
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const CORRECT_OTP = "1111";
@@ -23,6 +24,8 @@ const OtpVerify = () => {
 
   const handleResend = () => {
     setTimer(60);
+    setOtp(["", "", "", ""]);
+    inputRefs.current[0]?.focus();
   };
 
   const handleChange = (index, e) => {
@@ -35,7 +38,7 @@ const OtpVerify = () => {
     setOtp(newOtp);
 
     if (index < otp.length - 1) {
-      inputRefs.current[index + 1].focus();
+      inputRefs.current[index + 1]?.focus();
     }
   };
   const handleKeyDown = (index, e) => {
@@ -50,68 +53,74 @@ const OtpVerify = () => {
     }
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
-    <div className="theme-green2 relative min-h-screen w-full border p-10 flex flex-col justify-center items-center rounded-md p-4 md:p-6">
+    <div className="theme-green2 relative min-h-screen w-full  p-10 flex flex-col justify-center items-center  px-4  sm:px-6">
       <div
-        className="absolute inset-0 bg-cover bg-center blur-sm scale-110"
+        className="absolute inset-0 bg-cover bg-center blur-sm "
         style={{ backgroundImage: `url(${bgimg})` }}
       ></div>
+      <div className="absolute inset-0 bg-black/20"></div>
       <div
-        className="relative z-10 bg-white rounded-lg shadow-lg px-10 py-10 w-full max-w-md text-center flex flex-col items-center gap-4 "
+        className="relative z-10 bg-white rounded-xl border shadow-xl px-6 py-8 sm:px-10 sm:py-10  w-full max-w-md text-center flex flex-col items-center gap-4 "
         style={{ borderColor: "var(--border-color)" }}
       >
         <div className="relative z-10 ">
           <img src={logo} alt="" />
         </div>
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-bold">{t("otpVerify.heading")}</h2>
-          <p className="text-gray-500 text-center">
+          <h2 className="text-2xl font-bold text-center sm:text-3xl">
+            {t("otpVerify.heading")}
+          </h2>
+          <p className="text-gray-500 text-center mb-6 text-sm sm:text-base">
             {t("otpVerify.description")}
           </p>
         </div>
-        <div className="flex gap-3">
-          {otp.map((digit, index) => (
-            <input
-              type="text"
-              key={index}
-              ref={(el) => (inputRefs.current[index] = el)}
-              value={digit}
-              maxLength={1}
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              onChange={(e) => handleChange(index, e)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              className="border border-gray-300 w-15 h-15 text-center rounded-md
+        <div className="w-full max-w-md mx-auto">
+          <div className="flex gap-3 justify-center mb-6">
+            {otp.map((digit, index) => (
+              <input
+                type="text"
+                key={index}
+                ref={(el) => (inputRefs.current[index] = el)}
+                value={digit}
+                maxLength={1}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                onChange={(e) => handleChange(index, e)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                className="border border-gray-300 w-12 h-12 sm:w-14 sm:h-14 text-lg font-semibold text-center rounded-md
                  focus:ring-2 focus:ring-[#8BAD2B] focus:outline-none"
-            />
-          ))}
-        </div>
-        <div>
-          <button
-            onClick={() => {
-              const enteredOTP = otp.join("");
+              />
+            ))}
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                const enteredOTP = otp.join("");
 
-              if (enteredOTP === CORRECT_OTP) {
-                navigate("/select-store");
-              } else {
-                alert("Invalid OTP");
-              }
-            }}
-            className={`text-white px-4 py-3 w-[400px] cursor-pointer rounded-md ${
-              otp.every((digit) => digit !== "")
-                ? "btn-primary cursor-pointer"
-                : "bg-[#c6d695] text-white cursor-not-allowed"
-            }`}
-          >
-            {t("otpVerify.verifyButton")}
-          </button>
+                if (enteredOTP === CORRECT_OTP) {
+                  navigate("/select-store");
+                } else {
+                  alert("Invalid OTP");
+                }
+              }}
+              className={`text-white py-3 px-2 w-full cursor-pointer font-medium rounded-md transition ${
+                otp.every((digit) => digit !== "")
+                  ? "btn-primary cursor-pointer"
+                  : "bg-[#c6d695] text-white cursor-not-allowed"
+              }`}
+            >
+              {t("otpVerify.verifyButton")}
+            </button>
+          </div>
         </div>
+
         <div>
           <p>
             {t("otpVerify.didntReceive")}
             {timer > 0 ? (
-              <span className="text-gray-400">
+              <span className="text-gray-400 ">
                 {t("otpVerify.resendIn")} {timer}s
               </span>
             ) : (

@@ -33,7 +33,7 @@ const Sidebar = () => {
       <div>
         <button
           onClick={() => setOpen(!open)}
-          className="lg:hidden fixed top- left-4 cursor-pointer hover:bg-gray-100 z-50 p-2 bg-white rounded-md shadow"
+          className="lg:hidden fixed top-3 left-4 cursor-pointer hover:bg-gray-100 z-50 p-2 bg-white rounded-md shadow"
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -54,7 +54,9 @@ const Sidebar = () => {
         `}
       >
         <div className="flex flex-col items-center justify-center  w-full">
-          <div className="p-4 text-md font-bold">{t("sidebar.storeName")}</div>
+          <div className="p-4 text-md font-bold mt-10">
+            {t("sidebar.storeName")}
+          </div>
           <p className="text-gray-300 text-sm">
             {t("sidebar.shopId")}:12345678
           </p>{" "}

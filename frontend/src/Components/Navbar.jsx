@@ -21,7 +21,7 @@ const Navbar = () => {
         {/* Left */}
         <div>
           <h1
-            className="text-2xl sm:text-3xl font-bold"
+            className="text-2xl sm:text-3xl font-bold sm:px-20 lg:px-0 "
             style={{ color: "var(--primary-color)" }}
           >
             REWARDIFY
@@ -74,35 +74,35 @@ const Navbar = () => {
             {t("navbar.welcome")}, {t("navbar.user")}
           </p>
 
-          <div className="flex justify-between">
-            <div className="flex items-center gap-2 rounded-xl bg-secondary-light px-3 py-2 w-fit">
-              {t("navbar.xcoins")}:
-              <span className="font-bold text-[#e7b019]">300</span>
-              <CirclePoundSterling className="text-[#e7b019]" size={18} />
-            </div>
+          <div className="flex justify-between gap-4">
+            <div className="flex justify-between gap-2">
+              <div className="flex items-center gap-2 rounded-xl bg-secondary-light px-3 py-2 w-fit">
+                {t("navbar.xcoins")}:
+                <span className="font-bold text-[#e7b019]">300</span>
+                <CirclePoundSterling className="text-[#e7b019]" size={18} />
+              </div>
 
-            <div className="flex gap-3">
-              <HandCoins className="w-10 h-10 rounded-full bg-secondary-light p-2" />
-              <Bell className="w-10 h-10 rounded-full bg-secondary-light p-2" />
-              <User className="w-10 h-10 rounded-full bg-secondary-light p-2" />
-            </div>
+              <div className="flex gap-3">
+                <HandCoins className="w-10 h-10 rounded-full bg-secondary-light p-2" />
+                <Bell className="w-10 h-10 rounded-full bg-secondary-light p-2" />
+                <User className="w-10 h-10 rounded-full bg-secondary-light p-2" />
+              </div>
+            </div>{" "}
+            <select
+              value={i18n.language}
+              onChange={(e) => {
+                i18n.changeLanguage(e.target.value);
+                localStorage.setItem("lang", e.target.value);
+              }}
+              className="w-full border rounded-md px-2 py-2"
+              style={{ borderColor: "var(--primary-color)" }}
+            >
+              <option value="en">English</option>
+              <option value="hi">हिन्दी</option>
+              <option value="ml">മലയാളം</option>
+            </select>{" "}
+            <ThemeToggle />
           </div>
-
-          <select
-            value={i18n.language}
-            onChange={(e) => {
-              i18n.changeLanguage(e.target.value);
-              localStorage.setItem("lang", e.target.value);
-            }}
-            className="w-full border rounded-md px-2 py-2"
-            style={{ borderColor: "var(--primary-color)" }}
-          >
-            <option value="en">English</option>
-            <option value="hi">हिन्दी</option>
-            <option value="ml">മലയാളം</option>
-          </select>
-
-          <ThemeToggle />
         </div>
       )}
     </nav>

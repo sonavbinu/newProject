@@ -26,7 +26,7 @@ const MobileInput = () => {
     }, 1500);
   };
   return (
-    <div className="  theme-green2 relative min-h-screen flex justify-center items-center  w-full ">
+    <div className="  theme-green2 px-4 sm:px-6 relative min-h-screen flex justify-center items-center  w-full ">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm"
         style={{
@@ -36,14 +36,14 @@ const MobileInput = () => {
 
       <div className="absolute inset-0 bg-black/20"></div>
       <div
-        className="w-full bg-white  border rounded-2xl shadow-xl max-w-[560px] flex flex-col px-10 py-12
-        max-w-md
+        className="w-full bg-white  border rounded-2xl shadow-xl max-w-md flex flex-col px-6 py-8 sm:px-10 sm:py-10
+        
         justify-center items-center overflow-hidden animate-fadeIn relative z-10"
         style={{ borderColor: "var(--border-color)" }}
       >
         {open && (
           <p
-            className=" success-message text-sm text-center text-green-500 m-2 font-medium  rounded-md  w-full p-1 "
+            className=" success-message text-sm text-center text-green-500 mb-4 font-medium  rounded-md  w-full p-1 "
             style={{
               backgroundColor: "var(--secondary-color)",
             }}
@@ -51,12 +51,12 @@ const MobileInput = () => {
             {t("mobileInput.otpSent")}
           </p>
         )}
-        <img src={logo} alt="" className="mb-6 w-20 h-20" />
+        <img src={logo} alt="" className="mb-6  w-20 h-20" />
         <div>
-          <h2 className="text-2xl font-bold mb-2 text-center">
+          <h2 className="text-2xl sm:text-3xl  font-bold mb-2 text-center">
             {t("mobileInput.heading")}
           </h2>
-          <p className="text-gray-600 text-center mb-3 leading-9">
+          <p className="text-gray-600 text-center text-sm sm:text-base  mb-3 leading-7">
             {t("mobileInput.description")}
           </p>
         </div>
@@ -67,7 +67,7 @@ const MobileInput = () => {
               value={mobile}
               onChange={handleMobileaChange}
               placeholder={t("mobileInput.placeholder")}
-              className="w-full  border  mb-4 px-4 py-3 rounded-md input-theme
+              className="w-full  border  mb-4 px-4 py-3 rounded-md focus:outline-none input-theme
               "
             />
           </div>
@@ -88,9 +88,13 @@ const MobileInput = () => {
           <p className="text-sm text-center text-gray-500 leading-6  mt-8 ">
             {t("mobileInput.agree")}
             <br />
-            <span className="text-primary">{t("mobileInput.terms")} </span>{" "}
+            <span className="text-primary cursor-pointer">
+              {t("mobileInput.terms")}{" "}
+            </span>{" "}
             {t("mobileInput.and")}
-            <span className="text-primary">{t("mobileInput.privacy")}</span>
+            <span className="text-primary cursor-pointer">
+              {t("mobileInput.privacy")}
+            </span>
           </p>
         </div>
       </div>

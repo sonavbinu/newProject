@@ -1,7 +1,9 @@
 import { Truck } from "lucide-react";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ProfileDetails = () => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: "Rajesh Kannan",
@@ -24,13 +26,13 @@ const ProfileDetails = () => {
   return (
     <div className=" w-full max-w-xl mx-auto rounded-lg flex flex-col gap-4 shadow p-4 sm:p-6 bg-white">
       <div className="flex flex-col gap-2">
-        <h2 className="text-lg sm:text-xl  font-semibold ">Profile Details</h2>
-        <p className="text-sm text-gray-400">
-          Here you can view and edit your details
-        </p>
+        <h2 className="text-lg sm:text-xl  font-semibold ">
+          {t("profileDetails.title")}
+        </h2>
+        <p className="text-sm text-gray-400">{t("profileDetails.subtitle")}</p>
         <form className="flex flex-col gap-2" onSubmit={handleSave}>
           <div className="flex flex-col gap-2 font-medium text-sm sm:text-base">
-            <label className="font-semibold">Name</label>
+            <label className="font-semibold">{t("profileDetails.name")}</label>
             <input
               type="text"
               name="name"
@@ -41,7 +43,9 @@ const ProfileDetails = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-medium text-sm sm:text-base">Phone</label>
+            <label className="font-medium text-sm sm:text-base">
+              {t("profileDetails.phone")}
+            </label>
             <input
               type="number"
               name="phone"
@@ -52,7 +56,7 @@ const ProfileDetails = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-semibold">Email</label>
+            <label className="font-semibold">{t("profileDetails.email")}</label>
             <input
               type="email"
               name="email"
@@ -67,7 +71,7 @@ const ProfileDetails = () => {
               onClick={() => setIsEditing(true)}
               className="text-[var(--primary-color)] hover:underline"
             >
-              Change
+              {t("profileDetails.change")}
             </button>
           </div>
           <button
@@ -79,7 +83,7 @@ const ProfileDetails = () => {
                 : "bg-gray-300 cursor-not-allowed"
             }`}
           >
-            Save Changes
+            {t("profileDetails.saveChanges")}
           </button>
         </form>
       </div>

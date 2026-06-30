@@ -7,21 +7,29 @@ import bgimg from "../../assets/bgimg.jpg";
 const SelectStore = () => {
   const [selectedStore, setSelectedStore] = useState("1");
   const navigate = useNavigate();
+
   return (
-    <div className=" relative min-h-screen w-full flex flex-col justify-center items-center border border-gray-300 px-4 py-6 rounded-md">
+    <div className=" relative min-h-screen w-full flex flex-col justify-center items-center border border-gray-300 px-4 sm:px-6 rounded-md">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm"
         style={{ backgroundImage: `url(${bgimg})` }}
       ></div>{" "}
-      <div className="flex flex-col justify-center items-center gap-4 w-[400px] bg-white px-2 py-4 relative z-10 rounded-xl px-10 py-10">
-        <div>
+      <div className="absolute inset-0 bg-black/20"></div>
+      <div
+        className="flex flex-col justify-center items-center
+      shadow-xl
+      gap-4 w-full max-w-md  bg-white px-2 py-4 relative z-10 rounded-xl px-6 py-8 sm:px-8 sm:py-10"
+      >
+        <div className="relative mb-6 ">
           {" "}
-          <ArrowLeft
-            style={{ color: "#555a5f" }}
-            onClick={() => navigate("/mobile-input")}
-          />
+          <button className="absolute left-0  top-1 text-gay-600 hover:text-black">
+            <ArrowLeft
+              style={{ color: "#555a5f" }}
+              onClick={() => navigate("/mobile-input")}
+            />
+          </button>
           <h2 className="text-2xl font-bold text-center">Select Your Store</h2>
-          <p className="text-gray-500">
+          <p className="text-gray-500 mt-2 text-center text-md">
             Your number is connected with 2 stores
           </p>
         </div>

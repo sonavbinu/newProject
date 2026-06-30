@@ -47,5 +47,14 @@
     "myWallet": "मेरा वॉलेट",
     "about": "REWARDIFY के बारे में",
     "logout": "लॉगआउट"
+  },
+  "profileDetails": {
+    "title": "प्रोफ़ाइल विवरण",
+    "subtitle": "यहाँ आप अपनी जानकारी देख और संपादित कर सकते हैं।",
+    "name": "नाम",
+    "phone": "फ़ोन",
+    "email": "ईमेल",
+    "change": "बदलें",
+    "saveChanges": "परिवर्तन सहेजें"
   }
 }
