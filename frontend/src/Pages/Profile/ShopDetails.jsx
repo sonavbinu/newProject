@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +9,12 @@ const ShopDetails = () => {
     name: "Kannan departmental",
     address: "2 Nd Flr, 27A/25, Mohan Mansion, Sbs Rd, Fort, Coimbatore",
     phone: "9865232145",
+  });
+  const [storeImage, setStoreImage] = useState(null);
+  const [workingDays, setWorkingDays] = useState([]);
+  const [workingTime, setWorkingTime] = useState({
+    open: "",
+    close: "",
   });
 
   const days = [
@@ -21,9 +27,7 @@ const ShopDetails = () => {
     t("shopDetails.days.sunday"),
   ];
 
-  const [workingDays, setWorkingDays] = useState([]);
   const fileInputRef = useRef(null);
-  const [storeImage, setStoreImage] = useState(null);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -31,6 +35,13 @@ const ShopDetails = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setStoreImage(reader.result);
+    };
+    reader.readAsDataURL(file);
 
     if (file) {
       setStoreImage(URL.createObjectURL(file));
@@ -56,6 +67,13 @@ const ShopDetails = () => {
 
   const handleSave = (e) => {
     e.preventDefault();
+    const shopData = {
+      ...formData,
+      workingDays,
+      storeImage,
+    };
+
+    localStorage.setItem("shopDetails", JSON.stringify(shopData));
     setIsEditing(false);
   };
 
@@ -66,6 +84,23 @@ const ShopDetails = () => {
       setWorkingDays(days);
     }
   };
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("shopDetails");
+
+    if (savedData) {
+      const data = JSON.parse(savedData);
+
+      setFormData({
+        name: data.name || "",
+        address: data.address || "",
+        phone: data.phone || "",
+      });
+
+      setWorkingDays(data.workingDays || []);
+      setStoreImage(data.storeImage || null);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col gap-4">

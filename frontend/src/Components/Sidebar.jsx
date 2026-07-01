@@ -46,7 +46,7 @@ const Sidebar = () => {
       )}
       <aside
         className={` fixed lg:static top-0 left-0 z-40 
-      h-screen w-64 bg-white border-r border-[var(--primary-color)]
+      min-h-screen w-64 bg-white shadow-xl
         transform transition-transform duration-300 ${
           open ? "translate-x-0" : "-translate-x-full"
         }

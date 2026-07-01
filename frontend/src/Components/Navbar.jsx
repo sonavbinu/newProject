@@ -7,12 +7,20 @@ import {
   User,
   Menu,
   X,
+  Languages,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("lang", lang);
+    setMenuOpen(false);
+  };
 
   return (
     <nav className="border-b border-gray-200 shadow-md p-4">
@@ -44,19 +52,53 @@ const Navbar = () => {
           <Bell className="w-10 h-10 rounded-full bg-secondary-light p-2 cursor-pointer" />
           <User className="w-10 h-10 rounded-full bg-secondary-light p-2 cursor-pointer" />
 
-          <select
-            value={i18n.language}
-            onChange={(e) => {
-              i18n.changeLanguage(e.target.value);
-              localStorage.setItem("lang", e.target.value);
-            }}
-            className="border rounded-md px-2 py-1"
-            style={{ borderColor: "var(--primary-color)" }}
-          >
-            <option value="en">English</option>
-            <option value="hi">हिन्दी</option>
-            <option value="ml">മലയാളം</option>
-          </select>
+          <div>
+            <div className="relative">
+              <button
+                onClick={() => setMenuOpen((prev) => !prev)}
+                className="w-10 h-10 rounded-full bg-secondary-light flex items-center justify-center"
+              >
+                <Languages
+                  size={20}
+                  className="hover:cursor-pointer hover:bg-primary-hover"
+                />
+              </button>{" "}
+              {menuOpen && (
+                <div className="absolute top-full right-0 mt-2 w-40 rounded-lg bg-white shadow-xl border z-50 border-gray-300 ">
+                  <button
+                    onClick={() => {
+                      i18n.changeLanguage("en");
+                      localStorage.setItem("lang", "en");
+                      setMenuOpen(false);
+                    }}
+                    className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer"
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => {
+                      i18n.changeLanguage("hi");
+                      localStorage.setItem("lang", "hi");
+                      setMenuOpen(false);
+                    }}
+                    className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer"
+                  >
+                    हिन्दी
+                  </button>{" "}
+                  <button
+                    onClick={() => {
+                      i18n.changeLanguage("ml");
+                      localStorage.setItem("lang", "ml");
+                      setMenuOpen(false);
+                    }}
+                    className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer"
+                  >
+                    മലയാളം
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
 
           <ThemeToggle />
         </div>
@@ -74,34 +116,65 @@ const Navbar = () => {
             {t("navbar.welcome")}, {t("navbar.user")}
           </p>
 
-          <div className="flex justify-between flex-col lg:flex-row gap-4">
+          <div className="flex justify-between  lg:flex-row gap-4">
             <div className="flex justify-between gap-2">
               <div className="flex items-center gap-2 rounded-xl bg-secondary-light px-3 py-2 w-fit">
                 {t("navbar.xcoins")}:
                 <span className="font-bold text-[#e7b019]">300</span>
                 <CirclePoundSterling className="text-[#e7b019]" size={18} />
               </div>
-
               <div className="flex gap-3">
                 <HandCoins className="w-10 h-10 rounded-full bg-secondary-light p-2" />
                 <Bell className="w-10 h-10 rounded-full bg-secondary-light p-2" />
                 <User className="w-10 h-10 rounded-full bg-secondary-light p-2" />
-              </div>
+              </div>{" "}
             </div>{" "}
-            <div className="flex justify-between gap-2">
-              <select
-                value={i18n.language}
-                onChange={(e) => {
-                  i18n.changeLanguage(e.target.value);
-                  localStorage.setItem("lang", e.target.value);
-                }}
-                className="w-full border rounded-md px-3 py-2"
-                style={{ borderColor: "var(--primary-color)" }}
-              >
-                <option value="en">English</option>
-                <option value="hi">हिन्दी</option>
-                <option value="ml">മലയാളം</option>
-              </select>{" "}
+            <div className="flex  justify-between gap-2">
+              <div>
+                <div className="relative">
+                  <button
+                    onClick={() => setMenuOpen((prev) => !prev)}
+                    className="w-10 h-10 rounded-full bg-secondary-light flex items-center justify-center"
+                  >
+                    <Languages size={20} />
+                  </button>{" "}
+                  {menuOpen && (
+                    <div className="absolute top-full right-0 border border-gray-200 rounded-lg bg-white cursor-pointer">
+                      <button
+                        onClick={() => {
+                          i18n.changeLanguage("en");
+                          localStorage.setItem("lang", "en");
+                          setMenuOpen(false);
+                        }}
+                        className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer"
+                      >
+                        English
+                      </button>
+                      <button
+                        onClick={() => {
+                          i18n.changeLanguage("hi");
+                          localStorage.setItem("lang", "hi");
+                          setMenuOpen(false);
+                        }}
+                        className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer"
+                      >
+                        हिन्दी
+                      </button>{" "}
+                      <button
+                        onClick={() => {
+                          i18n.changeLanguage("ml");
+                          localStorage.setItem("lang", "ml");
+                          setMenuOpen(false);
+                        }}
+                        className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer"
+                      >
+                        മലയാളം
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               <div className="flex justify-center">
                 <ThemeToggle />
               </div>
