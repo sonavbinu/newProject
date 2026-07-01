@@ -53,13 +53,13 @@ const Sidebar = () => {
         lg:translate-x-0
         `}
       >
-        <div className="flex flex-col items-center justify-center  w-full">
-          <div className="p-4 text-md font-bold mt-10">
+        <div className="flex flex-col items-center justify-center mt-10 w-full">
+          {/* <div className="p-4 text-md font-bold mt-10">
             {t("sidebar.storeName")}
           </div>
           <p className="text-gray-300 text-sm">
             {t("sidebar.shopId")}:12345678
-          </p>{" "}
+          </p>{" "} */}
           <div
             className={`${open ? "block" : "hidden"} lg:block w-full  bg-white rounded-xl  `}
           >

@@ -32,7 +32,7 @@ const Navbar = () => {
             className="text-2xl sm:text-3xl font-bold pl-14 lg:pl-0"
             style={{ color: "var(--primary-color)" }}
           >
-            REWARDIFY
+            ORIGIN
           </h1>
 
           <p className="hidden md:block text-sm text-gray-600">

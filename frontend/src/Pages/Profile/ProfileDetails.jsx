@@ -5,10 +5,15 @@ import { useTranslation } from "react-i18next";
 const ProfileDetails = () => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "Rajesh Kannan",
-    phone: "9876543210",
-    email: "xyz@gmail.com",
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem("profile");
+    return saved
+      ? JSON.parse(saved)
+      : {
+          name: "",
+          phone: "",
+          email: "",
+        };
   });
 
   const handleChange = (e) => {
@@ -20,9 +25,13 @@ const ProfileDetails = () => {
 
   const handleSave = (e) => {
     e.preventDefault();
+    localStorage.setItem("profile", JSON.stringify(formData));
+
+    console.log(formData);
 
     setIsEditing(false);
   };
+
   return (
     <div className=" w-full max-w-xl mx-auto rounded-lg flex flex-col gap-4 shadow p-4 sm:p-6 bg-white">
       <div className="flex flex-col gap-2">
