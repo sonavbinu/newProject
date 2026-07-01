@@ -72,7 +72,7 @@ const Wallet = () => {
               </div>
             ) : (
               <button
-                className="bg-[var(--primary-color)] text-white px-4 py-3 rounded-lg"
+                className="bg-[var(--primary-color)] text-white px-4 py-3 rounded-lg cursor-pointer hover:bg-[var(--primary-hover)]"
                 onClick={() => setOpen(true)}
               >
                 Link UPI
@@ -192,7 +192,7 @@ const Wallet = () => {
                   </div>
                 ) : (
                   <button
-                    className="bg-[var(--primary-color)] text-white px-4 py-3 rounded-lg"
+                    className="bg-[var(--primary-color)] text-white cursor-pointer hover:bg-[var(--primary-hover)] px-4 py-3 rounded-lg"
                     onClick={() => setPaytmOpen(true)}
                   >
                     Link UPI
