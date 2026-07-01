@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const ShopDetails = () => {
   const { t } = useTranslation();
@@ -75,6 +76,20 @@ const ShopDetails = () => {
 
   const handleSave = (e) => {
     e.preventDefault();
+    if (!formData.name.trim()) {
+      toast.error("Please enter shop name");
+      return;
+    }
+
+    if (!formData.address.trim()) {
+      toast.error("Please enter shop address");
+      return;
+    }
+
+    if (!formData.phone.trim()) {
+      toast.error("Please enter phone number");
+      return;
+    }
     const shopData = {
       ...formData,
       workingDays,
@@ -83,6 +98,7 @@ const ShopDetails = () => {
     };
 
     localStorage.setItem("shopDetails", JSON.stringify(shopData));
+    toast.success("Shop details updated successfully !");
     setIsEditing(false);
   };
 

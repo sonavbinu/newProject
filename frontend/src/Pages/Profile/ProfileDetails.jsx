@@ -1,6 +1,7 @@
 import { Truck } from "lucide-react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const ProfileDetails = () => {
   const { t } = useTranslation();
@@ -26,6 +27,8 @@ const ProfileDetails = () => {
   const handleSave = (e) => {
     e.preventDefault();
     localStorage.setItem("profile", JSON.stringify(formData));
+
+    toast.success("Profile updated successfully!");
 
     console.log(formData);
 

@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "i18next": "^26.3.3",
-    "i18next-browser-languagedetector": "^8.2.1",
-    "react-i18next": "^17.0.8",
-    "react-toastify": "^11.1.0"
-  }
-}
