@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Gpay from "../../assets/download.png";
 import paytm from "../../assets/paytm.png";
 import phonepe from "../../assets/phonepe.png";
@@ -9,10 +9,25 @@ const Wallet = () => {
   const [open, setOpen] = useState(false);
   const [phonepeOpen, setPhonepeOpen] = useState(false);
   const [paytmOpen, setPaytmOpen] = useState(false);
-  const [upi, setUpi] = useState({
-    gpay: "",
-    phonepe: "",
-    paytm: "",
+  const [upi, setUpi] = useState(() => {
+    const saved = localStorage.getItem("walletUpi");
+    return saved
+      ? JSON.parse(saved)
+      : {
+          gpay: "",
+          phonepe: "",
+          paytm: "",
+        };
+  });
+  const [bankDetails, setBankDetails] = useState(() => {
+    const saved = localStorage.getItem("bankDetails");
+    return saved
+      ? JSON.parse(saved)
+      : {
+          accountHolder: "",
+          accountNumber: "",
+          ifsc: "",
+        };
   });
 
   const [upiInput, setUpiInput] = useState({
@@ -51,9 +66,22 @@ const Wallet = () => {
 
     toast.success(`${app.toUpperCase()} UPI linked successfully !`);
   };
+  const handleSave = () => {
+    localStorage.setItem("bankDetails", JSON.stringify(bankDetails));
+    localStorage.setItem("walletUpi", JSON.stringify(upi));
 
+    toast.success("Wallet details saved successfully !");
+  };
+
+  useEffect(() => {
+    localStorage.setItem("walletUpi", JSON.stringify(upi));
+  }, [upi]);
+
+  useEffect(() => {
+    localStorage.setItem("bankDetails", JSON.stringify(bankDetails));
+  }, [bankDetails]);
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 justify-center ">
       <div>
         <h2 className="font-semibold text-lg sm:text-xl">My Wallet</h2>
         <p className="text-gray-400 text-sm sm:text-base">
@@ -63,14 +91,38 @@ const Wallet = () => {
       <div className="flex flex-col gap-2 shadow px-4 py-2 rounded-xl">
         <label className="text-md sm:text-lg ">Bank Details</label>
         <input
+          placeholder="Account Holder Name"
+          value={bankDetails.accountHolder}
+          onChange={(e) =>
+            setBankDetails({
+              ...bankDetails,
+              accountHolder: e.target.value,
+            })
+          }
           type="text"
           className="border px-3 py-2.5  rounded  border-gray-300 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none"
         />
         <input
           type="text"
+          placeholder="Account Number"
+          value={bankDetails.accountNumber}
+          onChange={(e) =>
+            setBankDetails({
+              ...bankDetails,
+              accountNumber: e.target.value,
+            })
+          }
           className="border px-3 py-2.5 rounded border-gray-300 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none"
         />
         <input
+          placeholder="IFSC Code"
+          value={bankDetails.ifsc}
+          onChange={(e) => {
+            setBankDetails({
+              ...bankDetails,
+              ifsc: e.target.value.toUpperCase(),
+            });
+          }}
           type="text"
           className="border px-3 py-2.5 rounded border-gray-300 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none"
         />
@@ -115,7 +167,7 @@ const Wallet = () => {
                         gpay: e.target.value,
                       })
                     }
-                    className="border w-full rounded-xl border-gray-300 px-4 py-3 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
+                    className="border w-full rounded-xl border-gray-300 px-4 py-2 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
                   />
                 </div>
 
@@ -176,7 +228,7 @@ const Wallet = () => {
                           phonepe: e.target.value,
                         })
                       }
-                      className="border w-full rounded-xl border-gray-300 px-4 py-3 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
+                      className="border w-full rounded-xl border-gray-300 px-4 py-2 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
@@ -237,7 +289,7 @@ const Wallet = () => {
                             paytm: e.target.value,
                           })
                         }
-                        className="border w-full rounded-xl border-gray-300 px-4 py-3 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
+                        className="border w-full rounded-xl border-gray-300 px-4 py-2 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
                       />
                     </div>
                     <div className="flex gap-3 justify-end">
@@ -260,6 +312,14 @@ const Wallet = () => {
                 </div>
               )}
             </div>
+          </div>
+          <div className="flex justify-end mt-4">
+            <button
+              onClick={handleSave}
+              className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover)] text-white px-6 py-2.5 rounded-lg transition cursor-pointer"
+            >
+              Save
+            </button>
           </div>
         </div>
       </div>

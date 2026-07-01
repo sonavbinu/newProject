@@ -52,7 +52,7 @@ const ShopDetails = () => {
     if (file) {
       setStoreImage(URL.createObjectURL(file));
     }
-
+    toast.success("Image updated successfully!!");
     setIsEditing(true);
   };
 
@@ -60,6 +60,7 @@ const ShopDetails = () => {
     setStoreImage(null);
     fileInputRef.current.value = "";
     setIsEditing(true);
+    toast.success("Image removed successfully!");
   };
 
   const handleCheckboxChange = (day) => {
