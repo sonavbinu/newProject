@@ -3,6 +3,7 @@ import Gpay from "../../assets/download.png";
 import paytm from "../../assets/paytm.png";
 import phonepe from "../../assets/phonepe.png";
 import { CheckCircle2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Wallet = () => {
   const [open, setOpen] = useState(false);
@@ -21,16 +22,34 @@ const Wallet = () => {
   });
 
   const handleLink = (app) => {
-    if (!upiInput[app].trim()) return;
+    const upiId = upiInput[app].trim();
 
-    setUpi({
-      ...upi,
-      [app]: upiInput[app],
-    });
+    if (!upiId) {
+      toast.error("Please enter a UPI ID");
+      return;
+    }
+
+    const upiRegex = /^[\w.-]+@[\w.-]+$/;
+    if (!upiRegex.test(upiId)) {
+      toast.error("Please enter a valid UPI ID");
+      return;
+    }
+
+    setUpi((prev) => ({
+      ...prev,
+      [app]: upiId,
+    }));
+
+    setUpiInput((prev) => ({
+      ...prev,
+      [app]: "",
+    }));
 
     if (app === "gpay") setOpen(false);
     if (app === "phonepe") setPhonepeOpen(false);
     if (app === "paytm") setPaytmOpen(false);
+
+    toast.success(`${app.toUpperCase()} UPI linked successfully !`);
   };
 
   return (
@@ -102,6 +121,7 @@ const Wallet = () => {
 
                 <div className="flex gap-3 justify-end">
                   <button
+                    type="button"
                     className=" px-5 py-2.5 rounded-xl border border-gray-300 hover:bg-gray-100 transition cursor-pointer"
                     onClick={() => setOpen(false)}
                   >
@@ -161,6 +181,7 @@ const Wallet = () => {
                   </div>
                   <div className="flex gap-3 justify-end">
                     <button
+                      type="button"
                       className=" px-5 py-2.5 rounded-xl border border-gray-300 hover:bg-gray-100 transition cursor-pointer"
                       onClick={() => setPhonepeOpen(false)}
                     >
@@ -221,13 +242,14 @@ const Wallet = () => {
                     </div>
                     <div className="flex gap-3 justify-end">
                       <button
+                        type="button"
                         className="px-5 py-2.5 rounded-xl border border-gray-300 hover:bg-gray-100 transition cursor-pointer"
                         onClick={() => setPaytmOpen(false)}
                       >
                         Cancel
                       </button>
                       <button
-                        type="submit"
+                        type="button"
                         onClick={() => handleLink("paytm")}
                         className="bg-[var(--primary-color)] text-white px-5 py-2.5 hover:bg-[var(--primary-hover)] transition rounded-lg cursor-pointer"
                       >
