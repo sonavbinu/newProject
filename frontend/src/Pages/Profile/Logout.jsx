@@ -18,7 +18,7 @@ const Logout = ({ onClose }) => {
         <div className="absolute left-1/2 -top-7 -translate-x-1/2 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--primary-color)] text-white shadow-lg">
           <LogOut size={28} />
         </div>
-        <div className="mt flex flex-col gap-2">
+        <div className=" flex flex-col items-center gap-2">
           <h2 className="text-2xl font-bold">{t("logout.title")}</h2>
           <p>
             {t("logout.message")} <strong>ORIGIN</strong>?
