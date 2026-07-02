@@ -15,15 +15,15 @@ const Profile = () => {
   ];
   return (
     <div>
-      <div className="lg:hidden  flex justify-end">
+      <div className="lg:hidden flex justify-end ">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="p-2 rounded-md shadow "
+          className="p-2 rounded-md hover:shadow cursor-pointer"
         >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
-      <div className="flex flex-col lg:flex-row gap-3 p-3 min-h-screen sm:p-2 w-full">
+      <div className="flex flex-col lg:flex-row gap-3  min-h-screen  w-full">
         <div className="lg:w-72 w-full bg-white rounded-xl shadow ">
           <div className="flex gap-6">
             <div
@@ -31,7 +31,7 @@ const Profile = () => {
                 menuOpen ? "block" : "hidden"
               } lg:block w-full lg:w-72 bg-white rounded-xl `}
             >
-              <nav className="flex flex-col gap-2 p-4   overflow-x-auto lg:overflow-visible scrollbar-hide ">
+              <nav className="flex flex-col gap-2 p-4   ">
                 {menuItems.map(({ path, name, icon: Icon }) => (
                   <NavLink
                     key={path}

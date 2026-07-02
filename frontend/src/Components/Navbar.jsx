@@ -104,8 +104,11 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Button */}
-        <button className="lg:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X size={28} /> : <Menu size={28} />}
+        <button
+          className="lg:hidden hover:shadow-lg cursor-pointer p-2 rounded-md "
+          onClick={() => setOpen(!open)}
+        >
+          {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 

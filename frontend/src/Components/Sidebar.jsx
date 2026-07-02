@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import "../styles/globals.css";
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -31,35 +32,27 @@ const Sidebar = () => {
   return (
     <>
       <div>
-        <button
-          onClick={() => setOpen(!open)}
-          className="lg:hidden fixed top-3 left-4 cursor-pointer hover:bg-gray-100 z-50 p-2 bg-white rounded-md shadow"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {!open && (
+          <button onClick={() => setOpen(true)} className="sidebar-toggle">
+            <Menu size={20} />
+          </button>
+        )}
       </div>
       {open && (
         <div
-          className="fixed inset-0 bg-black/40 lg:hidden"
+          className="fixed inset-0 bg-black/40 lg:hidden z-30"
           onClick={() => setOpen(false)}
-        />
+        ></div>
       )}
-      <aside
-        className={` fixed lg:static top-0 left-0 z-40 
-      min-h-screen w-64 bg-white shadow-xl
-        transform transition-transform duration-300 ${
-          open ? "translate-x-0" : "-translate-x-full"
-        }
-        lg:translate-x-0
-        `}
-      >
-        <div className="flex flex-col items-center justify-center mt-10 w-full">
-          {/* <div className="p-4 text-md font-bold mt-10">
-            {t("sidebar.storeName")}
-          </div>
-          <p className="text-gray-300 text-sm">
-            {t("sidebar.shopId")}:12345678
-          </p>{" "} */}
+
+      <aside className={`sidebar ${open ? "sidebar-open" : "sidebar-close"}`}>
+        <button
+          onClick={() => setOpen(false)}
+          className="lg:hidden absolute right-1 top-1 shadow cursor-pointer p-2 rounded-md hover:bg-gray-100"
+        >
+          <X size={20} />
+        </button>
+        <div className="flex flex-col items-center justify-center mt-1 w-full">
           <div
             className={`${open ? "block" : "hidden"} lg:block w-full  bg-white rounded-xl  `}
           >
@@ -69,7 +62,7 @@ const Sidebar = () => {
                   key={path}
                   to={path}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-4 py-3  rounded-md transition-all duration-200 ${
+                    `flex items-center gap-3 px-4 py-3 rounded-md transition-all duration-200 ${
                       isActive
                         ? "bg-[var(--primary-light)]  font-bold border-r-4 border-[var(--primary-color)] font-semibold hover:bg-gray-100 text-md"
                         : "text-gray-600 hover:bg-gray-100 text-md"
