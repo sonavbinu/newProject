@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import Gpay from "../../assets/download.png";
 import paytm from "../../assets/paytm.png";
 import phonepe from "../../assets/phonepe.png";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Key } from "lucide-react";
 import { toast } from "react-toastify";
 
 const Wallet = () => {
-  const [open, setOpen] = useState(false);
-  const [phonepeOpen, setPhonepeOpen] = useState(false);
-  const [paytmOpen, setPaytmOpen] = useState(false);
+  const [openApp, setOpenApp] = useState(false);
   const [upi, setUpi] = useState(() => {
     const saved = localStorage.getItem("walletUpi");
     return saved
@@ -35,6 +33,11 @@ const Wallet = () => {
     phonepe: "",
     paytm: "",
   });
+  const upiApps = [
+    { key: "gpay", name: "Google Pay", image: Gpay },
+    { key: "phonepe", name: "PhonePe", image: phonepe },
+    { key: "paytm", name: "Paytm", image: paytm },
+  ];
 
   const handleLink = (app) => {
     const upiId = upiInput[app].trim();
@@ -89,7 +92,7 @@ const Wallet = () => {
         </p>
       </div>
       <div className="flex flex-col gap-2 shadow px-4 py-2 rounded-xl">
-        <label className="text-md sm:text-lg ">Bank Details</label>
+        <label className="text-sm sm:text-base font-bold ">Bank Details</label>
         <input
           placeholder="Account Holder Name"
           value={bankDetails.accountHolder}
@@ -128,199 +131,87 @@ const Wallet = () => {
         />
       </div>
 
-      <div className="shadow px-4 py-3 rounded-xl flex flex-col gap-4">
-        <h2 className="text-md sm:text-lg ">Link UPI</h2>
-        <div className="flex flex-col gap-4">
-          <div className="flex justify-between shadow p-6 items-center rounded-xl ">
-            <img className="w-16" src={Gpay} alt="" />
-            {upi.gpay ? (
-              <div className="text-right">
-                <p className="text-sm font-medium">{upi.gpay}</p>
-                <div className="flex items-center gap-2 text-green-600">
-                  <CheckCircle2 size={18} />
-                  <span className="font-medium">UPI Linked</span>
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm space-y-4">
+        <h2 className="font-semibold text-lg">Link UPI</h2>
+
+        {upiApps.map((app) => (
+          <div key={app.key}>
+            <div className="flex items-center justify-between rounded-xl border border-gray-200 p-4 hover:shadow-md transition">
+              <div className="flex items-center gap-4">
+                <img
+                  src={app.image}
+                  className="w-12 h-12 rounded-lg object-contain"
+                  alt=""
+                />
+                <div>
+                  <h3 className="font-semibold">{app.name}</h3>
+                  <p className="text-sm text-gray-500">
+                    Link your {app.name}UPI ID
+                  </p>
                 </div>
               </div>
-            ) : (
-              <button
-                className="bg-[var(--primary-color)] text-white px-4 py-3 rounded-lg cursor-pointer hover:bg-[var(--primary-hover)]"
-                onClick={() => setOpen(true)}
-              >
-                Link UPI
-              </button>
-            )}
-          </div>
 
-          {open && (
-            <div>
-              <form className=" flex flex-col shadow-lg rounded-2xl p-6  border border-gray-100 items-center gap-4">
-                <div className="flex items-center  flex-col">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Add UPI
-                  </label>
-                  <input
-                    type="text"
-                    value={upiInput.gpay}
-                    onChange={(e) =>
-                      setUpiInput({
-                        ...upiInput,
-                        gpay: e.target.value,
-                      })
-                    }
-                    className="border w-full rounded-xl border-gray-300 px-4 py-2 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
-                  />
-                </div>
-
-                <div className="flex gap-3 justify-end">
-                  <button
-                    type="button"
-                    className=" px-5 py-2.5 rounded-xl border border-gray-300 hover:bg-gray-100 transition cursor-pointer"
-                    onClick={() => setOpen(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleLink("gpay")}
-                    className="bg-[var(--primary-color)] text-white px-5 py-2.5 hover:bg-[var(--primary-hover)] transition rounded-lg cursor-pointer"
-                  >
-                    Link
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
-
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between shadow p-6 items-center rounded-xl">
-              <img src={phonepe} alt="" className="w-16" />
-              {upi.phonepe ? (
+              {upi[app.key] ? (
                 <div className="text-right">
-                  <p className="text-sm font-medium">{upi.phonepe}</p>
-                  <div className="flex items-center gap-2 text-green-600">
-                    <CheckCircle2 size={18} />
-                    <span className="font-medium">UPI Linked</span>
+                  <p className="text-sm font-medium">{upi[app.key]}</p>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm mt-1">
+                    <CheckCircle2 size={16} />
+                    Linked
                   </div>
                 </div>
               ) : (
                 <button
-                  className="bg-[var(--primary-color)] text-[var(--primary-light)] hover:bg-[var(--primary-hover)] cursor-pointer rounded-lg px-4 py-3"
-                  onClick={() => setPhonepeOpen(true)}
+                  onClick={() => setOpenApp(app.key)}
+                  className="rounded-lg bg-[var(--primary-color)] cursor-pointer px-5 py-2 text-white hover:bg-[var(--primary-hover)]"
                 >
                   Link UPI
                 </button>
               )}
             </div>
+            {openApp === app.key && (
+              <div className="mt-3 rounded-xl border border-gray-100  p-5 flex flex-col items-start gap-3">
+                <label className="mb-2 block text-sm font-medium">
+                  Enter UPI ID
+                </label>
 
-            {phonepeOpen && (
-              <div>
-                <form className="  flex flex-col shadow-lg rounded-2xl p-6  border border-gray-100 items-center gap-4">
-                  <div className="flex items-center  flex-col">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Add UPI
-                    </label>
-                    <input
-                      type="text"
-                      value={upiInput.phonepe}
-                      onChange={(e) =>
-                        setUpiInput({
-                          ...upiInput,
-                          phonepe: e.target.value,
-                        })
-                      }
-                      className="border w-full rounded-xl border-gray-300 px-4 py-2 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
-                    />
-                  </div>
-                  <div className="flex gap-3 justify-end">
-                    <button
-                      type="button"
-                      className=" px-5 py-2.5 rounded-xl border border-gray-300 hover:bg-gray-100 transition cursor-pointer"
-                      onClick={() => setPhonepeOpen(false)}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleLink("phonepe")}
-                      className="bg-[var(--primary-color)] text-white px-5 py-2.5 hover:bg-[var(--primary-hover)] transition rounded-lg cursor-pointer"
-                    >
-                      Link
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
+                <input
+                  type="text"
+                  value={upiInput[app.key]}
+                  onChange={(e) => {
+                    setUpiInput({
+                      ...upiInput,
+                      [app.key]: e.target.value,
+                    });
+                  }}
+                  placeholder="example@upi"
+                  className="w-full rounded-lg border px-4 py-3 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none border-gray-300"
+                />
 
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-between items-center shadow p-6 rounded-xl">
-                <img src={paytm} alt="" className="w-16" />
-
-                {upi.paytm ? (
-                  <div className="text-right">
-                    <p className="text-sm font-medium">{upi.paytm}</p>
-                    <div className="flex items-center gap-2 text-green-600">
-                      <CheckCircle2 size={18} />
-                      <span className="font-medium">UPI Linked</span>
-                    </div>
-                  </div>
-                ) : (
+                <div className="flex justify-end gap-3">
                   <button
-                    className="bg-[var(--primary-color)] text-white cursor-pointer hover:bg-[var(--primary-hover)] px-4 py-3 rounded-lg"
-                    onClick={() => setPaytmOpen(true)}
+                    className="rounded-lg border border-gray-300 cursor-pointer px-5 py-2 hover:bg-gray-100"
+                    onClick={() => setOpenApp(null)}
                   >
-                    Link UPI
+                    Cancel
                   </button>
-                )}
-              </div>
-
-              {paytmOpen && (
-                <div>
-                  <form className=" flex flex-col shadow-lg rounded-2xl p-6  border border-gray-100 items-center gap-4">
-                    <div className="flex items-center  flex-col">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Add UPI
-                      </label>
-                      <input
-                        type="text"
-                        value={upiInput.paytm}
-                        onChange={(e) =>
-                          setUpiInput({
-                            ...upiInput,
-                            paytm: e.target.value,
-                          })
-                        }
-                        className="border w-full rounded-xl border-gray-300 px-4 py-2 focus:ring-2 focus:outline-none focus:ring-[var(--primary-color)]"
-                      />
-                    </div>
-                    <div className="flex gap-3 justify-end">
-                      <button
-                        type="button"
-                        className="px-5 py-2.5 rounded-xl border border-gray-300 hover:bg-gray-100 transition cursor-pointer"
-                        onClick={() => setPaytmOpen(false)}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleLink("paytm")}
-                        className="bg-[var(--primary-color)] text-white px-5 py-2.5 hover:bg-[var(--primary-hover)] transition rounded-lg cursor-pointer"
-                      >
-                        Link
-                      </button>
-                    </div>
-                  </form>
+                  <button
+                    className="rounded-lg bg-[var(--primary-color)] px-5 py-2 text-white hover:bg-[var(--primary-hover)] cursor-pointer "
+                    onClick={() => handleLink(app.key)}
+                  >
+                    Link
+                  </button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}{" "}
           </div>
-          <div className="flex justify-end mt-4">
-            <button
-              onClick={handleSave}
-              className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover)] text-white px-6 py-2.5 rounded-lg transition cursor-pointer"
-            >
-              Save
-            </button>
-          </div>
+        ))}
+        <div>
+          <button
+            className="rounded-xl bg-[var(--primary-color)] px-8 py-3 font-medium text-white hover:bg-[var(--primary-hover)] transition"
+            onClick={handleSave}
+          >
+            Save Changes
+          </button>
         </div>
       </div>
     </div>

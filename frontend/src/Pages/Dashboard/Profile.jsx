@@ -14,8 +14,8 @@ const Profile = () => {
     { name: t("profile.logout"), path: "logout", icon: LogOut },
   ];
   return (
-    <div className="p-4 sm:p-6">
-      <div className="lg:hidden mb-4 flex justify-end">
+    <div>
+      <div className="lg:hidden  flex justify-end">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="p-2 rounded-md shadow "
@@ -23,13 +23,13 @@ const Profile = () => {
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
-      <div className="flex flex-col lg:flex-row gap-6 p-4 min-h-screen sm:p-6 w-full">
+      <div className="flex flex-col lg:flex-row gap-3 p-3 min-h-screen sm:p-2 w-full">
         <div className="lg:w-72 w-full bg-white rounded-xl shadow ">
           <div className="flex gap-6">
             <div
               className={`${
                 menuOpen ? "block" : "hidden"
-              } lg:block w-full lg:w-72 bg-white rounded-xl shadow`}
+              } lg:block w-full lg:w-72 bg-white rounded-xl `}
             >
               <nav className="flex flex-col gap-2 p-4   overflow-x-auto lg:overflow-visible scrollbar-hide ">
                 {menuItems.map(({ path, name, icon: Icon }) => (
