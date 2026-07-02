@@ -1,9 +1,11 @@
 import React from "react";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Logout = ({ onClose }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -17,22 +19,22 @@ const Logout = ({ onClose }) => {
           <LogOut size={28} />
         </div>
         <div className="mt flex flex-col gap-2">
-          <h2 className="text-2xl font-bold">Logout</h2>
+          <h2 className="text-2xl font-bold">{t("logout.title")}</h2>
           <p>
-            Do you really want to logout from <strong>ORIGIN</strong>?
+            {t("logout.message")} <strong>ORIGIN</strong>?
           </p>
           <div className="flex gap-4">
             <button
               className="bg-gray-500 text-white p-2 rounded-xl hover:bg-gray-400 cursor-pointer"
               onClick={() => navigate(-1)}
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               className="bg-[var(--primary-color)]  p-2 rounded-xl hover:bg-[var(--primary-hover)] cursor-pointer  text-white"
               onClick={handleLogout}
             >
-              Logout
+              {t("logout.title")}
             </button>
           </div>
         </div>

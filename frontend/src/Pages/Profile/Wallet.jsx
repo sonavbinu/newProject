@@ -4,8 +4,10 @@ import paytm from "../../assets/paytm.png";
 import phonepe from "../../assets/phonepe.png";
 import { CheckCircle2, Key } from "lucide-react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const Wallet = () => {
+  const { t } = useTranslation();
   const [openApp, setOpenApp] = useState(false);
   const [upi, setUpi] = useState(() => {
     const saved = localStorage.getItem("walletUpi");
@@ -43,13 +45,13 @@ const Wallet = () => {
     const upiId = upiInput[app].trim();
 
     if (!upiId) {
-      toast.error("Please enter a UPI ID");
+      toast.error(t("wallet.enterUpiError"));
       return;
     }
 
     const upiRegex = /^[\w.-]+@[\w.-]+$/;
     if (!upiRegex.test(upiId)) {
-      toast.error("Please enter a valid UPI ID");
+      toast.error(t("wallet.invalidUpi"));
       return;
     }
 
@@ -67,13 +69,17 @@ const Wallet = () => {
     if (app === "phonepe") setPhonepeOpen(false);
     if (app === "paytm") setPaytmOpen(false);
 
-    toast.success(`${app.toUpperCase()} UPI linked successfully !`);
+    toast.success(
+      t("wallet.upiLinked", {
+        app: app.name,
+      }),
+    );
   };
   const handleSave = () => {
     localStorage.setItem("bankDetails", JSON.stringify(bankDetails));
     localStorage.setItem("walletUpi", JSON.stringify(upi));
 
-    toast.success("Wallet details saved successfully !");
+    toast.success(t("wallet.saved"));
   };
 
   useEffect(() => {
@@ -86,15 +92,17 @@ const Wallet = () => {
   return (
     <div className="flex flex-col gap-3 justify-center ">
       <div>
-        <h2 className="font-semibold text-lg sm:text-xl">My Wallet</h2>
+        <h2 className="font-semibold text-lg sm:text-xl">
+          {t("wallet.title")}
+        </h2>
         <p className="text-gray-400 text-sm sm:text-base">
-          Here you can view your wallet details
+          {t("wallet.description")}
         </p>
       </div>
       <div className="flex flex-col gap-2 shadow px-4 py-2 rounded-xl">
         <label className="text-sm sm:text-base font-bold ">Bank Details</label>
         <input
-          placeholder="Account Holder Name"
+          placeholder={t("wallet.accountHolder")}
           value={bankDetails.accountHolder}
           onChange={(e) =>
             setBankDetails({
@@ -107,7 +115,7 @@ const Wallet = () => {
         />
         <input
           type="text"
-          placeholder="Account Number"
+          placeholder={t("wallet.accountNumber")}
           value={bankDetails.accountNumber}
           onChange={(e) =>
             setBankDetails({
@@ -118,7 +126,7 @@ const Wallet = () => {
           className="border px-3 py-2.5 rounded border-gray-300 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none"
         />
         <input
-          placeholder="IFSC Code"
+          placeholder={t("wallet.ifsc")}
           value={bankDetails.ifsc}
           onChange={(e) => {
             setBankDetails({
@@ -132,7 +140,7 @@ const Wallet = () => {
       </div>
 
       <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm space-y-4">
-        <h2 className="font-semibold text-lg">Link UPI</h2>
+        <h2 className="font-semibold text-lg">{t("wallet.linkUpi")}</h2>
 
         {upiApps.map((app) => (
           <div key={app.key}>
@@ -146,7 +154,7 @@ const Wallet = () => {
                 <div>
                   <h3 className="font-semibold">{app.name}</h3>
                   <p className="text-sm text-gray-500">
-                    Link your {app.name}UPI ID
+                    {t("wallet.linkYourUpi", { app: app.name })}
                   </p>
                 </div>
               </div>
@@ -156,7 +164,7 @@ const Wallet = () => {
                   <p className="text-sm font-medium">{upi[app.key]}</p>
                   <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm mt-1">
                     <CheckCircle2 size={16} />
-                    Linked
+                    {t("wallet.linked")}
                   </div>
                 </div>
               ) : (
@@ -164,14 +172,14 @@ const Wallet = () => {
                   onClick={() => setOpenApp(app.key)}
                   className="rounded-lg bg-[var(--primary-color)] cursor-pointer px-5 py-2 text-white hover:bg-[var(--primary-hover)]"
                 >
-                  Link UPI
+                  {t("wallet.linkUpiButton")}
                 </button>
               )}
             </div>
             {openApp === app.key && (
               <div className="mt-3 rounded-xl border border-gray-100  p-5 flex flex-col items-start gap-3">
                 <label className="mb-2 block text-sm font-medium">
-                  Enter UPI ID
+                  {t("wallet.enterUpi")}
                 </label>
 
                 <input
@@ -183,7 +191,7 @@ const Wallet = () => {
                       [app.key]: e.target.value,
                     });
                   }}
-                  placeholder="example@upi"
+                  placeholder={t("wallet.upiPlaceholder")}
                   className="w-full rounded-lg border px-4 py-3 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none border-gray-300"
                 />
 
@@ -192,13 +200,13 @@ const Wallet = () => {
                     className="rounded-lg border border-gray-300 cursor-pointer px-5 py-2 hover:bg-gray-100"
                     onClick={() => setOpenApp(null)}
                   >
-                    Cancel
+                    {t("common.cancel")}
                   </button>
                   <button
                     className="rounded-lg bg-[var(--primary-color)] px-5 py-2 text-white hover:bg-[var(--primary-hover)] cursor-pointer "
                     onClick={() => handleLink(app.key)}
                   >
-                    Link
+                    {t("common.link")}
                   </button>
                 </div>
               </div>
@@ -207,10 +215,10 @@ const Wallet = () => {
         ))}
         <div>
           <button
-            className="rounded-xl bg-[var(--primary-color)] px-8 py-3 font-medium text-white hover:bg-[var(--primary-hover)] transition"
+            className="rounded-xl hover: bg-[var(--primary-color)] px-8 py-3 font-medium text-white hover:bg-[var(--primary-hover)] transition"
             onClick={handleSave}
           >
-            Save Changes
+            {t("common.saveChanges")}
           </button>
         </div>
       </div>

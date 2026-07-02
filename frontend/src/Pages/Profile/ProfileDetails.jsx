@@ -36,7 +36,7 @@ const ProfileDetails = () => {
   };
 
   return (
-    <div className=" w-full max-w-xl mx-auto rounded-lg flex flex-col gap-4 shadow p-4 sm:p-6 bg-white">
+    <div className=" w-full  rounded-lg flex flex-col gap-4 shadow p-4 sm:p-6 bg-white">
       <div className="flex flex-col gap-2">
         <h2 className="text-lg sm:text-xl  font-semibold ">
           {t("profileDetails.title")}

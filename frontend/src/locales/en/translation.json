@@ -86,5 +86,42 @@
       "saturday": "Saturday",
       "sunday": "Sunday"
     }
+  },
+  "wallet": {
+    "title": "My Wallet",
+    "description": "Here you can view your wallet details",
+    "bankDetails": "Bank Details",
+    "accountHolder": "Account Holder Name",
+    "accountNumber": "Account Number",
+    "ifsc": "IFSC Code",
+    "linkUpi": "Link UPI",
+    "linkYourUpi": "Link your {{app}} UPI ID",
+    "linkUpiButton": "Link UPI",
+    "enterUpi": "Enter UPI ID",
+    "upiPlaceholder": "example@upi",
+    "linked": "Linked",
+    "enterUpiError": "Please enter a UPI ID",
+    "invalidUpi": "Please enter a valid UPI ID",
+    "saved": "Wallet details saved successfully!",
+    "upiLinked": "{{app}} UPI linked successfully!"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "link": "Link",
+    "saveChanges": "Save Changes"
+  },
+  "about": {
+    "title": "About ORIGIN",
+    "description": "Here you can view our T&C, Privacy Policy etc.",
+    "aboutUs": "About Us",
+    "aboutContent": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur architecto ipsa unde dolores nostrum optio debitis mollitia est esse veniam ab molestiae enim expedita nemo ratione ducimus, illo ipsum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio dolorem, harum dolores voluptate nisi suscipit expedita laborum quo aspernatur, veritatis perferendis quam eius? Repellat pariatur, explicabo ea officia ipsam repudiandae.",
+    "terms": "Terms & Conditions",
+    "termsContent": "Terms and conditions content goes here...",
+    "privacy": "Privacy Policy",
+    "privacyContent": "Privacy policy content goes here..."
+  },
+  "logout": {
+    "title": "Logout",
+    "message": "Do you really want to logout from"
   }
 }
