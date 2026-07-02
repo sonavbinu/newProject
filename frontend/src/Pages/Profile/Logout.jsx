@@ -16,14 +16,24 @@ const Logout = ({ onClose }) => {
         <div className="absolute left-1/2 -top-7 -translate-x-1/2 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--primary-color)] text-white shadow-lg">
           <LogOut size={28} />
         </div>
-        <div className="mt">
-          <h2>Logout</h2>
+        <div className="mt flex flex-col gap-2">
+          <h2 className="text-2xl font-bold">Logout</h2>
           <p>
             Do you really want to logout from <strong>ORIGIN</strong>?
           </p>
-          <div>
-            <button onClick={onClose}>Cancel</button>
-            <button onClick={handleLogout}>Logout</button>
+          <div className="flex gap-4">
+            <button
+              className="bg-gray-500 text-white p-2 rounded-xl hover:bg-gray-400 cursor-pointer"
+              onClick={() => navigate(-1)}
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-[var(--primary-color)]  p-2 rounded-xl hover:bg-[var(--primary-hover)] cursor-pointer  text-white"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
