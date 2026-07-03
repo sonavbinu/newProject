@@ -7,8 +7,10 @@ import OrderVerificationModal from "./OrderVerificationModal";
 import PackedIOrders from "./PackedIOrders";
 import OrderCard from "./OrderCard";
 import CompletedOrders from "./CompletedOrders";
+import { useTranslation } from "react-i18next";
 
 const Orders = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
   const [activeTab, setActiveTab] = useState("confirmation");
@@ -19,11 +21,11 @@ const Orders = () => {
   return (
     <div>
       <div className="flex flex-col gap-3">
-        <h2 className="text-xl sm:text-lg font-bold">My Orders</h2>
-        <p>Last update at:</p>
+        <h2 className="text-xl sm:text-lg font-bold"> {t("orders.title")}</h2>
+        <p>{t("orders.lastUpdated")}</p>
         <input
           type="text"
-          placeholder="Search by Order ID or Customer Name"
+          placeholder={t("orders.searchPlaceholder")}
           className="border border-gray-300 p-3 focus:ring-2 focus:ring-[var(--primary-color)] rounded-full focus:outline-none"
         />
         <div className="flex justify-around shadow py-4 rounded-lg">
@@ -37,13 +39,7 @@ const Orders = () => {
                   : "bg-[var(--primary-light)] hover:shadow"
               }`}
             >
-              {tab === "confirmation"
-                ? "Confirmation"
-                : tab === "preparing"
-                  ? "Preparing"
-                  : tab === "packed"
-                    ? "Packed Orders"
-                    : "Completed"}
+              {t(`orders.tabs.${tab}`)}
             </span>
           ))}
         </div>

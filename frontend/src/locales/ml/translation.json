@@ -123,5 +123,39 @@
   "logout": {
     "title": "ലോഗ് ഔട്ട്",
     "message": "നിങ്ങൾക്ക് ശരിക്കും ORIGIN-ൽ നിന്ന് ലോഗ് ഔട്ട് ചെയ്യണോ"
+  },
+  "orders": {
+    "title": "എന്റെ ഓർഡറുകൾ",
+    "lastUpdated": "അവസാനം അപ്ഡേറ്റ് ചെയ്തത്:",
+    "searchPlaceholder": "ഓർഡർ ഐഡി അല്ലെങ്കിൽ ഉപഭോക്താവിന്റെ പേര് ഉപയോഗിച്ച് തിരയുക",
+    "tabs": {
+      "confirmation": "സ്ഥിരീകരണം",
+      "preparing": "തയ്യാറാക്കുന്നു",
+      "packed": "പായ്ക്ക് ചെയ്ത ഓർഡറുകൾ",
+      "completed": "പൂർത്തിയായി"
+    },
+    "orderId": "ഓർഡർ ഐഡി",
+    "date": "തീയതി",
+    "orderFor": "ഓർഡർ ചെയ്തത്:",
+    "orderItems": "ഓർഡർ ഇനങ്ങൾ:",
+    "totalBillAmount": "ആകെ ബിൽ തുക",
+    "rejectOrder": "ഓർഡർ നിരസിക്കുക",
+    "confirmOrder": "ഓർഡർ സ്ഥിരീകരിക്കുക",
+    "verifyPackItems": "സ്ഥിരീകരിച്ച് പായ്ക്ക് ചെയ്യുക",
+    "orderConfirmation": "ഓർഡർ സ്ഥിരീകരണം",
+
+    "orderPlaced": "ഓർഡർ നൽകി",
+    "orderConfirmed": "ഓർഡർ സ്ഥിരീകരിച്ചു",
+    "verifyItems": "എല്ലാ ഇനങ്ങളും പരിശോധിക്കുക ({{count}})",
+    "readyForDelivery": "ഡെലിവറിക്കായി തയ്യാറാണ്",
+    "selectAllItems": "*അടുത്ത ഘട്ടത്തിലേക്ക് പോകാൻ എല്ലാ ഇനങ്ങളും തിരഞ്ഞെടുക്കുക",
+    "selfPickup": "സ്വയം ഏറ്റുവാങ്ങൽ",
+    "storeConfirmation": "സ്റ്റോർ സ്ഥിരീകരണം",
+    "deliveryAccepted": "ഡെലിവറി സ്വീകരിച്ചു",
+    "deliveryPickup": "ഡെലിവറിക്കായി എടുത്തു",
+    "markAsDelivered": "ഡെലിവർ ചെയ്തതായി അടയാളപ്പെടുത്തുക",
+    "deliveryStatus": "ഡെലിവറി നില",
+    "delivered": "ഡെലിവർ ചെയ്തു",
+    "dateTime": "തീയതി | സമയം"
   }
 }

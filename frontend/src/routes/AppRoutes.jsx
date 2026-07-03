@@ -10,13 +10,14 @@ import MobileInput from "../Pages/Login/MobileInput";
 import OtpVerify from "../Pages/Login/OtpVerify";
 import SelectStore from "../Pages/Login/SelectStore";
 import Orders from "../Pages/Dashboard/Orders/Orders";
-import MyProducts from "../Pages/Dashboard/MyProducts";
+import MyProducts from "../Pages/Dashboard/MyProducts/MyProducts";
 import Profile from "../Pages/Dashboard/Profile";
 import ProfileDetails from "../Pages/Profile/ProfileDetails";
 import ShopDetails from "../Pages/Profile/ShopDetails";
 import Wallet from "../Pages/Profile/Wallet";
 import About from "../Pages/Profile/About";
 import Logout from "../Pages/Profile/Logout";
+import AddProduct from "../Pages/Dashboard/MyProducts/AddProduct";
 
 const AppRoutes = () => {
   return (
@@ -36,7 +37,9 @@ const AppRoutes = () => {
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/order" element={<Orders />} />
-          <Route path="/my-products" element={<MyProducts />} />
+          <Route path="/my-products" element={<MyProducts />}>
+            <Route path="add-product" element={<AddProduct />} />
+          </Route>
           <Route path="/profile" element={<Profile />}>
             <Route index element={<ProfileDetails />} />
             <Route path="shop-details" element={<ShopDetails />} />

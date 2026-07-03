@@ -123,5 +123,38 @@
   "logout": {
     "title": "Logout",
     "message": "Do you really want to logout from"
+  },
+  "orders": {
+    "title": "My Orders",
+    "orderId": "Order ID",
+    "date": "Date",
+    "orderFor": "Order for:",
+    "orderItems": "Order Items:",
+    "totalBillAmount": "Total Bill Amount",
+    "rejectOrder": "Reject Order",
+    "confirmOrder": "Confirm Order",
+    "verifyPackItems": "Verify & Pack Items",
+    "lastUpdated": "Last update at:",
+    "searchPlaceholder": "Search by Order ID or Customer Name",
+    "tabs": {
+      "confirmation": "Confirmation",
+      "preparing": "Preparing",
+      "packed": "Packed Orders",
+      "completed": "Completed"
+    },
+    "orderConfirmation": "Order Confirmation",
+    "orderPlaced": "Order Placed",
+    "orderConfirmed": "Order Confirmed",
+    "verifyItems": "Verify all the items ({{count}})",
+    "readyForDelivery": "Ready for Delivery",
+    "selectAllItems": "*Select all items to proceed to next step",
+    "selfPickup": "Self Pickup",
+    "storeConfirmation": "Store Confirmation",
+    "deliveryAccepted": "Delivery Accepted",
+    "deliveryPickup": "Delivery Pickup",
+    "markAsDelivered": "Mark as Delivered",
+    "deliveryStatus": "Delivery Status",
+    "delivered": "Delivered",
+    "dateTime": "Date | Time"
   }
 }

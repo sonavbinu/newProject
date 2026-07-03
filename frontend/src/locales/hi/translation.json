@@ -123,5 +123,39 @@
   "logout": {
     "title": "लॉग आउट",
     "message": "क्या आप वास्तव में ORIGIN से लॉग आउट करना चाहते हैं"
+  },
+  "orders": {
+    "title": "मेरे ऑर्डर",
+    "lastUpdated": "अंतिम अपडेट:",
+    "searchPlaceholder": "ऑर्डर आईडी या ग्राहक के नाम से खोजें",
+    "tabs": {
+      "confirmation": "पुष्टि",
+      "preparing": "तैयारी",
+      "packed": "पैक किए गए ऑर्डर",
+      "completed": "पूर्ण"
+    },
+    "orderId": "ऑर्डर आईडी",
+    "date": "दिनांक",
+    "orderFor": "ऑर्डर किसके लिए:",
+    "orderItems": "ऑर्डर आइटम:",
+    "totalBillAmount": "कुल बिल राशि",
+    "rejectOrder": "ऑर्डर अस्वीकार करें",
+    "confirmOrder": "ऑर्डर की पुष्टि करें",
+    "verifyPackItems": "सत्यापित करें और पैक करें",
+    "orderConfirmation": "ऑर्डर पुष्टि",
+
+    "orderPlaced": "ऑर्डर किया गया",
+    "orderConfirmed": "ऑर्डर की पुष्टि हुई",
+    "verifyItems": "सभी आइटम सत्यापित करें ({{count}})",
+    "readyForDelivery": "डिलीवरी के लिए तैयार",
+    "selectAllItems": "*अगले चरण पर जाने के लिए सभी आइटम चुनें",
+    "selfPickup": "स्वयं प्राप्ति",
+    "storeConfirmation": "स्टोर पुष्टि",
+    "deliveryAccepted": "डिलीवरी स्वीकार की गई",
+    "deliveryPickup": "डिलीवरी के लिए उठाया गया",
+    "markAsDelivered": "डिलीवर के रूप में चिह्नित करें",
+    "deliveryStatus": "डिलीवरी स्थिति",
+    "delivered": "डिलीवर किया गया",
+    "dateTime": "दिनांक | समय"
   }
 }

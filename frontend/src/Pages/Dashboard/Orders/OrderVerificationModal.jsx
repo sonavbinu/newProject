@@ -2,8 +2,10 @@ import { MapPin, Phone, X } from "lucide-react";
 import React, { useState } from "react";
 import { packOrder } from "../../../redux/slices/orderSlice";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [checkedItems, setCheckedItems] = useState([]);
 
@@ -21,15 +23,20 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
     <div className="fixed  inset-0 bg-black/50 backdrop-blur flex  items-center justify-center ">
       <div className=" relative bg-white flex flex-col justify-center gap-4 p-6 rounded-xl w-full max-w-2xl ">
         <h2 className="text-xl sm:text-lg font-bold border-b  mb-2 border-b-gray-300">
-          Order Confirmation
+          {t("orders.orderConfirmation")}
         </h2>
         <div className="flex flex-col border border-gray-300 rounded-xl px-3 py-2 hover:shadow ">
           <div className="flex justify-between ">
-            <p className="text-[var(--primary-color)]">Order Id :{order.id}</p>
-            <p className="text-gray-400">Date:{order.date}</p>
+            <p className="text-[var(--primary-color)]">
+              {" "}
+              {t("orders.orderId")} :{order.id}
+            </p>
+            <p className="text-gray-400">
+              {t("orders.date")}:{order.date}
+            </p>
           </div>
           <div className="w-full">
-            <h2 className="font-semibold">Order for :</h2>
+            <h2 className="font-semibold"> {t("orders.orderFor")} :</h2>
             <p className="text-gray-500 mb-2">{order.customer.name}</p>
           </div>
           <div className="flex w-full gap-3">
@@ -53,7 +60,7 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
             <div className="flex items-center gap-2 w-full ">
               <div className="rounded-full w-3 h-3 bg-green-500"></div>
               <div className="flex justify-between gap-2 w-full ">
-                <p>Order Placed</p>
+                <p>{t("orders.orderPlaced")}</p>
                 <p>Date | Time</p>
               </div>
             </div>
@@ -61,7 +68,7 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
             <div className="flex items-center gap-2 w-full">
               <div className="rounded-full w-3 h-3 bg-green-500"></div>
               <div className="flex justify-between w-full ">
-                <p>Order Confirmed</p>
+                <p>{t("orders.orderConfirmed")}</p>
                 <p>Date | Time</p>
               </div>
             </div>
@@ -69,7 +76,7 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
         </div>
         <div className="flex flex-col border border-gray-300 px-3 py-2 rounded-xl hover:shadow">
           <h2 className="font-semibold bg-[var(--primary-light)] p-2 rounded-xl ">
-            Verify all the items ({order.items.length})
+            {t("orders.verifyItems", { count: order.items.length })}
           </h2>
           {order.items.map((item) => (
             <div
@@ -115,11 +122,9 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
           >
-            Ready for Delivery
+            {t("orders.readyForDelivery")}
           </button>
-          <p className="text-xs text-gray-500">
-            *Select all items to proceed to next step
-          </p>
+          <p className="text-xs text-gray-500">*{t("orders.selectAllItems")}</p>
         </div>
       </div>
     </div>

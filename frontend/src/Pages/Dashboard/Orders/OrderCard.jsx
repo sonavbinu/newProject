@@ -1,16 +1,26 @@
 import React from "react";
 import { Phone, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const OrderCard = ({ order, activeTab, onConfirm }) => {
+  const { t } = useTranslation();
   return (
     <div className="border border-gray-300 rounded-xl p-4 shadow hover:shadow-xl">
       <div className="flex justify-between">
-        <h3 className="text-[var(--primary-color)]">Order Id: {order.id}</h3>
-        <p className="text-gray-400">Date: {order.date}</p>
+        <h3 className="text-[var(--primary-color)]">
+          {t("orders.orderId")}: {order.id}
+        </h3>
+        <p className="text-gray-400">
+          {" "}
+          {t("orders.date")}: {order.date}
+        </p>
       </div>
 
       <div className="mt-3">
-        <p className="font-semibold text-sm sm:text-base">Order for:</p>
+        <p className="font-semibold text-sm sm:text-base">
+          {" "}
+          {t("orders.orderFor")}:
+        </p>
         <p className="text-gray-400">{order.customer.name}</p>
 
         <div className="flex gap-4 mt-2 flex-wrap">
@@ -27,7 +37,7 @@ const OrderCard = ({ order, activeTab, onConfirm }) => {
       </div>
 
       <div className="flex flex-col gap-2 mt-4">
-        <p className="font-semibold">Order Items:</p>
+        <p className="font-semibold"> {t("orders.orderItems")}:</p>
 
         <div className="bg-[var(--primary-light)] rounded-xl p-3">
           {order.items.map((item) => (
@@ -45,7 +55,7 @@ const OrderCard = ({ order, activeTab, onConfirm }) => {
         </div>
 
         <div className="flex justify-between items-center">
-          <h4>Total Bill Amount</h4>
+          <h4>{t("orders.totalBillAmount")}</h4>
           <p>₹{order.total}</p>
         </div>
 
@@ -53,7 +63,7 @@ const OrderCard = ({ order, activeTab, onConfirm }) => {
 
         <div className="flex gap-3 mt-2">
           <button className="bg-gray-400 text-white p-2 rounded cursor-pointer">
-            Reject Order
+            {t("orders.rejectOrder")}
           </button>
 
           <button
@@ -61,8 +71,8 @@ const OrderCard = ({ order, activeTab, onConfirm }) => {
             className="bg-[var(--primary-color)] text-white p-2 rounded cursor-pointer"
           >
             {activeTab === "preparing"
-              ? "Verify & Pack Items"
-              : "Confirm Order"}
+              ? t("orders.verifyPackItems")
+              : t("orders.confirmOrder")}
           </button>
         </div>
       </div>
