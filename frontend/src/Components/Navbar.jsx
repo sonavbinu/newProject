@@ -142,7 +142,7 @@ const Navbar = () => {
                     <Languages size={20} />
                   </button>{" "}
                   {menuOpen && (
-                    <div className="absolute top-full right-0 border border-gray-200 rounded-lg bg-white cursor-pointer">
+                    <div className="absolute top-full right-0 border border-gray-200 rounded-lg bg-white z-100 cursor-pointer">
                       <button
                         onClick={() => {
                           i18n.changeLanguage("en");

@@ -9,7 +9,7 @@ import MainLayout from "../Layouts/MainLayout";
 import MobileInput from "../Pages/Login/MobileInput";
 import OtpVerify from "../Pages/Login/OtpVerify";
 import SelectStore from "../Pages/Login/SelectStore";
-import Orders from "../Pages/Dashboard/Orders";
+import Orders from "../Pages/Dashboard/Orders/Orders";
 import MyProducts from "../Pages/Dashboard/MyProducts";
 import Profile from "../Pages/Dashboard/Profile";
 import ProfileDetails from "../Pages/Profile/ProfileDetails";
