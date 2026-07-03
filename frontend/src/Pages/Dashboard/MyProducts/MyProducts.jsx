@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MyProducts = () => {
   const navigate = useNavigate();
@@ -15,12 +15,13 @@ const MyProducts = () => {
             outline-none w-[80%]"
           />
           <button
-            onClick={() => navigate("add-product")}
+            onClick={() => navigate("/add-product")}
             className="bg-[var(--primary-color)]  text-white rounded-xl px-2 hover:opacity-90 cursor-pointer"
           >
-            Add a Product
+            Add Product
           </button>
         </div>
+        <Outlet />
       </div>
     </div>
   );
