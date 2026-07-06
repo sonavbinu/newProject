@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../../redux/slices/productSlice";
 
 const AddProduct = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [selectedDelivery, setSelectedDelivery] = useState([]);
   const [formData, setFormData] = useState({
     category: "",
@@ -77,8 +80,24 @@ const AddProduct = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    console.log(selectedDelivery);
+    const categoryMap = {
+      "Fruits & Vegetables": 1,
+      "Dairy, Bread and Eggs": 2,
+      "Snacks and Biscuits": 3,
+      "Atta, Dal and Rice": 4,
+      "Dry fruits and Masala": 5,
+      "Tea ,Coffee and more": 6,
+      "Chocolate and Desserts": 7,
+    };
+    dispatch(
+      addProduct({
+        categoryId: categoryMap[formData.category],
+        product: {
+          ...formData,
+          deliveryTypes: selectedDelivery,
+        },
+      }),
+    );
     navigate("/my-products");
   };
   return (

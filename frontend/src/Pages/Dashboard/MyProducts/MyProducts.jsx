@@ -1,8 +1,26 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
+import { addProduct } from "../../../redux/slices/productSlice";
 
 const MyProducts = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    dispatch(
+      addProduct({
+        categoryId: 1,
+        product: {
+          name,
+          price,
+          stock,
+          image,
+          description,
+        },
+      }),
+    );
+  };
   return (
     <div>
       <div className="flex flex-col gap-2">
