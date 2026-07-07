@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Podcast } from "lucide-react";
 
 const initialState = {
   categories: [
@@ -75,10 +74,16 @@ const productSlice = createSlice({
         product.quantity += Number(quantity);
       }
     },
-    deleteProduct: (state, action) => {
+    deleteProduct(state, action) {
       const { categoryId, productId } = action.payload;
 
       const category = state.categories.find((cat) => cat.id === categoryId);
+
+      if (category) {
+        category.products = category.products.filter(
+          (product) => product.id !== productId,
+        );
+      }
     },
 
     minusStock(state, action) {
@@ -118,6 +123,7 @@ export const {
   updateProduct,
   editPrice,
   minusStock,
+  addStock,
 } = productSlice.actions;
 
 export default productSlice.reducer;

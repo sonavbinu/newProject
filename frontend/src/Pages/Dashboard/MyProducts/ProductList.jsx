@@ -1,14 +1,82 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useDispatch } from "react-redux";
+
+import {
+  editPrice,
+  addStock,
+  minusStock,
+  deleteProduct,
+} from "../../../redux/slices/productSlice";
 
 const ProductList = () => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(null);
   const categories = useSelector((state) => state.products.categories);
 
   console.log(categories);
   const toggleCategory = (id) => {
     setOpen(open === id ? null : id);
+  };
+
+  const handleAction = (action, categoryId, productId) => {
+    switch (action) {
+      case "edit":
+        const newPrice = prompt("Enter new price");
+
+        if (newPrice) {
+          dispatch(
+            editPrice({
+              categoryId,
+              productId,
+              newPrice,
+            }),
+          );
+        }
+        break;
+
+      case "add":
+        const add = prompt("Add stock");
+
+        if (add) {
+          dispatch(
+            addStock({
+              categoryId,
+              productId,
+              quantity: add,
+            }),
+          );
+        }
+        break;
+      case "minus":
+        const minus = prompt("Remove stock");
+
+        if (minus) {
+          dispatch(
+            minusStock({
+              categoryId,
+              productId,
+              quantity: minus,
+            }),
+          );
+        }
+        break;
+
+      case "delete":
+        if (window.confirm("Delete this product?")) {
+          dispatch(
+            deleteProduct({
+              categoryId,
+              productId,
+            }),
+          );
+        }
+        break;
+
+      default:
+        break;
+    }
   };
   return (
     <div className="flex flex-col border border-gray-300 gap-5 rounded p-5 ">
@@ -86,12 +154,23 @@ const ProductList = () => {
                           </span>
                         </td>
                         <td className="px-4 py-3 text-center border border-[var(--primary-light)]">
-                          <select className="border rounded px-2 py-1 border-gray-300">
+                          <select
+                            className="border rounded px-2 py-1 border-gray-300"
+                            onChange={(e) => {
+                              handleAction(
+                                e.target.value,
+                                category.id,
+                                product.id,
+                              );
+                              e.target.selectedIndex = 0;
+                            }}
+                            className="border rounded px-2 py-1"
+                          >
                             <option value="">Action</option>
-                            <option value="">Edit Price</option>
-                            <option value="">Add Stock</option>
-                            <option value="">Minus Stock</option>
-                            <option value="">Delete Product</option>
+                            <option value="edit">Edit Price</option>
+                            <option value="add">Add Stock</option>
+                            <option value="minus">Minus Stock</option>
+                            <option value="delete">Delete Product</option>
                           </select>
                         </td>
                       </tr>
