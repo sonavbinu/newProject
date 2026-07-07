@@ -197,5 +197,10 @@
       "teaCoffee": "चाय, कॉफी और अन्य",
       "chocolatesDesserts": "चॉकलेट और मिठाइयाँ"
     }
+  },
+  "myProducts": {
+    "title": "उत्पाद सूची",
+    "searchPlaceholder": "उत्पाद या श्रेणी खोजें",
+    "addProduct": "उत्पाद जोड़ें"
   }
 }

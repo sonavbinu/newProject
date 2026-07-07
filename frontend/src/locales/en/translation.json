@@ -196,5 +196,10 @@
       "teaCoffee": "Tea, Coffee and More",
       "chocolatesDesserts": "Chocolate and Desserts"
     }
+  },
+  "myProducts": {
+    "title": "Product Listing",
+    "searchPlaceholder": "Search for products or category",
+    "addProduct": "Add Product"
   }
 }
