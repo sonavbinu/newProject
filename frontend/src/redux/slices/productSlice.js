@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Podcast } from "lucide-react";
 
 const initialState = {
   categories: [
@@ -55,10 +56,40 @@ const productSlice = createSlice({
         });
       }
     },
+    editPrice(state, action) {
+      const { categoryId, productId, newPrice } = action.payload;
+      const category = state.categories.find((c) => c.id === categoryId);
+      if (!category) return;
+      const product = category.products.find((p) => p.id === productId);
+      if (product) {
+        product.price = Number(newPrice);
+      }
+    },
+    addStock(state, action) {
+      const { categoryId, productId, quantity } = action.payload;
+      const category = state.categories.find((c) => c.id === categoryId);
+      if (!category) return;
+
+      const product = category.products.find((p) => p.id === productId);
+      if (product) {
+        product.quantity += Number(quantity);
+      }
+    },
     deleteProduct: (state, action) => {
       const { categoryId, productId } = action.payload;
 
       const category = state.categories.find((cat) => cat.id === categoryId);
+    },
+
+    minusStock(state, action) {
+      const { categoryId, productId, quantity } = action.payload;
+
+      const category = state.categories.find((c) => c.id === categoryId);
+      if (!category) return;
+      const product = category.products.find((p) => p.id === productId);
+      if (product) {
+        product.quantity = Math.max(0, product.quantity - Number(quantity));
+      }
     },
 
     updateProduct: (state, action) => {
@@ -81,7 +112,12 @@ const productSlice = createSlice({
   },
 });
 
-export const { addProduct, deleteProduct, updateProduct } =
-  productSlice.actions;
+export const {
+  addProduct,
+  deleteProduct,
+  updateProduct,
+  editPrice,
+  minusStock,
+} = productSlice.actions;
 
 export default productSlice.reducer;
