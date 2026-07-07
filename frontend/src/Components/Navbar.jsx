@@ -10,11 +10,13 @@ import {
   Languages,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
@@ -50,7 +52,10 @@ const Navbar = () => {
 
           <HandCoins className="w-10 h-10 rounded-full bg-secondary-light p-2 cursor-pointer" />
           <Bell className="w-10 h-10 rounded-full bg-secondary-light p-2 cursor-pointer" />
-          <User className="w-10 h-10 rounded-full bg-secondary-light p-2 cursor-pointer" />
+          <User
+            onClick={() => navigate("/profile")}
+            className="w-10 h-10 rounded-full bg-secondary-light p-2 cursor-pointer"
+          />
 
           <div>
             <div className="relative">
