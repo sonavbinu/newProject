@@ -6,15 +6,8 @@ import { Palette } from "lucide-react";
 const themes = [
   { name: "Blue", value: "theme-blue" },
   { name: "Orange", value: "theme-orange" },
-  { name: "Red", value: "theme-red" },
-  { name: "Green", value: "theme-green" },
-  { name: "Pink", value: "theme-pink" },
-  { name: "Amber", value: "theme-amber" },
-  { name: "Slate", value: "theme-slate" },
   { name: "Purple", value: "theme-purple" },
-  { name: "Cyan", value: "theme-cyan" },
-  { name: "Black", value: "theme-black" },
-  { name: "Green2", value: "theme-green2" },
+  { name: "Green", value: "theme-green" },
 ];
 
 const ThemeToggle = () => {
