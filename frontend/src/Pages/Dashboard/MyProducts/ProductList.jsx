@@ -13,70 +13,66 @@ import {
 const ProductList = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [actionType, setActionType] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [value, setValue] = useState("");
   const categories = useSelector((state) => state.products.categories);
 
   console.log(categories);
   const toggleCategory = (id) => {
     setOpen(open === id ? null : id);
   };
+  const handleAction = (action, categoryId, product) => {
+    if (action === "delete") {
+      if (window.confirm("Delete this product?")) {
+        dispatch(
+          deleteProduct({
+            categoryId,
+            productId: product.id,
+          }),
+        );
+      }
+      return;
+    }
 
-  const handleAction = (action, categoryId, productId) => {
-    switch (action) {
+    setActionType(action);
+    setSelectedProduct({
+      categoryId,
+      productId: product.id,
+    });
+    setValue("");
+    setShowModal(true);
+  };
+  const handleSave = () => {
+    if (!value) return;
+
+    const payload = {
+      categoryId: selectedProduct.categoryId,
+      productId: selectedProduct.productId,
+    };
+
+    switch (actionType) {
       case "edit":
-        const newPrice = prompt("Enter new price");
-
-        if (newPrice) {
-          dispatch(
-            editPrice({
-              categoryId,
-              productId,
-              newPrice,
-            }),
-          );
-        }
+        dispatch(editPrice({ ...payload, newPrice: value }));
         break;
 
       case "add":
-        const add = prompt("Add stock");
-
-        if (add) {
-          dispatch(
-            addStock({
-              categoryId,
-              productId,
-              quantity: add,
-            }),
-          );
-        }
+        dispatch(addStock({ ...payload, quantity: value }));
         break;
+
       case "minus":
-        const minus = prompt("Remove stock");
-
-        if (minus) {
-          dispatch(
-            minusStock({
-              categoryId,
-              productId,
-              quantity: minus,
-            }),
-          );
-        }
-        break;
-
-      case "delete":
-        if (window.confirm("Delete this product?")) {
-          dispatch(
-            deleteProduct({
-              categoryId,
-              productId,
-            }),
-          );
-        }
+        dispatch(minusStock({ ...payload, quantity: value }));
         break;
 
       default:
-        break;
+        return;
     }
+
+    setShowModal(false);
+    setSelectedProduct(null);
+    setActionType("");
+    setValue("");
   };
   return (
     <div className="flex flex-col border border-gray-300 gap-5 rounded p-5 ">
@@ -103,7 +99,7 @@ const ProductList = () => {
           </div>
 
           {open === category.id && (
-            <div className="overflow-x auto border border-[var(--primary-light)] shadow-xl border-t-0 rounded-b-xl">
+            <div className="overflow-x-auto border border-[var(--primary-light)] shadow-xl border-t-0 rounded-b-xl">
               {category.products.length === 0 ? (
                 <p className="p-4 text-center text-gray-500">No products</p>
               ) : (
@@ -155,16 +151,15 @@ const ProductList = () => {
                         </td>
                         <td className="px-4 py-3 text-center border border-[var(--primary-light)]">
                           <select
-                            className="border rounded px-2 py-1 border-gray-300"
+                            className="border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
                             onChange={(e) => {
                               handleAction(
                                 e.target.value,
                                 category.id,
-                                product.id,
+                                product,
                               );
                               e.target.selectedIndex = 0;
                             }}
-                            className="border rounded px-2 py-1"
                           >
                             <option value="">Action</option>
                             <option value="edit">Edit Price</option>
@@ -182,6 +177,49 @@ const ProductList = () => {
           )}
         </div>
       ))}
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white w-96 rounded-xl p-6 shadow-xl">
+            <h2 className="text-xl font-semibold mb-5">
+              {actionType === "edit" && "Edit Price"}
+              {actionType === "add" && "Add Stock"}
+              {actionType === "minus" && "Minus Stock"}
+            </h2>
+
+            <input
+              type="number"
+              min={1}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              placeholder={
+                actionType === "edit" ? "Enter new price" : "Enter quantity"
+              }
+              className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+            />
+
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  setSelectedProduct(null);
+                  setActionType("");
+                  setValue("");
+                }}
+                className=" px-4 py-2 rounded-lg hover:opacity-90 bg-gray-500 text-white cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="bg-[var(--primary-color)] text-white px-4 py-2 hover:opacity-90 cursor-pointer rounded-lg"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -71,7 +71,7 @@ const productSlice = createSlice({
 
       const product = category.products.find((p) => p.id === productId);
       if (product) {
-        product.quantity += Number(quantity);
+        product.quantity = Number(product.quantity) + Number(quantity);
       }
     },
     deleteProduct(state, action) {
@@ -93,7 +93,10 @@ const productSlice = createSlice({
       if (!category) return;
       const product = category.products.find((p) => p.id === productId);
       if (product) {
-        product.quantity = Math.max(0, product.quantity - Number(quantity));
+        product.quantity = Math.max(
+          0,
+          Number(product.quantity) - Number(quantity),
+        );
       }
     },
 
