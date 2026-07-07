@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  MoreVertical,
+  Pencil,
+  PlusCircle,
+  MinusCircle,
+  Trash2,
+  Pen,
+} from "lucide-react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
@@ -14,6 +23,7 @@ import {
 const ProductList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [openMenu, setOpenMenu] = useState(null);
   const [open, setOpen] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [actionType, setActionType] = useState("");
@@ -101,93 +111,110 @@ const ProductList = () => {
             )}
           </div>
           {open === category.id && (
-            <div className="overflow-x-auto border border-[var(--primary-light)] shadow-xl border-t-0 rounded-b-xl">
+            <div className="overflow-x-auto space-y-4 p-3 border border-[var(--primary-light)] shadow-xl border-t-0 rounded-b-xl">
               {category.products.length === 0 ? (
                 <p className="p-4 text-center text-gray-500">
                   {" "}
                   {t("productList.noProducts")}
                 </p>
               ) : (
-                <table className="w-full">
-                  <thead className="bg-gray-100 ">
-                    <tr>
-                      <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        {t("productList.productName")}
-                      </th>
-                      <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        {t("productList.price")}
-                      </th>
-                      <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        {t("productList.stock")}
-                      </th>
-                      <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        {t("productList.availability")}
-                      </th>
-                      <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        {t("productList.action")}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {category.products.map((product) => (
-                      <tr
-                        key={product.id}
-                        className="border-t hover:bg-gray-50 transition"
-                      >
-                        {console.log(product)}
-                        <td className="px-4 py-3 border border-[var(--primary-light)]">
-                          {product.productName}
-                        </td>
-                        <td className="px-4 py-3 border border-[var(--primary-light)]">
-                          {product.price}
-                        </td>
-                        <td className="px-4 py-3 border border-[var(--primary-light)]">
-                          {product.stock}
-                        </td>
-                        <td className="px-4 py-3 border border-[var(--primary-light)]">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              product.stock > 0
-                                ? "bg-green-100 text-green-700"
-                                : "bg-red-100 text-red-700"
-                            }`}
-                          >
-                            {product.stock > 0
-                              ? t("productList.inStock")
-                              : t("productList.outOfStock")}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-center border border-[var(--primary-light)]">
-                          <select
-                            className="border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
-                            onChange={(e) => {
-                              handleAction(
-                                e.target.value,
-                                category.id,
-                                product,
-                              );
-                              e.target.selectedIndex = 0;
-                            }}
-                          >
-                            <option value=""> {t("productList.action")}</option>
-                            <option value="edit">
-                              {t("productList.editPrice")}
-                            </option>
-                            <option value="add">
-                              {t("productList.addStock")}
-                            </option>
-                            <option value="minus">
-                              {t("productList.minusStock")}
-                            </option>
-                            <option value="delete">
-                              {t("productList.deleteProduct")}
-                            </option>
-                          </select>
-                        </td>
+                <div>
+                  {" "}
+                  <table className="w-full">
+                    <thead className="bg-gray-100 ">
+                      <tr>
+                        <th className="px-4 py-3 text-center border border-[var(--primary-light)]">
+                          {t("productList.productName")}
+                        </th>
+                        <th className="px-4 py-3 text-center border border-[var(--primary-light)]">
+                          {t("productList.price")}
+                        </th>
+                        <th className="px-4 py-3 text-center border border-[var(--primary-light)]">
+                          {t("productList.stock")}
+                        </th>
+                        <th className="px-4 py-3 text-center border border-[var(--primary-light)]">
+                          {t("productList.availability")}
+                        </th>
+                        <th className="px-4 py-3 text-center border border-[var(--primary-light)]">
+                          {t("productList.action")}
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {category.products.map((product) => (
+                        <tr
+                          key={product.id}
+                          className="border-t hover:bg-gray-50 transition"
+                        >
+                          {console.log(product)}
+                          <td className="px-4 py-3 text-center border border-[var(--primary-light)]">
+                            {product.productName}
+                          </td>
+                          <td className="px-4 py-3 border text-center border-[var(--primary-light)]">
+                            {product.price}
+                          </td>
+                          <td className="px-4 py-3 border text-center border-[var(--primary-light)]">
+                            {product.stock}
+                          </td>
+                          <td className="px-4 py-3 border text-center border-[var(--primary-light)]">
+                            <span
+                              className={`px-2 py-1 rounded-full text-center text-xs font-medium ${
+                                product.stock > 0
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-red-100 text-red-700"
+                              }`}
+                            >
+                              {product.stock > 0
+                                ? t("productList.inStock")
+                                : t("productList.outOfStock")}
+                            </span>
+                          </td>
+                          <td className=" px-4 py-3 text-center border border-[var(--primary-light)]">
+                            <div className="grid grid-cols-2 items-center sm:grid-cols-4 place-items-center gap-3">
+                              <button
+                                onClick={() =>
+                                  handleAction("edit", category.id, product)
+                                }
+                                className="text-blue-600 hover:bg-blue-100 p-2 rounded-full cursor-pointer transition"
+                                title={t("productList.editPrice")}
+                              >
+                                <Pencil size={18} />
+                              </button>
+                              <button
+                                onClick={() => {
+                                  handleAction("add", category.id, product);
+                                }}
+                                className="text-green-600 hover:bg-green-100 p-2 rounded-full cursor-pointer transition"
+                                title={t("productList.addStock")}
+                              >
+                                <PlusCircle size={18} />
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleAction("minus", category.id, product)
+                                }
+                                className="text-orange-500 hover:bg-orange-100 p-2 rounded-full cursor-pointer transition"
+                                title={t("productList.minusStock")}
+                              >
+                                <MinusCircle size={18} />
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleAction("delete", category.id, product)
+                                }
+                                className="text-red-600 hover:bg-red-100 p-2 rounded-full cursor-pointer transition
+                          "
+                                title={t("productList.deleteProduct")}
+                              >
+                                <Trash2 size={18} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           )}
