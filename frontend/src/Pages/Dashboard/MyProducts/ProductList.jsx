@@ -92,7 +92,7 @@ const ProductList = () => {
                 : "rounded-xl"
             }`}
           >
-            <h2>{category.name}</h2>
+            <h2>{t(`addProduct.categories.${category.name}`)}</h2>
 
             {open === category.id ? (
               <ChevronUp size={20} />

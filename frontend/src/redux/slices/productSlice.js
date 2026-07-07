@@ -5,37 +5,37 @@ const initialState = {
   categories: [
     {
       id: 1,
-      name: "Fruits & Vegetables",
+      name: "fruitsVegetables",
       products: initialProducts[0].products,
     },
     {
       id: 2,
-      name: "Dairy,Bread & Eggs",
+      name: "dairyBreadEggs",
       products: [],
     },
     {
       id: 3,
-      name: "Snacks & Biscuits",
+      name: "snacksBiscuits",
       products: [],
     },
     {
       id: 4,
-      name: "Atta, Dal & Rice",
+      name: "attaDalRice",
       products: [],
     },
     {
       id: 5,
-      name: "Dry Fruits & Masala",
+      name: "dryFruitsMasala",
       products: [],
     },
     {
       id: 6,
-      name: "Tea,Coffee & More",
+      name: "teaCoffee",
       products: [],
     },
     {
       id: 7,
-      name: "Chocolate & Desserts",
+      name: "chocolatesDesserts",
       products: [],
     },
   ],
