@@ -41,14 +41,15 @@ const AddProduct = () => {
     image,
   } = formData;
   const categories = [
-    "Fruits & Vegetables",
-    "Dairy, Bread and Eggs",
-    "Snacks and Biscuits",
-    " Atta, Dal and Rice",
-    "Dry fruits and Masala",
-    "Tea ,Coffee and more",
-    "Chocolate and Desserts",
+    { id: 1, key: "fruitsVegetables" },
+    { id: 2, key: "dairyBreadEggs" },
+    { id: 3, key: "snacksBiscuits" },
+    { id: 4, key: "attaDalRice" },
+    { id: 5, key: "dryFruitsMasala" },
+    { id: 6, key: "teaCoffee" },
+    { id: 7, key: "chocolatesDesserts" },
   ];
+
   const discount = ["%", "Flat"];
 
   const units = ["kg", "litre", "pieces"];
@@ -78,18 +79,19 @@ const AddProduct = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const categoryMap = {
-      "Fruits & Vegetables": 1,
-      "Dairy, Bread and Eggs": 2,
-      "Snacks and Biscuits": 3,
-      "Atta, Dal and Rice": 4,
-      "Dry fruits and Masala": 5,
-      "Tea ,Coffee and more": 6,
-      "Chocolate and Desserts": 7,
-    };
+
+    const categories = [
+      { id: 1, key: "fruitsVegetables" },
+      { id: 2, key: "dairyBreadEggs" },
+      { id: 3, key: "snacksBiscuits" },
+      { id: 4, key: "attaDalRice" },
+      { id: 5, key: "dryFruitsMasala" },
+      { id: 6, key: "teaCoffee" },
+      { id: 7, key: "chocolatesDesserts" },
+    ];
     dispatch(
       addProduct({
-        categoryId: categoryMap[formData.category],
+        categoryId: Number(formData.category),
         product: {
           ...formData,
           deliveryTypes: selectedDelivery,
@@ -117,8 +119,8 @@ const AddProduct = () => {
               <option value=""> {t("addProduct.selectCategory")}</option>
 
               {categories.map((category) => (
-                <option className="" key={category} value={category}>
-                  {category}
+                <option className="" key={category.id} value={category.id}>
+                  {t(`addProduct.categories.${category.key}`)}
                 </option>
               ))}
             </select>
