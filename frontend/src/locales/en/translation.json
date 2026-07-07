@@ -156,5 +156,45 @@
     "deliveryStatus": "Delivery Status",
     "delivered": "Delivered",
     "dateTime": "Date | Time"
+  },
+  "addProduct": {
+    "title": "Add a Product",
+    "productDetails": "Product Details",
+    "selectCategory": "Select Category",
+    "productName": "Product Name",
+    "productMrp": "Product MRP",
+    "productPrice": "Product Price",
+    "discountType": "Discount Type",
+    "discountValue": "Discount Value",
+    "productSize": "Product Size",
+    "availableQuantity": "Available Quantity",
+    "productInformation": "Product Information",
+    "description": "Description of the Product",
+    "country": "Country of Origin",
+    "manufacturer": "Manufacturer Name",
+    "deliveryType": "Delivery Type",
+    "deliveryDescription": "(You can select multiple options)",
+    "productImage": "Product Image",
+    "productImageDescription": "Product images will be fetched from the ORIGIN server",
+    "uploadImage": "Upload Image",
+    "deliveryTypes": {
+      "instant": "Instant Delivery",
+      "schedule": "Schedule Delivery",
+      "pickup": "Store Pickup"
+    },
+    "units": {
+      "kg": "Kg",
+      "litre": "Litre",
+      "pieces": "Pieces"
+    },
+    "categories": {
+      "fruitsVegetables": "Fruits & Vegetables",
+      "dairyBreadEggs": "Dairy, Bread and Eggs",
+      "snacksBiscuits": "Snacks and Biscuits",
+      "attaDalRice": "Atta, Dal and Rice",
+      "dryFruitsMasala": "Dry Fruits and Masala",
+      "teaCoffee": "Tea, Coffee and More",
+      "chocolatesDesserts": "Chocolate and Desserts"
+    }
   }
 }

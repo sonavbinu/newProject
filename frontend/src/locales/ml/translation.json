@@ -157,5 +157,45 @@
     "deliveryStatus": "ഡെലിവറി നില",
     "delivered": "ഡെലിവർ ചെയ്തു",
     "dateTime": "തീയതി | സമയം"
+  },
+  "addProduct": {
+    "title": "ഉൽപ്പന്നം ചേർക്കുക",
+    "productDetails": "ഉൽപ്പന്നത്തിന്റെ വിശദാംശങ്ങൾ",
+    "selectCategory": "വിഭാഗം തിരഞ്ഞെടുക്കുക",
+    "productName": "ഉൽപ്പന്നത്തിന്റെ പേര്",
+    "productMrp": "ഉൽപ്പന്നത്തിന്റെ എം.ആർ.പി",
+    "productPrice": "ഉൽപ്പന്നത്തിന്റെ വില",
+    "discountType": "ഡിസ്കൗണ്ട് തരം",
+    "discountValue": "ഡിസ്കൗണ്ട് മൂല്യം",
+    "productSize": "ഉൽപ്പന്നത്തിന്റെ വലുപ്പം",
+    "availableQuantity": "ലഭ്യമായ അളവ്",
+    "productInformation": "ഉൽപ്പന്ന വിവരങ്ങൾ",
+    "description": "ഉൽപ്പന്നത്തിന്റെ വിവരണം",
+    "country": "ഉത്ഭവ രാജ്യം",
+    "manufacturer": "നിർമ്മാതാവിന്റെ പേര്",
+    "deliveryType": "ഡെലിവറി തരം",
+    "deliveryDescription": "(ഒന്നിലധികം ഓപ്ഷനുകൾ തിരഞ്ഞെടുക്കാം)",
+    "productImage": "ഉൽപ്പന്ന ചിത്രം",
+    "productImageDescription": "ഉൽപ്പന്ന ചിത്രങ്ങൾ ORIGIN സെർവറിൽ നിന്ന് ലഭ്യമാകും",
+    "uploadImage": "ചിത്രം അപ്‌ലോഡ് ചെയ്യുക",
+    "deliveryTypes": {
+      "instant": "ഉടൻ ഡെലിവറി",
+      "schedule": "ഷെഡ്യൂൾ ചെയ്ത ഡെലിവറി",
+      "pickup": "സ്റ്റോറിൽ നിന്ന് ഏറ്റുവാങ്ങുക"
+    },
+    "units": {
+      "kg": "കിലോ",
+      "litre": "ലിറ്റർ",
+      "pieces": "എണ്ണം"
+    },
+    "categories": {
+      "fruitsVegetables": "പഴങ്ങളും പച്ചക്കറികളും",
+      "dairyBreadEggs": "പാൽ, ബ്രെഡ് & മുട്ട",
+      "snacksBiscuits": "സ്നാക്കുകളും ബിസ്കറ്റുകളും",
+      "attaDalRice": "അട്ട, പരിപ്പ് & അരി",
+      "dryFruitsMasala": "ഉണക്കപ്പഴങ്ങളും മസാലകളും",
+      "teaCoffee": "ചായ, കാപ്പി & മറ്റു സാധനങ്ങൾ",
+      "chocolatesDesserts": "ചോക്ലേറ്റുകളും മധുരപലഹാരങ്ങളും"
+    }
   }
 }

@@ -157,5 +157,45 @@
     "deliveryStatus": "डिलीवरी स्थिति",
     "delivered": "डिलीवर किया गया",
     "dateTime": "दिनांक | समय"
+  },
+  "addProduct": {
+    "title": "उत्पाद जोड़ें",
+    "productDetails": "उत्पाद विवरण",
+    "selectCategory": "श्रेणी चुनें",
+    "productName": "उत्पाद का नाम",
+    "productMrp": "उत्पाद का एमआरपी",
+    "productPrice": "उत्पाद की कीमत",
+    "discountType": "छूट का प्रकार",
+    "discountValue": "छूट का मूल्य",
+    "productSize": "उत्पाद का आकार",
+    "availableQuantity": "उपलब्ध मात्रा",
+    "productInformation": "उत्पाद जानकारी",
+    "description": "उत्पाद का विवरण",
+    "country": "मूल देश",
+    "manufacturer": "निर्माता का नाम",
+    "deliveryType": "डिलीवरी का प्रकार",
+    "deliveryDescription": "(आप एक से अधिक विकल्प चुन सकते हैं)",
+    "productImage": "उत्पाद की छवि",
+    "productImageDescription": "उत्पाद की छवियाँ ORIGIN सर्वर से प्राप्त की जाएंगी",
+    "uploadImage": "छवि अपलोड करें",
+    "deliveryTypes": {
+      "instant": "तुरंत डिलीवरी",
+      "schedule": "निर्धारित डिलीवरी",
+      "pickup": "स्टोर से प्राप्त करें"
+    },
+    "units": {
+      "kg": "किलोग्राम",
+      "litre": "लीटर",
+      "pieces": "पीस"
+    },
+    "categories": {
+      "fruitsVegetables": "फल और सब्जियाँ",
+      "dairyBreadEggs": "डेयरी, ब्रेड और अंडे",
+      "snacksBiscuits": "स्नैक्स और बिस्कुट",
+      "attaDalRice": "आटा, दाल और चावल",
+      "dryFruitsMasala": "सूखे मेवे और मसाले",
+      "teaCoffee": "चाय, कॉफी और अन्य",
+      "chocolatesDesserts": "चॉकलेट और मिठाइयाँ"
+    }
   }
 }
