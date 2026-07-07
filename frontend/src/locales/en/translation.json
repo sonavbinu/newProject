@@ -108,7 +108,8 @@
   "common": {
     "cancel": "Cancel",
     "link": "Link",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "save": "Save"
   },
   "about": {
     "title": "About ORIGIN",
@@ -201,5 +202,22 @@
     "title": "Product Listing",
     "searchPlaceholder": "Search for products or category",
     "addProduct": "Add Product"
+  },
+  "productList": {
+    "noProducts": "No products",
+    "productName": "Product Name",
+    "price": "Price",
+    "stock": "Stock",
+    "availability": "Availability",
+    "action": "Action",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "editPrice": "Edit Price",
+    "addStock": "Add Stock",
+    "minusStock": "Minus Stock",
+    "deleteProduct": "Delete Product",
+    "deleteConfirmation": "Delete this product?",
+    "enterNewPrice": "Enter new price",
+    "enterQuantity": "Enter quantity"
   }
 }

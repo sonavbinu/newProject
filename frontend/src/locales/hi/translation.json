@@ -108,7 +108,8 @@
   "common": {
     "cancel": "रद्द करें",
     "link": "लिंक करें",
-    "saveChanges": "परिवर्तन सहेजें"
+    "saveChanges": "परिवर्तन सहेजें",
+    "save": "सहेजें"
   },
   "about": {
     "title": "ORIGIN के बारे में",
@@ -202,5 +203,22 @@
     "title": "उत्पाद सूची",
     "searchPlaceholder": "उत्पाद या श्रेणी खोजें",
     "addProduct": "उत्पाद जोड़ें"
+  },
+  "productList": {
+    "noProducts": "कोई उत्पाद नहीं",
+    "productName": "उत्पाद का नाम",
+    "price": "कीमत",
+    "stock": "स्टॉक",
+    "availability": "उपलब्धता",
+    "action": "कार्रवाई",
+    "inStock": "स्टॉक में",
+    "outOfStock": "स्टॉक समाप्त",
+    "editPrice": "कीमत संपादित करें",
+    "addStock": "स्टॉक जोड़ें",
+    "minusStock": "स्टॉक घटाएँ",
+    "deleteProduct": "उत्पाद हटाएँ",
+    "deleteConfirmation": "क्या आप इस उत्पाद को हटाना चाहते हैं?",
+    "enterNewPrice": "नई कीमत दर्ज करें",
+    "enterQuantity": "मात्रा दर्ज करें"
   }
 }

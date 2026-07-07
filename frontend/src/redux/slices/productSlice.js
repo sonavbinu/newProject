@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import initialProducts from "../../Pages/Dashboard/MyProducts/InitialProducts";
 
 const initialState = {
   categories: [
     {
       id: 1,
       name: "Fruits & Vegetables",
-      products: [],
+      products: initialProducts[0].products,
     },
     {
       id: 2,
@@ -71,7 +72,7 @@ const productSlice = createSlice({
 
       const product = category.products.find((p) => p.id === productId);
       if (product) {
-        product.quantity = Number(product.quantity) + Number(quantity);
+        product.stock = Number(product.stock) + Number(quantity);
       }
     },
     deleteProduct(state, action) {
@@ -93,10 +94,7 @@ const productSlice = createSlice({
       if (!category) return;
       const product = category.products.find((p) => p.id === productId);
       if (product) {
-        product.quantity = Math.max(
-          0,
-          Number(product.quantity) - Number(quantity),
-        );
+        product.stock = Math.max(0, Number(product.stock) - Number(quantity));
       }
     },
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import {
   editPrice,
@@ -11,6 +12,7 @@ import {
 } from "../../../redux/slices/productSlice";
 
 const ProductList = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +27,7 @@ const ProductList = () => {
   };
   const handleAction = (action, categoryId, product) => {
     if (action === "delete") {
-      if (window.confirm("Delete this product?")) {
+      if (window.confirm(t("productList.deleteConfirmation"))) {
         dispatch(
           deleteProduct({
             categoryId,
@@ -81,6 +83,7 @@ const ProductList = () => {
           key={category.id}
           className="border border-gray-300 rounded-xl shadow"
         >
+          {console.log(categories[0].products)}
           <div
             onClick={() => toggleCategory(category.id)}
             className={`flex items-center justify-between bg-[var(--primary-light)]  p-3 rounded-xl cursor-pointer transition duration-150 ${
@@ -97,29 +100,31 @@ const ProductList = () => {
               <ChevronDown size={20} />
             )}
           </div>
-
           {open === category.id && (
             <div className="overflow-x-auto border border-[var(--primary-light)] shadow-xl border-t-0 rounded-b-xl">
               {category.products.length === 0 ? (
-                <p className="p-4 text-center text-gray-500">No products</p>
+                <p className="p-4 text-center text-gray-500">
+                  {" "}
+                  {t("productList.noProducts")}
+                </p>
               ) : (
                 <table className="w-full">
                   <thead className="bg-gray-100 ">
                     <tr>
                       <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        Product Name
+                        {t("productList.productName")}
                       </th>
                       <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        Price
+                        {t("productList.price")}
                       </th>
                       <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        Stock
+                        {t("productList.stock")}
                       </th>
                       <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        Availability
+                        {t("productList.availability")}
                       </th>
                       <th className="px-4 py-3 text-left border border-[var(--primary-light)]">
-                        Action
+                        {t("productList.action")}
                       </th>
                     </tr>
                   </thead>
@@ -129,6 +134,7 @@ const ProductList = () => {
                         key={product.id}
                         className="border-t hover:bg-gray-50 transition"
                       >
+                        {console.log(product)}
                         <td className="px-4 py-3 border border-[var(--primary-light)]">
                           {product.productName}
                         </td>
@@ -136,17 +142,19 @@ const ProductList = () => {
                           {product.price}
                         </td>
                         <td className="px-4 py-3 border border-[var(--primary-light)]">
-                          {product.quantity}
+                          {product.stock}
                         </td>
                         <td className="px-4 py-3 border border-[var(--primary-light)]">
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              product.quantity > 0
+                              product.stock > 0
                                 ? "bg-green-100 text-green-700"
                                 : "bg-red-100 text-red-700"
                             }`}
                           >
-                            {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+                            {product.stock > 0
+                              ? t("productList.inStock")
+                              : t("productList.outOfStock")}
                           </span>
                         </td>
                         <td className="px-4 py-3 text-center border border-[var(--primary-light)]">
@@ -161,11 +169,19 @@ const ProductList = () => {
                               e.target.selectedIndex = 0;
                             }}
                           >
-                            <option value="">Action</option>
-                            <option value="edit">Edit Price</option>
-                            <option value="add">Add Stock</option>
-                            <option value="minus">Minus Stock</option>
-                            <option value="delete">Delete Product</option>
+                            <option value=""> {t("productList.action")}</option>
+                            <option value="edit">
+                              {t("productList.editPrice")}
+                            </option>
+                            <option value="add">
+                              {t("productList.addStock")}
+                            </option>
+                            <option value="minus">
+                              {t("productList.minusStock")}
+                            </option>
+                            <option value="delete">
+                              {t("productList.deleteProduct")}
+                            </option>
                           </select>
                         </td>
                       </tr>
@@ -182,9 +198,9 @@ const ProductList = () => {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white w-96 rounded-xl p-6 shadow-xl">
             <h2 className="text-xl font-semibold mb-5">
-              {actionType === "edit" && "Edit Price"}
-              {actionType === "add" && "Add Stock"}
-              {actionType === "minus" && "Minus Stock"}
+              {actionType === "edit" && t("productList.editPrice")}
+              {actionType === "add" && t("productList.addStock")}
+              {actionType === "minus" && t("productList.minusStock")}
             </h2>
 
             <input
@@ -193,7 +209,9 @@ const ProductList = () => {
               value={value}
               onChange={(e) => setValue(e.target.value)}
               placeholder={
-                actionType === "edit" ? "Enter new price" : "Enter quantity"
+                actionType === "edit"
+                  ? t("productList.enterNewPrice")
+                  : t("productList.enterQuantity")
               }
               className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
             />
@@ -208,13 +226,13 @@ const ProductList = () => {
                 }}
                 className=" px-4 py-2 rounded-lg hover:opacity-90 bg-gray-500 text-white cursor-pointer"
               >
-                Cancel
+                {t("common.cancel")}
               </button>
               <button
                 onClick={handleSave}
                 className="bg-[var(--primary-color)] text-white px-4 py-2 hover:opacity-90 cursor-pointer rounded-lg"
               >
-                Save
+                {t("common.save")}
               </button>
             </div>
           </div>

@@ -18,7 +18,7 @@ const AddProduct = () => {
     discountValue: "",
     unit: "Kg",
     size: "",
-    quantity: "",
+    stock: "",
     description: "",
     country: "",
     manufacturer: "",
@@ -34,7 +34,7 @@ const AddProduct = () => {
     discountValue,
     unit,
     size,
-    quantity,
+    stock,
     description,
     country,
     manufacturer,
@@ -95,6 +95,10 @@ const AddProduct = () => {
         product: {
           ...formData,
           deliveryTypes: selectedDelivery,
+          price: Number(formData.price),
+          mrp: Number(formData.mrp),
+          stock: Number(formData.stock),
+          discountValue: Number(formData.discountValue || 0),
         },
       }),
     );
@@ -194,8 +198,8 @@ const AddProduct = () => {
               />{" "}
               <input
                 onChange={handleChange}
-                value={quantity}
-                name="quantity"
+                value={stock}
+                name="stock"
                 placeholder={t("addProduct.availableQuantity")}
                 className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
                 type="text"
