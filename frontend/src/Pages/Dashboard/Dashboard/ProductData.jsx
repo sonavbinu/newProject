@@ -1,7 +1,17 @@
-import { Boxes, Package2, PackageX, TriangleAlert } from "lucide-react";
+import { Boxes, Package2 } from "lucide-react";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Cell,
+} from "recharts";
 
 const ProductData = () => {
   const navigate = useNavigate();
@@ -10,6 +20,15 @@ const ProductData = () => {
     (count, category) => count + category.products.length,
     0,
   );
+  const COLORS = [
+    "#8CAD2B",
+    "#3B82F6",
+    "#F59E0B",
+    "#8B5CF6",
+    "#EC4899",
+    "#14B8A6",
+    "#EF4444",
+  ];
 
   const totalStock = categories.reduce(
     (count, category) =>
@@ -18,45 +37,50 @@ const ProductData = () => {
     0,
   );
 
-  const outOfStock = categories.reduce(
-    (count, category) =>
-      count + category.products.filter((product) => product.stock === 0).length,
-    0,
-  );
-
-  const lowStock = categories.reduce(
-    (count, category) =>
-      count +
-      category.products.filter(
-        (product) => product.stock > 0 && product.stock <= 10,
-      ).length,
-    0,
-  );
+  const productData = categories.map((category) => ({
+    category: category.name,
+    products: category.products.length,
+  }));
   return (
-    <div
-      onClick={() => navigate("/my-products")}
-      className="grid  grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-6"
-    >
-      <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer">
-        <Package2 size={36} className="text-[var(--primary-color)]" />
-        <h3 className="text-xl font-bold text-center">Total Products </h3>
-        <h2 className="text-3xl font-bold mt-2">{totalProducts}</h2>
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div
+        onClick={() => navigate("/my-products")}
+        className="grid  grid-cols-1  sm:grid-cols-2   gap-6"
+      >
+        <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer transition-all">
+          <Package2 size={36} className="text-[var(--primary-color)]" />
+          <h3 className="text-xl font-bold text-center">Total Products </h3>
+          <h2 className="text-3xl font-bold mt-2">{totalProducts}</h2>
+        </div>
+        <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer">
+          <Boxes size={36} className="text-[var(--primary-color)]" />
+          <h3 className="text-xl font-bold text-center">Total Stock</h3>
+          <h2 className="text-3xl font-bold mt-2">{totalStock}</h2>
+        </div>
+        <div />
       </div>
-      <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer">
-        <Boxes size={36} className="text-[var(--primary-color)]" />
-        <h3 className="text-xl font-bold text-center">Total Stock</h3>
-        <h2 className="text-3xl font-bold mt-2">{totalStock}</h2>
+      {/* ..... */}
+
+      <div className="bg-white rounded-xl shadow p-6">
+        <h2 className="text-xl font-bold mb-4">Products By Category</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            data={productData}
+            layout="vertical"
+            margin={{ top: 10, right: 20, left: 40, bottom: 10 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis type="number" />
+            <YAxis type="category" dataKey="category" width={140} />
+            <Tooltip />
+            <Bar dataKey="products" radius={[6, 6, 0, 0]}>
+              {productData.map((entry, index) => (
+                <Cell key={index} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
       </div>
-      {/* <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer">
-        <TriangleAlert size={36} className="text-[var(--primary-color)]" />
-        <h3 className="text-xl font-bold ">Low Stock</h3>
-        <h2 className="text-3xl font-bold">{lowStock}</h2>
-      </div>
-      <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer">
-        <PackageX size={36} className="text-[var(--primary-color)]" />
-        <h3 className="text-xl font-bold">Out of Stock</h3>
-        <h2 className="text-3xl font-bold">{outOfStock}</h2>
-      </div> */}
     </div>
   );
 };
