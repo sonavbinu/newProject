@@ -233,6 +233,14 @@
       "referEarn": "Refer & Earn",
       "reports": "Reports",
       "refundTransaction": "Refund Transaction"
+    },
+    "orderData": {
+      "totalOrders": "Total Orders",
+      "confirmed": "Confirmed",
+      "packed": "Packed",
+      "completed": "Completed",
+      "pendingConfirmation": "Pending Confirmation",
+      "orderStatus": "Order Status"
     }
   }
 }

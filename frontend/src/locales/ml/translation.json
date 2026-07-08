@@ -234,6 +234,14 @@
       "referEarn": "റഫർ ചെയ്ത് സമ്പാദിക്കുക",
       "reports": "റിപ്പോർട്ടുകൾ",
       "refundTransaction": "റീഫണ്ട് ഇടപാട്"
+    },
+    "orderData": {
+      "totalOrders": "ആകെ ഓർഡറുകൾ",
+      "confirmed": "സ്ഥിരീകരിച്ചത്",
+      "packed": "പാക്ക് ചെയ്തത്",
+      "completed": "പൂർത്തിയായി",
+      "pendingConfirmation": "സ്ഥിരീകരണം ബാക്കി",
+      "orderStatus": "ഓർഡർ നില"
     }
   }
 }

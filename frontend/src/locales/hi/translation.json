@@ -234,6 +234,14 @@
       "referEarn": "रेफ़र करें और कमाएँ",
       "reports": "रिपोर्ट्स",
       "refundTransaction": "रिफंड लेनदेन"
+    },
+    "orderData": {
+      "totalOrders": "कुल ऑर्डर",
+      "confirmed": "पुष्ट",
+      "packed": "पैक किए गए",
+      "completed": "पूर्ण",
+      "pendingConfirmation": "पुष्टि लंबित",
+      "orderStatus": "ऑर्डर स्थिति"
     }
   }
 }
