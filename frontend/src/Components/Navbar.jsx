@@ -11,8 +11,10 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
 const Navbar = () => {
+  const { user } = useUser();
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,21 +27,19 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="border-b border-gray-200 shadow-md p-4">
+    <nav className="border-b border-gray-200 shadow-md lg:p-4 pl-16 py-2">
       {/* Top Row */}
       <div className="flex items-center justify-between">
         {/* Left */}
-        <div>
+        <div className=" flex flex-col ">
           <h1
-            className="text-2xl sm:text-3xl font-bold pl-14 lg:pl-0"
+            className="text-2xl sm:text-3xl font-bold "
             style={{ color: "var(--primary-color)" }}
           >
-            ORIGIN
+            {user.name}
           </h1>
 
-          <p className="hidden md:block text-sm text-gray-600">
-            {t("navbar.welcome")}, {t("navbar.user")}
-          </p>
+          <p className="text-sm text-gray-500"> Welcome back!</p>
         </div>
 
         {/* Desktop Menu */}

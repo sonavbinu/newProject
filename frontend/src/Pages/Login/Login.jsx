@@ -30,20 +30,6 @@ const Login = () => {
               src={logo}
               alt="logo"
             />
-            {/* <select
-              onChange={(e) => {
-                (i18n.changeLanguage(e.target.value),
-                  localStorage.setItem("lang", e.target.value));
-              }}
-              value={i18n.language}
-              className="border rounded-md 
-               px-2 py-1 mb-4"
-              style={{ borderColor: "var(--primary-color)" }}
-            >
-              <option value="en">English</option>
-              <option value="hi">हिन्दी</option>
-              <option value="ml"> മലയാളം</option>
-            </select> */}
           </div>
           <h2 className="text-2xl sm:text-3xl  font-bold flex mb-2">
             {t("login.heading")}
@@ -64,6 +50,7 @@ const Login = () => {
               {t("login.login")}
             </button>
             <span
+              onClick={() => navigate("/contact")}
               className="  py-3 mb-5 rounded-md font-medium transition-all duration-200 ease-in-out 
              w-full bg-transparent text-[#8BAD2B] hover:underline  text-primary
              cursor-pointer"
