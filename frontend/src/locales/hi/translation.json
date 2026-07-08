@@ -242,6 +242,11 @@
       "completed": "पूर्ण",
       "pendingConfirmation": "पुष्टि लंबित",
       "orderStatus": "ऑर्डर स्थिति"
+    },
+    "productData": {
+      "totalProducts": "कुल उत्पाद",
+      "totalStock": "कुल स्टॉक",
+      "productsByCategory": "श्रेणी के अनुसार उत्पाद"
     }
   }
 }

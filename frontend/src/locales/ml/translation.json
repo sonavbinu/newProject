@@ -242,6 +242,11 @@
       "completed": "പൂർത്തിയായി",
       "pendingConfirmation": "സ്ഥിരീകരണം ബാക്കി",
       "orderStatus": "ഓർഡർ നില"
+    },
+    "productData": {
+      "totalProducts": "ആകെ ഉൽപ്പന്നങ്ങൾ",
+      "totalStock": "ആകെ സ്റ്റോക്ക്",
+      "productsByCategory": "വിഭാഗം അനുസരിച്ചുള്ള ഉൽപ്പന്നങ്ങൾ"
     }
   }
 }

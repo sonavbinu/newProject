@@ -241,6 +241,11 @@
       "completed": "Completed",
       "pendingConfirmation": "Pending Confirmation",
       "orderStatus": "Order Status"
+    },
+    "productData": {
+      "totalProducts": "Total Products",
+      "totalStock": "Total Stock",
+      "productsByCategory": "Products By Category"
     }
   }
 }

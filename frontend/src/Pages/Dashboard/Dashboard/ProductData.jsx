@@ -12,8 +12,10 @@ import {
   Tooltip,
   Cell,
 } from "recharts";
+import { useTranslation } from "react-i18next";
 
 const ProductData = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const categories = useSelector((state) => state.products.categories);
   const totalProducts = categories.reduce(
@@ -38,7 +40,7 @@ const ProductData = () => {
   );
 
   const productData = categories.map((category) => ({
-    category: category.name,
+    category: t(`addProduct.categories.${category.name}`),
     products: category.products.length,
   }));
   return (
@@ -49,7 +51,9 @@ const ProductData = () => {
           className="bg-white p-5 shadow rounded-xl h-40 flex flex-col items-center hover:shadow-xl cursor-pointer transition-all"
         >
           <Package2 size={36} className="text-[var(--primary-color)]" />
-          <h3 className="text-xl font-bold text-center">Total Products </h3>
+          <h3 className="text-xl font-bold text-center">
+            {t("dashboard.productData.totalProducts")}
+          </h3>
           <h2 className="text-3xl font-bold mt-2">{totalProducts}</h2>
         </div>
         <div
@@ -57,14 +61,19 @@ const ProductData = () => {
           className="bg-white p-5 h-40 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer"
         >
           <Boxes size={36} className="text-[var(--primary-color)]" />
-          <h3 className="text-xl font-bold text-center">Total Stock</h3>
+          <h3 className="text-xl font-bold text-center">
+            {t("dashboard.productData.totalStock")}
+          </h3>
           <h2 className="text-3xl font-bold mt-2">{totalStock}</h2>
         </div>
       </div>
       {/* ..... */}
 
       <div className="bg-white rounded-xl shadow p-6">
-        <h2 className="text-xl font-bold mb-4">Products By Category</h2>
+        <h2 className="text-xl font-bold mb-4">
+          {" "}
+          {t("dashboard.productData.productsByCategory")}
+        </h2>
         <ResponsiveContainer width="100%" height={350}>
           <BarChart
             data={productData}
