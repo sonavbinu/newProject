@@ -10,7 +10,7 @@ const MainLayout = () => {
       <div className="lg:ml-[260px]">
         <Navbar />
 
-        <main className="p-6">
+        <main className="p-6 pt-30">
           <Outlet />
         </main>
       </div>

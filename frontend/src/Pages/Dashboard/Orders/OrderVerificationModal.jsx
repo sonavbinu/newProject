@@ -20,7 +20,7 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
 
   const allChecked = checkedItems.length === order.items.length;
   return (
-    <div className="fixed  inset-0 bg-black/50 backdrop-blur flex  items-center justify-center ">
+    <div className="fixed z-[100] inset-0 bg-black/50 backdrop-blur flex  items-center justify-center ">
       <div className=" relative bg-white flex flex-col justify-center gap-4 p-6 rounded-xl w-full max-w-2xl ">
         <h2 className="text-xl sm:text-lg font-bold border-b  mb-2 border-b-gray-300">
           {t("orders.orderConfirmation")}

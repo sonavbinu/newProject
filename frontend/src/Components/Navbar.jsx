@@ -27,7 +27,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="border-b border-gray-200 shadow-md lg:p-4 pl-16 py-2">
+    <nav className="fixed top-0 right-0 left-0 lg:left-[260px] h-22  bg-white z-30 border-b border-gray-200 shadow-md lg:p-4 pl-16 py-2">
       {/* Top Row */}
       <div className="flex items-center justify-between">
         {/* Left */}
