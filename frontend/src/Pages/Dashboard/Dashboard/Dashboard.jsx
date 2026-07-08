@@ -90,7 +90,7 @@ const Dashboard = () => {
           <OrderData />
         </div>
         <div>
-          <h2 className="text-xl font-bold mb-4">Inventry Overview</h2>
+          <h2 className="text-xl font-bold mb-4">Inventory Overview</h2>
           <ProductData />
         </div>
       </div>
