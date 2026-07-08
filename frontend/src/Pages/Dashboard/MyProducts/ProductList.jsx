@@ -87,7 +87,7 @@ const ProductList = () => {
     setValue("");
   };
   return (
-    <div className="flex flex-col border border-gray-300 gap-5 rounded p-5 ">
+    <div className="flex flex-col border border-gray-300 gap-3 rounded p-5 ">
       {categories.map((category) => (
         <div
           key={category.id}
@@ -170,7 +170,7 @@ const ProductList = () => {
                             </span>
                           </td>
                           <td className=" px-4 py-3 text-center border border-[var(--primary-light)]">
-                            <div className="grid grid-cols-2 items-center sm:grid-cols-4 place-items-center gap-3">
+                            <div className="grid grid-cols-4 items-center w-fit mx-auto  gap-2">
                               <button
                                 onClick={() =>
                                   handleAction("edit", category.id, product)
