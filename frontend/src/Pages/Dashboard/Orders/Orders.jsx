@@ -21,13 +21,15 @@ const Orders = () => {
   return (
     <div>
       <div className="flex flex-col gap-3">
-        <h2 className="text-xl sm:text-lg font-bold"> {t("orders.title")}</h2>
+        <div className="flex justify-between">
+          <h2 className="text-xl sm:text-lg font-bold"> {t("orders.title")}</h2>
+          <input
+            type="text"
+            placeholder={t("orders.searchPlaceholder")}
+            className="border w-[80%] border-gray-300 py-2 px-2 focus:ring-2 focus:ring-[var(--primary-color)] rounded-xl focus:outline-none"
+          />{" "}
+        </div>{" "}
         <p>{t("orders.lastUpdated")}</p>
-        <input
-          type="text"
-          placeholder={t("orders.searchPlaceholder")}
-          className="border border-gray-300 p-3 focus:ring-2 focus:ring-[var(--primary-color)] rounded-full focus:outline-none"
-        />
         <div className="flex justify-around shadow py-4 rounded-lg">
           {["confirmation", "preparing", "packed", "completed"].map((tab) => (
             <span
@@ -43,7 +45,6 @@ const Orders = () => {
             </span>
           ))}
         </div>
-
         <div className=" grid sm:grid-cols-2 grid-cols-1 gap-6 ">
           {filteredOrders.map((order) => {
             if (activeTab === "packed") {
@@ -81,7 +82,6 @@ const Orders = () => {
             );
           })}
         </div>
-
         {openModal && selectedOrder && (
           <div>
             <OrderVerificationModal

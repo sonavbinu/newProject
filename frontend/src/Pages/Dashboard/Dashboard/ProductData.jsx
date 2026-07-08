@@ -47,7 +47,7 @@ const ProductData = () => {
         <h3 className="text-xl font-bold text-center">Total Stock</h3>
         <h2 className="text-3xl font-bold mt-2">{totalStock}</h2>
       </div>
-      <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer">
+      {/* <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer">
         <TriangleAlert size={36} className="text-[var(--primary-color)]" />
         <h3 className="text-xl font-bold ">Low Stock</h3>
         <h2 className="text-3xl font-bold">{lowStock}</h2>
@@ -56,7 +56,7 @@ const ProductData = () => {
         <PackageX size={36} className="text-[var(--primary-color)]" />
         <h3 className="text-xl font-bold">Out of Stock</h3>
         <h2 className="text-3xl font-bold">{outOfStock}</h2>
-      </div>
+      </div> */}
     </div>
   );
 };

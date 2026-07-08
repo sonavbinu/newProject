@@ -84,10 +84,15 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-6">
-        <OrderData />
-        <hr className="text-gray-300" />
-        <ProductData />
+      <div className="space-y-8">
+        <div>
+          <h2 className="text-xl font-bold mb-4">Order Overview</h2>
+          <OrderData />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold mb-4">Inventry Overview</h2>
+          <ProductData />
+        </div>
       </div>
     </div>
   );
