@@ -43,37 +43,43 @@ const ProductData = () => {
   }));
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-      <div
-        onClick={() => navigate("/my-products")}
-        className="grid  grid-cols-1  sm:grid-cols-2   gap-6"
-      >
-        <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer transition-all">
+      <div className="grid  grid-cols-1  sm:grid-cols-2   gap-6">
+        <div
+          onClick={() => navigate("/my-products")}
+          className="bg-white p-5 shadow rounded-xl h-40 flex flex-col items-center hover:shadow-xl cursor-pointer transition-all"
+        >
           <Package2 size={36} className="text-[var(--primary-color)]" />
           <h3 className="text-xl font-bold text-center">Total Products </h3>
           <h2 className="text-3xl font-bold mt-2">{totalProducts}</h2>
         </div>
-        <div className="bg-white p-6 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer">
+        <div
+          onClick={() => navigate("/my-products")}
+          className="bg-white p-5 h-40 shadow rounded-xl flex flex-col items-center hover:shadow-xl cursor-pointer"
+        >
           <Boxes size={36} className="text-[var(--primary-color)]" />
           <h3 className="text-xl font-bold text-center">Total Stock</h3>
           <h2 className="text-3xl font-bold mt-2">{totalStock}</h2>
         </div>
-        <div />
       </div>
       {/* ..... */}
 
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="text-xl font-bold mb-4">Products By Category</h2>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={350}>
           <BarChart
             data={productData}
             layout="vertical"
-            margin={{ top: 10, right: 20, left: 40, bottom: 10 }}
+            margin={{ top: 10, right: 20, left: 70, bottom: 10 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis type="number" />
-            <YAxis type="category" dataKey="category" width={140} />
+            <YAxis type="category" dataKey="category" width={180} />
             <Tooltip />
-            <Bar dataKey="products" radius={[6, 6, 0, 0]}>
+            <Bar
+              dataKey="products"
+              radius={[0, 8, 8, 0]}
+              label={{ position: "right" }}
+            >
               {productData.map((entry, index) => (
                 <Cell key={index} fill={COLORS[index % COLORS.length]} />
               ))}
