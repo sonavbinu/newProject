@@ -219,5 +219,20 @@
     "deleteConfirmation": "Delete this product?",
     "enterNewPrice": "Enter new price",
     "enterQuantity": "Enter quantity"
+  },
+  "dashboard": {
+    "quickActionsTitle": "Quick Actions",
+    "orderOverview": "Order Overview",
+    "inventoryOverview": "Inventory Overview",
+    "quickActions": {
+      "makePayment": "Make Payment",
+      "settlements": "Settlements",
+      "transactionHistory": "Transaction History",
+      "giftCards": "Gift Cards",
+      "requestToOrigin": "Request to ORIGIN",
+      "referEarn": "Refer & Earn",
+      "reports": "Reports",
+      "refundTransaction": "Refund Transaction"
+    }
   }
 }

@@ -11,23 +11,26 @@ import {
   Wallet,
   FileText,
   User,
+  Key,
 } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import OrderData from "./OrderData";
 import ProductData from "./ProductData";
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const menuItems = [
-    { name: "Make Payment", icon: CreditCard },
-    { name: "Settlements", icon: ChartColumn },
-    { name: "Transaction history", icon: History },
-    { name: "Gift Cards", icon: Gift },
+    { key: "makePayment", icon: CreditCard },
+    { key: "settlements", icon: ChartColumn },
+    { key: "transactionHistory", icon: History },
+    { key: "giftCards", icon: Gift },
 
-    { name: "Request to ORIGIN", icon: FileText },
-    { name: "Refer & Earn", icon: Users },
-    { name: "Reports", icon: File },
-    { name: "Refund Transaction", icon: Wallet },
+    { key: "requestToOrigin", icon: FileText },
+    { key: "referEarn", icon: Users },
+    { key: "reports", icon: File },
+    { key: "refundTransaction", icon: Wallet },
   ];
 
   const ITEMS_PER_PAGE = 4;
@@ -44,7 +47,9 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="rounded shadow p-4 flex flex-col gap-2">
-        <h2 className="text-xl font-bold">Quick Actions</h2>
+        <h2 className="text-xl font-bold">
+          {t("dashboard.quickActionsTitle")}
+        </h2>
         <div className="relative">
           <button
             disabled={page === 0}
@@ -55,13 +60,15 @@ const Dashboard = () => {
           </button>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 px-10">
-            {currentItems.map(({ name, icon: Icon }) => (
+            {currentItems.map(({ key, icon: Icon }) => (
               <div
-                key={name}
+                key={key}
                 className="bg-[var(--primary-light)] rounded-xl p-8 flex flex-col items-center gap-3 "
               >
                 <Icon size={30} />
-                <p className="text-center">{name}</p>
+                <p className="text-center">
+                  {t(`dashboard.quickActions.${key}`)}
+                </p>
               </div>
             ))}
           </div>
@@ -86,11 +93,16 @@ const Dashboard = () => {
       </div>
       <div className="space-y-8">
         <div>
-          <h2 className="text-xl font-bold mb-4">Order Overview</h2>
+          <h2 className="text-xl font-bold mb-4">
+            {t("dashboard.orderOverview")}
+          </h2>
           <OrderData />
         </div>
         <div>
-          <h2 className="text-xl font-bold mb-4">Inventory Overview</h2>
+          <h2 className="text-xl font-bold mb-4">
+            {" "}
+            {t("dashboard.inventoryOverview")}
+          </h2>
           <ProductData />
         </div>
       </div>

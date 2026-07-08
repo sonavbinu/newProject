@@ -220,5 +220,20 @@
     "deleteConfirmation": "ഈ ഉൽപ്പന്നം ഇല്ലാതാക്കണോ?",
     "enterNewPrice": "പുതിയ വില നൽകുക",
     "enterQuantity": "അളവ് നൽകുക"
+  },
+  "dashboard": {
+    "quickActionsTitle": "ദ്രുത പ്രവർത്തനങ്ങൾ",
+    "orderOverview": "ഓർഡർ അവലോകനം",
+    "inventoryOverview": "ഇൻവെന്ററി അവലോകനം",
+    "quickActions": {
+      "makePayment": "പേയ്മെന്റ് നടത്തുക",
+      "settlements": "സെറ്റിൽമെന്റുകൾ",
+      "transactionHistory": "ഇടപാട് ചരിത്രം",
+      "giftCards": "ഗിഫ്റ്റ് കാർഡുകൾ",
+      "requestToOrigin": "ORIGIN-ലേക്ക് അഭ്യർത്ഥന",
+      "referEarn": "റഫർ ചെയ്ത് സമ്പാദിക്കുക",
+      "reports": "റിപ്പോർട്ടുകൾ",
+      "refundTransaction": "റീഫണ്ട് ഇടപാട്"
+    }
   }
 }

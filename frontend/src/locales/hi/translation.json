@@ -220,5 +220,20 @@
     "deleteConfirmation": "क्या आप इस उत्पाद को हटाना चाहते हैं?",
     "enterNewPrice": "नई कीमत दर्ज करें",
     "enterQuantity": "मात्रा दर्ज करें"
+  },
+  "dashboard": {
+    "quickActionsTitle": "त्वरित कार्य",
+    "orderOverview": "ऑर्डर अवलोकन",
+    "inventoryOverview": "इन्वेंटरी अवलोकन",
+    "quickActions": {
+      "makePayment": "भुगतान करें",
+      "settlements": "सेटलमेंट",
+      "transactionHistory": "लेनदेन इतिहास",
+      "giftCards": "गिफ्ट कार्ड",
+      "requestToOrigin": "ORIGIN को अनुरोध",
+      "referEarn": "रेफ़र करें और कमाएँ",
+      "reports": "रिपोर्ट्स",
+      "refundTransaction": "रिफंड लेनदेन"
+    }
   }
 }
