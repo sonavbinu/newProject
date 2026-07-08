@@ -15,6 +15,7 @@ import {
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import OrderData from "./OrderData";
+import ProductData from "./ProductData";
 
 const Dashboard = () => {
   const menuItems = [
@@ -83,8 +84,10 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-      <div>
+      <div className="flex flex-col gap-6">
         <OrderData />
+        <hr className="text-gray-300" />
+        <ProductData />
       </div>
     </div>
   );
