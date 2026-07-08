@@ -55,7 +55,7 @@ const OtpVerify = () => {
 
   // const navigate = useNavigate();
   return (
-    <div className="theme-green2 relative min-h-screen w-full  p-10 flex flex-col justify-center items-center  px-4  sm:px-6">
+    <div className="theme-green relative min-h-screen w-full  p-10 flex flex-col justify-center items-center  px-4  sm:px-6">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm "
         style={{ backgroundImage: `url(${bgimg})` }}

@@ -26,7 +26,7 @@ const MobileInput = () => {
     }, 1500);
   };
   return (
-    <div className="  theme-green2 px-4 sm:px-6 relative min-h-screen flex justify-center items-center  w-full ">
+    <div className="  theme-green px-4 sm:px-6 relative min-h-screen flex justify-center items-center  w-full ">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm"
         style={{

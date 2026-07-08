@@ -11,32 +11,32 @@ const initialState = {
     {
       id: 2,
       name: "dairyBreadEggs",
-      products: [],
+      products: initialProducts[1].products,
     },
     {
       id: 3,
       name: "snacksBiscuits",
-      products: [],
+      products: initialProducts[2].products,
     },
     {
       id: 4,
       name: "attaDalRice",
-      products: [],
+      products: initialProducts[3].products,
     },
     {
       id: 5,
       name: "dryFruitsMasala",
-      products: [],
+      products: initialProducts[4].products,
     },
     {
       id: 6,
       name: "teaCoffee",
-      products: [],
+      products: initialProducts[5].products,
     },
     {
       id: 7,
       name: "chocolatesDesserts",
-      products: [],
+      products: initialProducts[6].products,
     },
   ],
 };

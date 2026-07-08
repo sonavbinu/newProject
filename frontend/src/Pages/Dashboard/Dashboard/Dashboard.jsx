@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import OrderData from "./OrderData";
 
 const Dashboard = () => {
   const menuItems = [
@@ -40,7 +41,7 @@ const Dashboard = () => {
   const [menu1Open, setMenu1Open] = useState(false);
   const [menu2Open, setMenu2Open] = useState(false);
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <div className="rounded shadow p-4 flex flex-col gap-2">
         <h2 className="text-xl font-bold">Quick Actions</h2>
         <div className="relative">
@@ -81,6 +82,9 @@ const Dashboard = () => {
             ></div>
           ))}
         </div>
+      </div>
+      <div>
+        <OrderData />
       </div>
     </div>
   );

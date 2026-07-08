@@ -8,7 +8,7 @@ const Login = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   return (
-    <div className="theme-green2 relative min-h-screen w-full  flex px-4 sm:px-6  justify-center items-center   ">
+    <div className="theme-green relative min-h-screen w-full  flex px-4 sm:px-6  justify-center items-center   ">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm "
         style={{
