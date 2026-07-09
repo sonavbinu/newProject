@@ -21,6 +21,7 @@ import AddProduct from "../Pages/Dashboard/MyProducts/AddProduct";
 import ProductList from "../Pages/Dashboard/MyProducts/ProductList";
 import Contact from "../Pages/Register/Contact/Contact";
 import ContactModal from "../Pages/Register/Contact/ContactModal";
+import ContactReceive from "../Pages/Register/Contact/ContactReceive";
 
 const AppRoutes = () => {
   return (
@@ -35,6 +36,7 @@ const AppRoutes = () => {
           <Route path="/select-store" element={<SelectStore />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/contact-success" element={<ContactModal />} />
+          <Route path="/contact-receive" element={<ContactReceive />} />
         </Route>
 
         {/* Main Routes */}
