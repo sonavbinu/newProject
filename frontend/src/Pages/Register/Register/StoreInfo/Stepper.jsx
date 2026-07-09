@@ -1,15 +1,8 @@
 import React from "react";
 
-const StoreInfo = () => {
+const Stepper = () => {
   return (
     <div>
-      <div>
-        <h1>Start your Onboarding Process with Us</h1>
-        <p>
-          Kindly fill all the information correctly to get onboarded quickly
-          with ORIGIN
-        </p>
-      </div>
       <div className="flex flex-col ">
         <div className="flex items-start gap-4 ">
           <div className="flex flex-col items-center">
@@ -63,4 +56,4 @@ const StoreInfo = () => {
   );
 };
 
-export default StoreInfo;
+export default Stepper;

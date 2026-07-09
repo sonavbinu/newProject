@@ -6,7 +6,7 @@ import GetStarted from "../Register/GetStarted";
 const Contact = () => {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gray-50 w-full flex flex-col ">
+    <div className="min-h-screen max-w-9xl bg-gray-50 w-full flex flex-col ">
       <div className="py-6 text-center">
         {" "}
         <h1 className="text-4xl font-bold text-[var(--primary-color)]">

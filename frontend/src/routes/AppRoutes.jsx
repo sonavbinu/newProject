@@ -22,7 +22,7 @@ import ProductList from "../Pages/Dashboard/MyProducts/ProductList";
 import Contact from "../Pages/Register/Contact/Contact";
 import ContactModal from "../Pages/Register/Contact/ContactModal";
 import ContactReceive from "../Pages/Register/Contact/ContactReceive";
-import StoreInfo from "../Pages/Register/Register/StoreInfo";
+import StoreInfo from "../Pages/Register/Register/StoreInfo/StoreInfo";
 
 const AppRoutes = () => {
   return (
