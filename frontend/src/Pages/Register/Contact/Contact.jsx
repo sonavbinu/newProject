@@ -1,6 +1,7 @@
 import React from "react";
 import handShake from "./../../../../src/assets/handshake.jpeg";
 import { useNavigate } from "react-router-dom";
+import GetStarted from "../Register/GetStarted";
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -48,6 +49,9 @@ const Contact = () => {
             </button>
           </form>
         </div>
+      </div>
+      <div className="flex justify-center mb-5">
+        <GetStarted />
       </div>
     </div>
   );

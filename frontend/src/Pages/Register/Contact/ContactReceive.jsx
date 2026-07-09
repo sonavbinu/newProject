@@ -1,6 +1,7 @@
 import React from "react";
 import handShake from "./../../../../src/assets/handshake.jpeg";
 import { Phone, MessageCircle } from "lucide-react";
+import GetStarted from "../Register/GetStarted";
 
 const ContactReceive = () => {
   return (
@@ -68,6 +69,9 @@ const ContactReceive = () => {
             </div>
           </div>
         </div>{" "}
+      </div>
+      <div className="flex items-center justify-center">
+        <GetStarted />
       </div>
     </div>
   );

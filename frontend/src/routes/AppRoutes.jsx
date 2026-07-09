@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "../Pages/Login/Login";
-import Register from "../Pages/Register/Register";
+import Register from "../Pages/Register/Register/Register";
 import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import Users from "../Users/Users";
 import AuthLayout from "../Layouts/AuthLayout";
@@ -22,6 +22,7 @@ import ProductList from "../Pages/Dashboard/MyProducts/ProductList";
 import Contact from "../Pages/Register/Contact/Contact";
 import ContactModal from "../Pages/Register/Contact/ContactModal";
 import ContactReceive from "../Pages/Register/Contact/ContactReceive";
+import StoreInfo from "../Pages/Register/Register/StoreInfo";
 
 const AppRoutes = () => {
   return (
@@ -37,6 +38,7 @@ const AppRoutes = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/contact-success" element={<ContactModal />} />
           <Route path="/contact-receive" element={<ContactReceive />} />
+          <Route path="/store-info" element={<StoreInfo />} />
         </Route>
 
         {/* Main Routes */}
