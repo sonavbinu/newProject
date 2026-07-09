@@ -19,26 +19,36 @@ const StoreInfo = () => {
         </p>
       </div>
 
-      <div className="flex flex-col gap-6">
-        {" "}
-        <div className="flex flex-col   lg:flex-row gap-8 items-start">
-          <div className="w-full lg:w-1/4">
-            <Stepper />
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+          {/* Header */}
+
+          <div className="text-center mb-10">...</div>
+
+          {/* Content */}
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Sidebar */}
+            <aside className="w-full lg:w-72">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 lg:sticky lg:top-24">
+                <Stepper />
+              </div>
+            </aside>
+
+            {/* Form */}
+            <main className="flex-1 w-full space-y-8">
+              <OwnerForm />
+              <StoreForm />
+              <WorkingDays />
+              <WorkingTime />
+              <StoreImage />
+
+              <div className="flex justify-center lg:justify-end">
+                <button className="px-8 py-3 rounded-lg bg-[var(--primary-color)] text-white">
+                  Continue
+                </button>
+              </div>
+            </main>
           </div>
-          <div className="w-full lg:w-3/4">
-            <OwnerForm />
-          </div>
-        </div>
-        <div className="mt-8 space-y-8">
-          <StoreForm />
-          <WorkingDays />
-          <WorkingTime />
-          <StoreImage />
-        </div>
-        <div className="flex justify-center mt-10">
-          <button className="px-8 py-3 rounded-lg bg-[var(--primary-color)] text-white font-medium hover:opacity-90 transition">
-            Continue
-          </button>
         </div>
       </div>
     </div>
