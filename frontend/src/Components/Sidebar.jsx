@@ -33,7 +33,7 @@ const Sidebar = () => {
     <>
       <div>
         {!open && (
-          <button onClick={() => setOpen(true)} className="sidebar-toggle">
+          <button onClick={() => setOpen(true)} className="sidebar-toggle ">
             <Menu size={20} />
           </button>
         )}
@@ -45,16 +45,16 @@ const Sidebar = () => {
         ></div>
       )}
 
-      <aside className={`sidebar ${open ? "sidebar-open" : "sidebar-close"}`}>
+      <aside className={`sidebar ${open ? "sidebar-open  " : "sidebar-close"}`}>
         <button
           onClick={() => setOpen(false)}
-          className="lg:hidden absolute right-1 top-1 shadow cursor-pointer p-2 rounded-md hover:bg-gray-100"
+          className="lg:hidden absolute right-1 top-1  shadow cursor-pointer p-2 rounded-md hover:bg-gray-100"
         >
           <X size={20} />
         </button>
-        <div className="flex flex-col items-center justify-center mt-1 w-full">
+        <div className="flex flex-col items-center justify-center mt-1 w-full pt-10">
           <div
-            className={`${open ? "block" : "hidden"} lg:block w-full  bg-white rounded-xl  `}
+            className={`${open ? "block" : "hidden"} lg:block w-full   bg-white rounded-xl  `}
           >
             <nav className="flex flex-col gap-2 p-4">
               {menuItems.map(({ path, name, icon: Icon }) => (
