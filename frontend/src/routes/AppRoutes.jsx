@@ -23,6 +23,8 @@ import Contact from "../Pages/Register/Contact/Contact";
 import ContactModal from "../Pages/Register/Contact/ContactModal";
 import ContactReceive from "../Pages/Register/Contact/ContactReceive";
 import StoreInfo from "../Pages/Register/Register/StoreInfo/StoreInfo";
+import Documents from "../Pages/Register/Register/StoreDocument/Documents";
+import Agreement from "../Pages/Register/Register/Agreement/Agreement";
 
 const AppRoutes = () => {
   return (
@@ -39,6 +41,8 @@ const AppRoutes = () => {
           <Route path="/contact-success" element={<ContactModal />} />
           <Route path="/contact-receive" element={<ContactReceive />} />
           <Route path="/store-info" element={<StoreInfo />} />
+          <Route path="/documents" element={<Documents />} />
+          <Route path="/agreement" element={<Agreement />} />
         </Route>
 
         {/* Main Routes */}
