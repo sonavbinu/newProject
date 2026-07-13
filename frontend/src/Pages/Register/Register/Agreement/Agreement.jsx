@@ -1,41 +1,143 @@
-import React from "react";
-import Stepper from "./Stepper";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ShieldCheck } from "lucide-react";
+import Stepper from "./Stepper";
 
 const Agreement = () => {
   const navigate = useNavigate();
+  const [accepted, setAccepted] = useState(false);
+
   return (
-    <div>
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-8">
-        <Stepper />
-        <h2 className="text-2xl font-bold mb-6">Partner Agreement</h2>
+    <div className="min-h-screen bg-gray-50 p-4 lg:p-8">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-[280px_1fr] gap-6">
+        {/* Stepper */}
+        <aside>
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 lg:sticky lg:top-24">
+            <Stepper agreementCompleted={accepted} />
+          </div>
+        </aside>
 
-        <div className="h-80 overflow-y-auto border rounded-lg p-5 text-sm text-gray-600 leading-7">
-          By registering as an ORIGIN Partner, you confirm that all the
-          information provided is accurate and complete. You agree to comply
-          with ORIGIN's policies, maintain product quality, fulfill customer
-          orders responsibly, and keep your business details up to date. ORIGIN
-          reserves the right to suspend or terminate accounts that violate these
-          terms.
-        </div>
+        {/* Agreement Card */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
+          {/* Final Step Badge */}
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-5">
+            Final Step
+          </div>
 
-        <div className="flex items-center gap-3 mt-6">
-          <input
-            type="checkbox"
-            className="w-5 h-5 accent-[var(--primary-color)]"
-          />
+          {/* Header */}
+          <div className="flex items-start gap-4 mb-8">
+            <div className="p-3 rounded-xl bg-[var(--primary-color)]/10">
+              <ShieldCheck size={32} className="text-[var(--primary-color)]" />
+            </div>
 
-          <span>I have read and agree to the ORIGIN Partner Agreement.</span>
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">
+                Partner Agreement
+              </h2>
+
+              <p className="text-gray-500 mt-1">
+                Please review and accept the agreement before continuing.
+              </p>
+            </div>
+          </div>
+
+          {/* Agreement Content */}
+          <div className="h-96 overflow-y-auto rounded-xl border border-gray-200 bg-gray-50 p-6 text-gray-600 leading-8">
+            <h3 className="font-semibold text-gray-900 mb-2">
+              1. Account Responsibilities
+            </h3>
+            <p className="mb-5">
+              By registering as an ORIGIN Partner, you confirm that all
+              information provided is accurate, complete, and up to date.
+            </p>
+
+            <h3 className="font-semibold text-gray-900 mb-2">
+              2. Product Quality
+            </h3>
+            <p className="mb-5">
+              You agree to maintain product quality standards and ensure that
+              all products listed on the platform are genuine and accurately
+              represented.
+            </p>
+
+            <h3 className="font-semibold text-gray-900 mb-2">
+              3. Order Fulfillment
+            </h3>
+            <p className="mb-5">
+              Partners are responsible for processing and fulfilling customer
+              orders promptly while maintaining a positive customer experience.
+            </p>
+
+            <h3 className="font-semibold text-gray-900 mb-2">
+              4. Business Information
+            </h3>
+            <p className="mb-5">
+              You are responsible for keeping store details, contact
+              information, operating hours, and product inventory up to date.
+            </p>
+
+            <h3 className="font-semibold text-gray-900 mb-2">
+              5. Policy Compliance
+            </h3>
+            <p className="mb-5">
+              All partners must comply with ORIGIN policies and applicable laws
+              while using the platform.
+            </p>
+
+            <h3 className="font-semibold text-gray-900 mb-2">
+              6. Account Suspension
+            </h3>
+            <p>
+              ORIGIN reserves the right to suspend or terminate accounts that
+              violate platform policies, provide misleading information, or fail
+              to meet required standards.
+            </p>
+          </div>
+
+          {/* Info Box */}
+          <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4">
+            <p className="text-sm text-blue-700">
+              Once accepted, this agreement remains valid unless updated by
+              ORIGIN. Any future changes will be communicated to partners.
+            </p>
+          </div>
+
+          {/* Agreement Checkbox */}
+          <label className="flex items-start gap-3 mt-6 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={accepted}
+              onChange={(e) => setAccepted(e.target.checked)}
+              className="mt-1 w-5 h-5 accent-[var(--primary-color)]"
+            />
+
+            <div>
+              <p className="font-medium text-gray-900">
+                I agree to the ORIGIN Partner Agreement
+              </p>
+
+              <p className="text-sm text-gray-500">
+                You must accept the agreement before continuing.
+              </p>
+            </div>
+          </label>
+
+          {/* Action Button */}
+          <div className="flex justify-end mt-8">
+            <button
+              disabled={!accepted}
+              onClick={() => navigate("/")}
+              className={`px-8 py-3 rounded-xl font-medium transition-all duration-200 ${
+                accepted
+                  ? "bg-[var(--primary-color)] text-white hover:opacity-90 shadow-sm"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              Continue →
+            </button>
+          </div>
         </div>
       </div>
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-        className="px-8 py-3 rounded-lg bg-[var(--primary-color)] text-white"
-      >
-        Continue
-      </button>
     </div>
   );
 };
