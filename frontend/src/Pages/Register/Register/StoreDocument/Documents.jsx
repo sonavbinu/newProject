@@ -1,56 +1,66 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { FileCheck } from "lucide-react";
+
 import Stepper from "./Stepper";
 import GSTInfo from "./GSTInfo";
 import BankInfo from "./BankInfo";
 import QR from "./QR";
-import { useNavigate } from "react-router-dom";
 
 const Documents = () => {
   const navigate = useNavigate();
+
   return (
-    <div>
-      <div className="text-center mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 ">
-          Start your Onboarding Process with Us
-        </h1>
-        <p className="mt-2 text-gray-500 max-w-2xl mx-auto">
-          Kindly fill all the information correctly to get onboarded quickly
-          with <span className="font-semibold">ORIGIN</span>
-        </p>
-      </div>
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
-          {/* Header */}
-
-          <div className="text-center mb-10">...</div>
-
-          {/* Content */}
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Sidebar */}
-            <aside className="w-full lg:w-72">
-              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 lg:sticky lg:top-24">
-                <Stepper />
-              </div>
-            </aside>
-
-            {/* Form */}
-            <main className="flex-1 w-full space-y-8">
-              <GSTInfo />
-              <BankInfo />
-              <QR />
-
-              <div className="flex justify-center lg:justify-end">
-                <button
-                  onClick={() => {
-                    navigate("/agreement");
-                  }}
-                  className="px-8 py-3 rounded-lg bg-[var(--primary-color)] text-white"
-                >
-                  Continue
-                </button>
-              </div>
-            </main>
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="w-16 h-16 mx-auto rounded-full bg-[var(--primary-light)] flex items-center justify-center mb-5">
+            <FileCheck size={30} className="text-[var(--primary-color)]" />
           </div>
+
+          <span className="inline-block px-4 py-1 rounded-full bg-[var(--primary-light)] text-[var(--primary-color)] text-sm font-medium mb-4">
+            Step 2 of 3
+          </span>
+
+          <h1 className="text-4xl font-bold text-gray-900">
+            Business Documents
+          </h1>
+
+          <p className="mt-3 text-gray-500 max-w-2xl mx-auto leading-7">
+            Provide your GST, bank account, and payment details. This
+            information is required to verify your business and process payouts
+            securely.
+          </p>
+        </div>
+
+        {/* Main Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+          {/* Sidebar */}
+          <aside>
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-md p-6 sticky top-24">
+              <Stepper />
+            </div>
+          </aside>
+
+          {/* Forms */}
+          <main className="space-y-8">
+            <GSTInfo />
+
+            <BankInfo />
+
+            <QR />
+
+            {/* Continue Button */}
+            <div className="flex justify-end pt-4">
+              <button
+                onClick={() => navigate("/agreement")}
+                className="px-10 py-3 rounded-xl bg-[var(--primary-color)] text-white font-semibold shadow-md transition hover:bg-[var(--primary-hover)] hover:shadow-lg"
+              >
+                Continue →
+              </button>
+            </div>
+          </main>
         </div>
       </div>
     </div>

@@ -1,29 +1,92 @@
 import React from "react";
+import {
+  Landmark,
+  Building2,
+  CreditCard,
+  Hash,
+  ShieldCheck,
+} from "lucide-react";
 
 const BankInfo = () => {
   return (
-    <div>
-      <form className="flex flex-col gap-4">
-        <div className=" gap-3 border-gray-200 shadow-md border p-6 mt-2 rounded-xl flex flex-col">
-          <h1 className="font-bold text-xl">Bank Details</h1>
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-md p-8">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-12 h-12 rounded-full bg-[var(--primary-light)] flex items-center justify-center">
+          <Landmark size={22} className="text-[var(--primary-color)]" />
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Bank Details</h2>
+          <p className="text-sm text-gray-500">
+            Enter the bank account where payouts will be credited.
+          </p>
+        </div>
+      </div>
+
+      <form className="space-y-5">
+        {/* Bank Name */}
+        <div className="relative">
+          <Building2
+            size={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+
           <input
-            className="p-3 border border-gray-300 rounded focus:ring-2 focus:ring-[var(--primary-color)] outline-none"
             type="text"
             placeholder="Bank Name"
+            className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4
+            focus:outline-none
+            focus:ring-2
+            focus:ring-[var(--primary-color)]"
           />
+        </div>
+
+        {/* Account Number */}
+        <div className="relative">
+          <CreditCard
+            size={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+
           <input
-            className="p-3 border border-gray-300 rounded focus:ring-2 focus:ring-[var(--primary-color)] outline-none"
             type="text"
             placeholder="Bank Account Number"
+            className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4
+            focus:outline-none
+            focus:ring-2
+            focus:ring-[var(--primary-color)]"
           />
-          <div className="flex justify-between gap-3">
-            <input
-              className="p-3 border border-gray-300 rounded focus:ring-2
-              focus:ring-[var(--primary-color)] outline-none w-full"
-              type="text"
-              placeholder="Bank IFSC Code"
-            />
-          </div>
+        </div>
+
+        {/* IFSC */}
+        <div className="relative">
+          <Hash
+            size={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+
+          <input
+            type="text"
+            placeholder="IFSC Code"
+            className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 uppercase
+            focus:outline-none
+            focus:ring-2
+            focus:ring-[var(--primary-color)]"
+          />
+        </div>
+
+        {/* Security Note */}
+        <div className="flex items-start gap-3 rounded-xl border border-green-200 bg-green-50 p-4">
+          <ShieldCheck
+            size={20}
+            className="text-green-600 mt-0.5 flex-shrink-0"
+          />
+
+          <p className="text-sm text-green-700">
+            Your bank details are securely stored and will only be used for
+            transferring your earnings and settlements.
+          </p>
         </div>
       </form>
     </div>

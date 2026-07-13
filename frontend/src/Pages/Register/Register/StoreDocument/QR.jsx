@@ -1,38 +1,94 @@
-import React from "react";
-import { UploadCloud } from "lucide-react";
+import React, { useState } from "react";
+import { UploadCloud, QrCode, Info } from "lucide-react";
 
 const QR = () => {
+  const [preview, setPreview] = useState(null);
+  const [fileName, setFileName] = useState("");
+
+  const handleQRChange = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    setFileName(file.name);
+    setPreview(URL.createObjectURL(file));
+  };
+
   return (
-    <div>
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
-        <h2 className="text-2xl font-bold">Scan Store QR Code</h2>
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-md p-8">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-12 h-12 rounded-full bg-[var(--primary-light)] flex items-center justify-center">
+          <QrCode size={22} className="text-[var(--primary-color)]" />
+        </div>
 
-        <p className="text-gray-500 mt-2 mb-6">
-          Scan the store's QR Code. It will help the customer to make the
-          payments easy and faster.
-        </p>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Payment QR Code</h2>
 
-        <label
-          htmlFor="storeImage"
-          className="flex flex-col items-center justify-center h-60 border-2 border-dashed
-        border-gray-300 rounded-xl cursor-pointer hover:border-[var(--primary-color)]
-        hover:bg-[var(--primary-light)] transition"
-        >
-          <UploadCloud size={48} className="text-[var(--primary-color)] mb-4" />
-
-          <p className="font-medium text-gray-700">Scan QR Code</p>
-
-          <p className="text-sm text-gray-500 mt-2">
-            Take a Picture from the Camera to upload the QR Code
+          <p className="text-sm text-gray-500">
+            Upload your store's payment QR code.
           </p>
+        </div>
+      </div>
 
-          <input
-            id="storeImage"
-            type="file"
-            accept="image/*"
-            className="hidden"
-          />
-        </label>
+      {/* Upload Area */}
+      <label
+        htmlFor="qrImage"
+        className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 p-8 cursor-pointer transition hover:border-[var(--primary-color)] hover:bg-[var(--primary-light)]"
+      >
+        {preview ? (
+          <>
+            <img
+              src={preview}
+              alt="QR Preview"
+              className="h-56 w-56 rounded-xl object-contain bg-white shadow-md"
+            />
+
+            <p className="mt-4 font-medium text-gray-800">{fileName}</p>
+
+            <span className="mt-2 text-sm font-medium text-[var(--primary-color)]">
+              Click to replace QR Code
+            </span>
+          </>
+        ) : (
+          <>
+            <UploadCloud
+              size={50}
+              className="mb-4 text-[var(--primary-color)]"
+            />
+
+            <h3 className="text-lg font-semibold text-gray-800">
+              Upload QR Code
+            </h3>
+
+            <p className="mt-2 text-center text-gray-500">
+              Click to browse or drag & drop your QR image here.
+            </p>
+
+            <p className="mt-1 text-sm text-gray-400">
+              PNG, JPG or JPEG (Maximum 5 MB)
+            </p>
+          </>
+        )}
+
+        <input
+          id="qrImage"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleQRChange}
+        />
+      </label>
+
+      {/* Information Box */}
+      <div className="mt-6 flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4">
+        <Info size={20} className="text-blue-600 mt-0.5 flex-shrink-0" />
+
+        <p className="text-sm text-blue-700">
+          Customers can scan this QR code to make secure and faster payments
+          directly to your registered account. Please upload a clear,
+          high-quality image.
+        </p>
       </div>
     </div>
   );
