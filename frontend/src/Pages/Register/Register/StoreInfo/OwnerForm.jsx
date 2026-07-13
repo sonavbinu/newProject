@@ -6,8 +6,10 @@ const OwnerForm = () => {
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-md p-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-12 rounded-full bg-[var(--primary-light)] flex items-center "></div>
-        <User size={22} className="text-[var(--primary-color)]" />
+        <div className="w-12 h-12 rounded-full bg-[var(--primary-light)] flex  items-center justify-center ">
+          {" "}
+          <User size={22} className="text-[var(--primary-color)]" />
+        </div>
       </div>
       <div className="">
         <div className=" gap-3 border-gray-200 shadow-md border p-6 mt-2 rounded-xl flex flex-col">
