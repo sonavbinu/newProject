@@ -4,7 +4,7 @@ const initialState = {
   darkMode: false,
   primaryColor: "#8BAD2B",
 
-  color: "theme-blue",
+  color: "theme-green",
 };
 
 const themeSlice = createSlice({
