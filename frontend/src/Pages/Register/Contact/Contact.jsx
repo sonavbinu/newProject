@@ -13,7 +13,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 flex flex-col">
       {/* Logo */}
       <div className="text-center py-8">
         <h1 className="text-4xl font-bold text-[var(--primary-color)]">
