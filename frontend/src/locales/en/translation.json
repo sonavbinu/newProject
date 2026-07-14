@@ -11,9 +11,9 @@
   },
   "mobileInput": {
     "otpSent": "OTP sent successfully!",
-    "heading": "Get started with REWARDIFY",
-    "description": "Enter your mobile number or ShopID to get started",
-    "placeholder": "Enter ShopID/mobile number",
+    "heading": "Get started with ORIGIN",
+    "description": "Enter your Email or ShopID to get started",
+    "placeholder": "Enter your email",
     "sendOtp": "Send OTP",
     "agree": "By clicking, you agree to our",
     "terms": "Terms & Conditions",

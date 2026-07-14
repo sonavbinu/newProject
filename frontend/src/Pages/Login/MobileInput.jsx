@@ -7,27 +7,19 @@ import { sendOTP } from "../../api/authApi";
 
 const MobileInput = () => {
   const [open, setOpen] = useState(false);
-  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const handleMobileaChange = (e) => {
-    const value = e.target.value.replace(/\D/g, "");
-
-    if (value.length <= 10) {
-      setMobile(value);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await sendOTP(mobile);
+      const res = await sendOTP(email);
 
       if (res.data.success) {
         setOpen(true);
 
-        localStorage.setItem("phone", mobile);
+        localStorage.setItem("email", email);
 
         setTimeout(() => {
           navigate("/otp-verification");
@@ -75,9 +67,9 @@ const MobileInput = () => {
         <form className="flex flex-col w-full " onSubmit={handleSubmit}>
           <div>
             <input
-              type="tel"
-              value={mobile}
-              onChange={handleMobileaChange}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder={t("mobileInput.placeholder")}
               className="w-full  border  mb-4 px-4 py-3 rounded-md focus:outline-none input-theme
               "
@@ -85,10 +77,10 @@ const MobileInput = () => {
           </div>
           <div>
             <button
-              disabled={mobile.length !== 10}
+              disabled={!email.includes("@")}
               type="submit"
               className={`font-medium mb-3 rounded-md  transition-all duration-200 ease-in-out px-4 py-3 w-full shadow-sm cursor-pointer 
-                ${mobile.length === 10 ? "btn-primary cursor-pointer" : "bg-[#c6d695] text-white cursor-not-allowed"}
+                ${email.includes("@") ? "btn-primary cursor-pointer" : "bg-[#c6d695] text-white cursor-not-allowed"}
                 `}
             >
               {t("mobileInput.sendOtp")}

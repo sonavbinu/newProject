@@ -3,31 +3,36 @@ const jwt = require("jsonwebtoken");
 
 const sendOTP = async (req, res) => {
   try {
-    const { phone } = req.body;
-    if (!phone || phone.length !== 10) {
+    console.log("Request Body:", req.body);
+    const { email } = req.body;
+    console.log("Email:", email);
+    if (!email) {
       return res.status(400).json({
         success: false,
-        message: "Please enter a valid 10-digit phone number",
+        message: "Please enter a valid email",
       });
     }
+    console.log("Searching user...");
     //find existing user
-    let user = await User.findOne({ phone });
+    let user = await User.findOne({ email });
 
     //create user if not found
     if (!user) {
+      console.log("Creating new user...");
       user = new User({
-        phone,
+        email,
       });
     }
     //fixed otp for development
-    const otp = "1111";
+
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
     user.otp = otp;
     user.otpExpires = new Date(Date.now() + 5 * 60 * 1000);
-
     await user.save();
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "OTP sent successfully",
+      otp,
     });
   } catch (error) {
     console.log(error);
@@ -41,16 +46,16 @@ const sendOTP = async (req, res) => {
 
 const verifyOTP = async (req, res) => {
   try {
-    const { phone, otp } = req.body;
+    const { email, otp } = req.body;
 
-    if (!phone || !otp) {
+    if (!email || !otp) {
       return res.status(400).json({
         success: false,
-        message: "Phone and OTP are required",
+        message: "Email and OTP are required",
       });
     }
 
-    const user = await User.findOne({ phone });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -82,7 +87,7 @@ const verifyOTP = async (req, res) => {
     const token = jwt.sign(
       {
         id: user._id,
-        phone: user.phone,
+        email: user.email,
       },
       process.env.JWT_SECRET,
       {
@@ -96,7 +101,7 @@ const verifyOTP = async (req, res) => {
       token,
       user: {
         id: user._id,
-        phone: user.phone,
+        email: user.email,
         role: user.role,
         isVerified: user.isVerified,
       },

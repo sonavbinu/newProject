@@ -1,12 +1,12 @@
 import API from "./api";
 
-export const sendOTP = (phone) => {
-  return API.post("/auth/send-otp", { phone });
+export const sendOTP = (email) => {
+  return API.post("/auth/send-otp", { email });
 };
 
-export const verifyOTP = (phone, otp) => {
+export const verifyOTP = (email, otp) => {
   return API.post("/auth/verify-otp", {
-    phone,
+    email,
     otp,
   });
 };
