@@ -13,20 +13,20 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 flex flex-col w-full">
       {/* Logo */}
-      <div className="text-center py-8">
+      <div className=" ml-2 py-8">
         <h1 className="text-4xl font-bold text-[var(--primary-color)]">
           ORIGIN
         </h1>
       </div>
 
       {/* Hero Image */}
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full  overflow-hidden ">
         <img
           src={handShake}
           alt="Handshake"
-          className="w-full h-64 md:h-96 object-cover rounded-3xl shadow-lg"
+          className="w-full h-full transition-transform duration-300 cursor-pointer h-64 md:h-96 object-cover hover:scale-105 shadow-lg"
         />
       </div>
 
