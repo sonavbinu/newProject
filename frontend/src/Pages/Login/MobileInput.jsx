@@ -4,6 +4,7 @@ import bgimg from "../../assets/bgimg.jpg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { sendOTP } from "../../api/authApi";
+import { sendOtpEmail } from "../../api/emailService";
 
 const MobileInput = () => {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,7 @@ const MobileInput = () => {
       const res = await sendOTP(email);
 
       if (res.data.success) {
+        await sendOtpEmail(email, res.data.otp);
         setOpen(true);
 
         localStorage.setItem("email", email);
