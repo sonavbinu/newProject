@@ -94,7 +94,12 @@ const verifyOTP = async (req, res) => {
       success: true,
       message: "OTP verified successfully",
       token,
-      user,
+      user: {
+        id: user._id,
+        phone: user.phone,
+        role: user.role,
+        isVerified: user.isVerified,
+      },
     });
   } catch (error) {
     console.log(error);

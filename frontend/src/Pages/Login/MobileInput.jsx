@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { sendOTP } from "../../api/authApi";
 
 const MobileInput = () => {
   const [open, setOpen] = useState(false);
@@ -18,12 +19,23 @@ const MobileInput = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setOpen(true);
-    setTimeout(() => {
-      navigate("/otp-verification");
-    }, 1500);
+    try {
+      const res = await sendOTP(mobile);
+
+      if (res.data.success) {
+        setOpen(true);
+
+        localStorage.setItem("phone", mobile);
+
+        setTimeout(() => {
+          navigate("/otp-verification");
+        }, 1000);
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to send OTP");
+    }
   };
   return (
     <div className="  theme-green px-4 sm:px-6 relative min-h-screen flex justify-center items-center  w-full ">

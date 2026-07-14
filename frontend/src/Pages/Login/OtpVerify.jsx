@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { verifyOTP } from "../../api/authApi";
 
 const OtpVerify = () => {
   const [timer, setTimer] = useState(0);
@@ -10,8 +11,6 @@ const OtpVerify = () => {
   const inputRefs = useRef([]);
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const CORRECT_OTP = "1111";
 
   useEffect(() => {
     if (timer === 0) return;
@@ -50,6 +49,23 @@ const OtpVerify = () => {
       } else if (index > 0) {
         inputRefs.current[index - 1].focus();
       }
+    }
+  };
+  const handleVerify = async () => {
+    const enteredOTP = otp.join("");
+    try {
+      const phone = localStorage.getItem("phone");
+      const res = await verifyOTP(phone, enteredOTP);
+
+      console.log(res.data);
+
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        console.log("token saved");
+        navigate("/select-store");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "OTP verification failed");
     }
   };
 
@@ -96,15 +112,7 @@ const OtpVerify = () => {
           </div>
           <div>
             <button
-              onClick={() => {
-                const enteredOTP = otp.join("");
-
-                if (enteredOTP === CORRECT_OTP) {
-                  navigate("/select-store");
-                } else {
-                  alert("Invalid OTP");
-                }
-              }}
+              onClick={handleVerify}
               className={`text-white py-3 px-2 w-full cursor-pointer font-medium rounded-md transition ${
                 otp.every((digit) => digit !== "")
                   ? "btn-primary cursor-pointer"
