@@ -3,6 +3,8 @@ import logo from "../../assets/logo.png";
 import bgimg from "../../assets/bgimg.jpg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { sendOtpEmail } from "../../api/emailService";
+import { sendOTP } from "../../api/authApi";
 import { verifyOTP } from "../../api/authApi";
 
 const OtpVerify = () => {
@@ -21,10 +23,23 @@ const OtpVerify = () => {
     return () => clearInterval(interval);
   }, [timer]);
 
-  const handleResend = () => {
-    setTimer(60);
-    setOtp(["", "", "", ""]);
-    inputRefs.current[0]?.focus();
+  const handleResend = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      console.log(email);
+      const res = await sendOTP(email);
+
+      if (res.data.success) {
+        await sendOtpEmail(email, res.data.otp);
+        alert("New OTP sent successfully!");
+        setTimer(60);
+        setOtp(["", "", "", ""]);
+        inputRefs.current[0]?.focus();
+        alert("A new OTP has been sent to your email");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to resend OTP");
+    }
   };
 
   const handleChange = (index, e) => {
@@ -54,8 +69,9 @@ const OtpVerify = () => {
   const handleVerify = async () => {
     const enteredOTP = otp.join("");
     try {
-      const phone = localStorage.getItem("phone");
-      const res = await verifyOTP(phone, enteredOTP);
+      const email = localStorage.getItem("email");
+      console.log(email);
+      const res = await verifyOTP(email, enteredOTP);
 
       console.log(res.data);
 

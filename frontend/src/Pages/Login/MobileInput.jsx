@@ -22,6 +22,7 @@ const MobileInput = () => {
         setOpen(true);
 
         localStorage.setItem("email", email);
+        console.log(localStorage.getItem("email"));
 
         setTimeout(() => {
           navigate("/otp-verification");
