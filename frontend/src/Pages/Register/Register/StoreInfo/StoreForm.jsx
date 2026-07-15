@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Store, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { auth } from "../../../../firebase";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 const StoreForm = ({ storeData, setStoreData }) => {
   const [sameContact, setSameContact] = useState(true);
+  const [phoneVerified, setPhoneVerified] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState("");
 
   useEffect(() => {
     if (sameContact) {
@@ -10,8 +15,70 @@ const StoreForm = ({ storeData, setStoreData }) => {
         ...prev,
         storePhone: prev.ownerPhone,
       }));
+      setPhoneVerified(false);
     }
   }, [sameContact, storeData.ownerPhone, setStoreData]);
+
+  const handlePhoneChange = (e) => {
+    setStoreData((prev) => ({
+      ...prev,
+      storePhone: e.target.value,
+    }));
+
+    setPhoneVerified(false);
+    setOtpSent(false);
+  };
+
+  const sendOTP = async () => {
+    try {
+      if (!storeData.storePhone) {
+        alert("Please enter a phone number");
+        return;
+      }
+
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          auth,
+          "recaptcha-container",
+          {
+            size: "normal",
+          },
+        );
+
+        await window.recaptchaVerifier.render();
+      }
+
+      const appVerifier = window.recaptchaVerifier;
+
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        "+91" + storeData.storePhone,
+        appVerifier,
+      );
+
+      window.confirmationResult = confirmationResult;
+
+      setOtpSent(true);
+
+      alert("OTP sent successfully!");
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
+
+  const verifyOTP = async () => {
+    try {
+      await window.confirmationResult.confirm(otp);
+
+      setPhoneVerified(true);
+
+      alert("Phone number verified successfully!");
+    } catch (error) {
+      console.log(error);
+      alert("Invalid OTP");
+    }
+  };
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-md p-8">
@@ -97,24 +164,55 @@ const StoreForm = ({ storeData, setStoreData }) => {
               type="tel"
               placeholder="Store Contact Number"
               value={storeData.storePhone}
-              onChange={(e) =>
-                setStoreData((prev) => ({
-                  ...prev,
-                  storePhone: e.target.value,
-                }))
-              }
+              onChange={handlePhoneChange}
               disabled={sameContact}
               className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] disabled:bg-gray-100"
             />
           </div>
 
-          <button
-            type="button"
-            className="px-6 rounded-xl bg-[var(--primary-color)] text-white font-medium hover:bg-[var(--primary-hover)] transition"
-          >
-            Verify
-          </button>
+          {!phoneVerified && (
+            <button
+              type="button"
+              onClick={sendOTP}
+              className="px-6 rounded-xl bg-[var(--primary-color)] text-white font-medium hover:bg-[var(--primary-hover)] transition"
+            >
+              Send OTP
+            </button>
+          )}
         </div>
+
+        {/* reCAPTCHA */}
+        <div id="recaptcha-container"></div>
+
+        {/* OTP Input */}
+        {otpSent && !phoneVerified && (
+          <div className="flex gap-3">
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              className="flex-1 rounded-xl border border-gray-300 py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+            />
+
+            <button
+              type="button"
+              onClick={verifyOTP}
+              className="px-6 rounded-xl bg-green-600 text-white hover:bg-green-700"
+            >
+              Verify OTP
+            </button>
+          </div>
+        )}
+
+        {/* Verified */}
+        {phoneVerified && (
+          <div className="rounded-xl bg-green-50 border border-green-200 p-3">
+            <p className="text-green-700 font-medium">
+              ✅ Phone Number Verified
+            </p>
+          </div>
+        )}
 
         {/* Info */}
         <div className="flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4">

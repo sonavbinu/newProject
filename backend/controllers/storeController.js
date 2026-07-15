@@ -7,7 +7,7 @@ const registerStore = async (req, res) => {
     console.log("User:", req.user);
     console.log("Files:", req.files);
 
-    const {
+    let {
       ownerName,
       ownerEmail,
       ownerPhone,
@@ -74,6 +74,17 @@ const registerStore = async (req, res) => {
       message: error.message,
     });
   }
+};
+const getMyStores = async (req, res) => {
+  try {
+    const stores = await Store.find({
+      owner: req.user.id,
+    });
+    res.status(200).json({
+      success: true,
+      stores,
+    });
+  } catch (error) {}
 };
 
 module.exports = {

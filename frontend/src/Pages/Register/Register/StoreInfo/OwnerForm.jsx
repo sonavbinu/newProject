@@ -97,12 +97,12 @@ const OwnerForm = ({ storeData, setStoreData }) => {
               />
             </div>
 
-            <button
+            {/* <button
               type="button"
               className="px-6 rounded-xl bg-[var(--primary-color)] text-white font-medium hover:bg-[var(--primary-hover)] transition"
             >
               Send OTP
-            </button>
+            </button> */}
           </div>
         </form>
 
