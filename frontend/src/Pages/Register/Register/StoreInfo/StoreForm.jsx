@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Store, MapPin, Phone, ShieldCheck } from "lucide-react";
 
-const StoreForm = () => {
+const StoreForm = ({ storeData, setStoreData }) => {
+  const [sameContact, setSameContact] = useState(true);
+
+  useEffect(() => {
+    if (sameContact) {
+      setStoreData((prev) => ({
+        ...prev,
+        storePhone: prev.ownerPhone,
+      }));
+    }
+  }, [sameContact, storeData.ownerPhone, setStoreData]);
+
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-md p-8">
       {/* Header */}
@@ -31,25 +42,41 @@ const StoreForm = () => {
           <input
             type="text"
             placeholder="Store Name"
+            value={storeData.storeName}
+            onChange={(e) =>
+              setStoreData((prev) => ({
+                ...prev,
+                storeName: e.target.value,
+              }))
+            }
             className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
           />
         </div>
 
-        {/* Store Address */}
+        {/* Address */}
         <div className="relative">
           <MapPin size={18} className="absolute left-4 top-4 text-gray-400" />
 
           <textarea
             rows={3}
             placeholder="Store Full Address"
+            value={storeData.address}
+            onChange={(e) =>
+              setStoreData((prev) => ({
+                ...prev,
+                address: e.target.value,
+              }))
+            }
             className="w-full resize-none rounded-xl border border-gray-300 py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
           />
         </div>
 
-        {/* Same Contact Number */}
+        {/* Same Contact */}
         <label className="flex items-center gap-3 cursor-pointer">
           <input
             type="checkbox"
+            checked={sameContact}
+            onChange={(e) => setSameContact(e.target.checked)}
             className="w-4 h-4 accent-[var(--primary-color)]"
           />
 
@@ -58,7 +85,7 @@ const StoreForm = () => {
           </span>
         </label>
 
-        {/* Store Contact Number */}
+        {/* Store Phone */}
         <div className="flex gap-3">
           <div className="relative flex-1">
             <Phone
@@ -69,7 +96,15 @@ const StoreForm = () => {
             <input
               type="tel"
               placeholder="Store Contact Number"
-              className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+              value={storeData.storePhone}
+              onChange={(e) =>
+                setStoreData((prev) => ({
+                  ...prev,
+                  storePhone: e.target.value,
+                }))
+              }
+              disabled={sameContact}
+              className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] disabled:bg-gray-100"
             />
           </div>
 
@@ -81,7 +116,7 @@ const StoreForm = () => {
           </button>
         </div>
 
-        {/* Info Box */}
+        {/* Info */}
         <div className="flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4">
           <ShieldCheck size={20} className="text-blue-600 mt-0.5" />
 

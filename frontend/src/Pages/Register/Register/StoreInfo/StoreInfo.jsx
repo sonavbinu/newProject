@@ -7,9 +7,12 @@ import WorkingTime from "./WorkingTime";
 import StoreImage from "./StoreImage";
 import { useNavigate } from "react-router-dom";
 import { Store } from "lucide-react";
+import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 const StoreInfo = () => {
   const navigate = useNavigate();
+  const { storeData, setStoreData } = useOutletContext();
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
       {" "}
@@ -39,11 +42,11 @@ const StoreInfo = () => {
 
           {/* Form */}
           <main className=" space-y-8">
-            <OwnerForm />
-            <StoreForm />
-            <WorkingDays />
-            <WorkingTime />
-            <StoreImage />
+            <OwnerForm storeData={storeData} setStoreData={setStoreData} />
+            <StoreForm storeData={storeData} setStoreData={setStoreData} />
+            <WorkingDays storeData={storeData} setStoreData={setStoreData} />
+            <WorkingTime storeData={storeData} setStoreData={setStoreData} />
+            <StoreImage storeData={storeData} setStoreData={setStoreData} />
 
             <div className="flex pt-4 justify-end">
               <button

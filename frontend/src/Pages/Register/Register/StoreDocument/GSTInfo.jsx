@@ -1,7 +1,7 @@
 import React from "react";
 import { BadgeCheck, CreditCard, FileBadge, ShieldCheck } from "lucide-react";
 
-const GSTInfo = () => {
+const GSTInfo = ({ storeData, setStoreData }) => {
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-md p-8">
       {/* Header */}
@@ -31,6 +31,13 @@ const GSTInfo = () => {
           <input
             type="text"
             placeholder="Store / Owner PAN"
+            value={storeData.pan}
+            onChange={(e) =>
+              setStoreData({
+                ...storeData,
+                pan: e.target.value.toUpperCase(),
+              })
+            }
             className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 uppercase
             focus:outline-none
             focus:ring-2
@@ -48,6 +55,13 @@ const GSTInfo = () => {
           <input
             type="text"
             placeholder="GSTIN"
+            value={storeData.gst}
+            onChange={(e) =>
+              setStoreData({
+                ...storeData,
+                gst: e.target.value.toUpperCase(),
+              })
+            }
             className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 uppercase
             focus:outline-none
             focus:ring-2

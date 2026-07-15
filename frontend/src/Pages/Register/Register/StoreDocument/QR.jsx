@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { UploadCloud, QrCode, Info } from "lucide-react";
 
-const QR = () => {
+const QR = ({ storeData, setStoreData }) => {
   const [preview, setPreview] = useState(null);
   const [fileName, setFileName] = useState("");
 
@@ -12,6 +12,11 @@ const QR = () => {
 
     setFileName(file.name);
     setPreview(URL.createObjectURL(file));
+
+    setStoreData({
+      ...storeData,
+      qrImage: file,
+    });
   };
 
   return (

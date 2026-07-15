@@ -1,11 +1,63 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { ShieldCheck } from "lucide-react";
 import Stepper from "./Stepper";
+import axios from "axios";
 
 const Agreement = () => {
   const navigate = useNavigate();
+
   const [accepted, setAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { storeData } = useOutletContext();
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+
+      Object.keys(storeData).forEach((key) => {
+        const value = storeData[key];
+
+        // Handle arrays
+        if (Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value));
+        }
+        // Handle files
+        else if (value instanceof File) {
+          formData.append(key, value);
+        }
+        // Handle normal values
+        else {
+          formData.append(key, value ?? "");
+        }
+      });
+
+      const token = localStorage.getItem("token");
+
+      const res = await axios.post(
+        "http://localhost:5000/api/stores/register",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      alert(res.data.message);
+
+      navigate("/select-store");
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Registration Failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 lg:p-8">
@@ -46,6 +98,7 @@ const Agreement = () => {
             <h3 className="font-semibold text-gray-900 mb-2">
               1. Account Responsibilities
             </h3>
+
             <p className="mb-5">
               By registering as an ORIGIN Partner, you confirm that all
               information provided is accurate, complete, and up to date.
@@ -54,6 +107,7 @@ const Agreement = () => {
             <h3 className="font-semibold text-gray-900 mb-2">
               2. Product Quality
             </h3>
+
             <p className="mb-5">
               You agree to maintain product quality standards and ensure that
               all products listed on the platform are genuine and accurately
@@ -63,6 +117,7 @@ const Agreement = () => {
             <h3 className="font-semibold text-gray-900 mb-2">
               3. Order Fulfillment
             </h3>
+
             <p className="mb-5">
               Partners are responsible for processing and fulfilling customer
               orders promptly while maintaining a positive customer experience.
@@ -71,26 +126,43 @@ const Agreement = () => {
             <h3 className="font-semibold text-gray-900 mb-2">
               4. Business Information
             </h3>
+
             <p className="mb-5">
-              You are responsible for keeping store details, contact
-              information, operating hours, and product inventory up to date.
+              You are responsible for keeping your store details, contact
+              information, operating hours, and product inventory accurate and
+              up to date.
             </p>
 
             <h3 className="font-semibold text-gray-900 mb-2">
               5. Policy Compliance
             </h3>
+
             <p className="mb-5">
-              All partners must comply with ORIGIN policies and applicable laws
-              while using the platform.
+              All partners must comply with ORIGIN policies, applicable laws,
+              and any future guidelines communicated by the platform while using
+              ORIGIN services.
             </p>
 
             <h3 className="font-semibold text-gray-900 mb-2">
-              6. Account Suspension
+              6. Payments & Settlements
             </h3>
+
+            <p className="mb-5">
+              Payments will be processed only to the verified bank account
+              provided during registration. ORIGIN reserves the right to hold
+              settlements in case of disputes, fraud detection, or policy
+              violations.
+            </p>
+
+            <h3 className="font-semibold text-gray-900 mb-2">
+              7. Account Suspension
+            </h3>
+
             <p>
-              ORIGIN reserves the right to suspend or terminate accounts that
-              violate platform policies, provide misleading information, or fail
-              to meet required standards.
+              ORIGIN reserves the right to suspend or terminate partner accounts
+              that violate platform policies, provide false information, engage
+              in fraudulent activities, or fail to meet required quality
+              standards.
             </p>
           </div>
 
@@ -122,18 +194,18 @@ const Agreement = () => {
             </div>
           </label>
 
-          {/* Action Button */}
+          {/* Submit Button */}
           <div className="flex justify-end mt-8">
             <button
-              disabled={!accepted}
-              onClick={() => navigate("/")}
+              disabled={!accepted || loading}
+              onClick={handleSubmit}
               className={`px-8 py-3 rounded-xl font-medium transition-all duration-200 ${
                 accepted
                   ? "bg-[var(--primary-color)] text-white hover:opacity-90 shadow-sm"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
             >
-              Continue →
+              {loading ? "Submitting..." : "Finish Registration"}
             </button>
           </div>
         </div>

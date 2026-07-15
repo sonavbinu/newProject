@@ -7,7 +7,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const BankInfo = () => {
+const BankInfo = ({ storeData, setStoreData }) => {
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-md p-8">
       {/* Header */}
@@ -35,9 +35,15 @@ const BankInfo = () => {
           <input
             type="text"
             placeholder="Bank Name"
+            value={storeData.bankName}
+            onChange={(e) =>
+              setStoreData({
+                ...storeData,
+                bankName: e.target.value,
+              })
+            }
             className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4
-            focus:outline-none
-            focus:ring-2
+            focus:outline-none focus:ring-2
             focus:ring-[var(--primary-color)]"
           />
         </div>
@@ -52,9 +58,15 @@ const BankInfo = () => {
           <input
             type="text"
             placeholder="Bank Account Number"
+            value={storeData.accountNumber}
+            onChange={(e) =>
+              setStoreData({
+                ...storeData,
+                accountNumber: e.target.value,
+              })
+            }
             className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4
-            focus:outline-none
-            focus:ring-2
+            focus:outline-none focus:ring-2
             focus:ring-[var(--primary-color)]"
           />
         </div>
@@ -69,9 +81,15 @@ const BankInfo = () => {
           <input
             type="text"
             placeholder="IFSC Code"
+            value={storeData.ifsc}
+            onChange={(e) =>
+              setStoreData({
+                ...storeData,
+                ifsc: e.target.value.toUpperCase(),
+              })
+            }
             className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 uppercase
-            focus:outline-none
-            focus:ring-2
+            focus:outline-none focus:ring-2
             focus:ring-[var(--primary-color)]"
           />
         </div>

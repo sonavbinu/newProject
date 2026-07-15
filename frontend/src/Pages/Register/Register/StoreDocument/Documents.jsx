@@ -6,8 +6,10 @@ import Stepper from "./Stepper";
 import GSTInfo from "./GSTInfo";
 import BankInfo from "./BankInfo";
 import QR from "./QR";
+import { useOutletContext } from "react-router-dom";
 
 const Documents = () => {
+  const { storeData, setStoreData } = useOutletContext();
   const navigate = useNavigate();
 
   return (
@@ -45,13 +47,12 @@ const Documents = () => {
 
           {/* Forms */}
           <main className="space-y-8">
-            <GSTInfo />
+            <GSTInfo storeData={storeData} setStoreData={setStoreData} />
 
-            <BankInfo />
+            <BankInfo storeData={storeData} setStoreData={setStoreData} />
 
-            <QR />
+            <QR storeData={storeData} setStoreData={setStoreData} />
 
-            {/* Continue Button */}
             <div className="flex justify-end pt-4">
               <button
                 onClick={() => navigate("/agreement")}

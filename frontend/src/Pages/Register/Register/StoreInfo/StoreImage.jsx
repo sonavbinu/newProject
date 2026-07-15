@@ -1,32 +1,49 @@
 import React, { useState } from "react";
 import { UploadCloud, ImageIcon, Info } from "lucide-react";
 
-const StoreImage = () => {
-  const [preview, setPreview] = useState(null);
-  const [fileName, setFileName] = useState("");
+const StoreImage = ({ storeData, setStoreData }) => {
+  const [preview, setPreview] = useState(
+    storeData.storeImage ? URL.createObjectURL(storeData.storeImage) : null,
+  );
+
+  const [fileName, setFileName] = useState(
+    storeData.storeImage ? storeData.storeImage.name : "",
+  );
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+
     if (!file) return;
+
+    setStoreData((prev) => ({
+      ...prev,
+      storeImage: file,
+    }));
 
     setFileName(file.name);
     setPreview(URL.createObjectURL(file));
   };
+
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
-      <div className="flex  items-center gap-3 mb-6">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6">
         <div className="w-12 h-12 rounded-full bg-[var(--primary-light)] flex justify-center items-center">
           <ImageIcon size={22} className="text-[var(--primary-color)]" />
         </div>
-      </div>{" "}
+      </div>
+
       <h2 className="text-2xl font-bold text-gray-900">Upload Store Image</h2>
+
       <p className="text-gray-500 text-sm mb-3">
         Uploading an image will help customers easily recognize your store.
       </p>
+
       <label
         htmlFor="storeImage"
         className="flex flex-col items-center justify-center border-2 border-dashed
-        border-gray-300 rounded-2xl cursor-pointer p-8 hover:border-[var(--primary-color)]
+        border-gray-300 rounded-2xl cursor-pointer p-8
+        hover:border-[var(--primary-color)]
         hover:bg-[var(--primary-light)] transition"
       >
         {preview ? (
@@ -36,7 +53,9 @@ const StoreImage = () => {
               alt="Store Preview"
               className="h-56 w-full rounded-xl object-cover shadow-md"
             />
+
             <p className="mt-4 font-medium text-gray-800">{fileName}</p>
+
             <span className="mt-2 text-sm text-[var(--primary-color)] font-medium">
               Click to replace image
             </span>
@@ -53,9 +72,9 @@ const StoreImage = () => {
             </h3>
 
             <p className="mt-2 text-center text-gray-500">
-              {" "}
               Click to browse or drag & drop your image here.
             </p>
+
             <p className="mt-1 text-sm text-gray-400">
               PNG, JPG or JPEG (Maximum 5 MB)
             </p>
@@ -70,8 +89,11 @@ const StoreImage = () => {
           onChange={handleImageChange}
         />
       </label>
-      <div className="mt-6flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4 mt-6">
+
+      {/* Info */}
+      <div className="mt-6 flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4">
         <Info size={20} className="text-blue-600 mt-0.5 flex-shrink-0" />
+
         <p className="text-sm text-blue-700">
           Use a high-quality image of your storefront or business logo. A clear
           image helps customers identify your store more easily.
