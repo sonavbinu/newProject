@@ -17,3 +17,17 @@ export const firebaseLogin = (phone, email) => {
     email,
   });
 };
+
+export const getProfile = () => {
+  const token = localStorage.getItem("token");
+  return API.get("/auth/profile", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const updateProfile = (data) => {
+  const token = localStorage.getItem("token");
+  return API.put("/auth/profile", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

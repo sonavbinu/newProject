@@ -6,6 +6,8 @@ const {
   sendOTP,
   verifyOTP,
   firebaseLogin,
+  getProfile,
+  updateProfile,
 } = require("../controllers/authController");
 router.get("/test", (req, res) => {
   res.json({

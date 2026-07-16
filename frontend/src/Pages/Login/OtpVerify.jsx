@@ -4,8 +4,7 @@ import bgimg from "../../assets/bgimg.jpg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { sendOtpEmail } from "../../api/emailService";
-import { sendOTP } from "../../api/authApi";
-import { verifyOTP } from "../../api/";
+import { sendOTP, verifyOTP } from "../../api/authApi";
 
 const OtpVerify = () => {
   const [timer, setTimer] = useState(0);
