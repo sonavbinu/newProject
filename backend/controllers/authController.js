@@ -107,15 +107,85 @@ const verifyOTP = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error("send otp error");
+    console.error(error);
+    console.error(error.message);
+    console.error(error.stack);
 
     res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: error.message,
+    });
+  }
+};
+const firebaseLogin = async (req, res) => {
+  try {
+    const { phone, email } = req.body;
+
+    if (!phone) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone is required",
+      });
+    }
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+
+    // Look up by phone OR email, since either could already exist
+    let user = await User.findOne({ $or: [{ phone }, { email }] });
+
+    if (!user) {
+      user = await User.create({
+        phone,
+        email,
+        isVerified: true,
+      });
+    } else {
+      // Fill in whichever field was missing on the existing record
+      let changed = false;
+      if (!user.phone) {
+        user.phone = phone;
+        changed = true;
+      }
+      if (!user.email) {
+        user.email = email;
+        changed = true;
+      }
+      if (changed) await user.save();
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        phone: user.phone,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
+
+    res.json({
+      success: true,
+      token,
+      user,
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      success: false,
+      message: err.message,
     });
   }
 };
 module.exports = {
   sendOTP,
   verifyOTP,
+  firebaseLogin,
 };

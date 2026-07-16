@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Store, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { auth } from "../../../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { firebaseLogin } from "../../../../api/authApi";
 
 const StoreForm = ({
   storeData,
@@ -74,6 +75,16 @@ const StoreForm = ({
   const verifyOTP = async () => {
     try {
       await window.confirmationResult.confirm(otp);
+      const res = await firebaseLogin(
+        storeData.storePhone,
+        storeData.ownerEmail,
+      );
+
+      console.log("Firebase Login Response:", res.data);
+
+      localStorage.setItem("token", res.data.token);
+
+      console.log("Saved Token:", localStorage.getItem("token"));
 
       setPhoneVerified(true);
 

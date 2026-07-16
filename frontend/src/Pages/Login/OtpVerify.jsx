@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { sendOtpEmail } from "../../api/emailService";
 import { sendOTP } from "../../api/authApi";
-import { verifyOTP } from "../../api/authApi";
+import { verifyOTP } from "../../api/";
 
 const OtpVerify = () => {
   const [timer, setTimer] = useState(0);
@@ -68,19 +68,23 @@ const OtpVerify = () => {
   };
   const handleVerify = async () => {
     const enteredOTP = otp.join("");
+
     try {
       const email = localStorage.getItem("email");
-      console.log(email);
+
       const res = await verifyOTP(email, enteredOTP);
 
-      console.log(res.data);
+      console.log("Verify response:", res.data);
 
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
-        console.log("token saved");
+
+        console.log("Token after saving:", localStorage.getItem("token"));
+
         navigate("/select-store");
       }
     } catch (error) {
+      console.log(error.response?.data);
       alert(error.response?.data?.message || "OTP verification failed");
     }
   };

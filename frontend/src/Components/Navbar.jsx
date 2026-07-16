@@ -12,6 +12,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const { user } = useUser();
@@ -20,6 +21,8 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     localStorage.setItem("lang", lang);
@@ -27,19 +30,21 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 right-0 left-0 lg:left-0  h-22 z-50 bg-white  border-b border-gray-200 shadow-md lg:p-4 pl-16 py-2">
+    <nav className="fixed top-0 right-0 left-0 lg:left-0   z-50 bg-white  border-b border-gray-200 shadow-md  lg:px-6   py-3">
       {/* Top Row */}
       <div className="flex items-center justify-between">
         {/* Left */}
         <div className=" flex flex-col ">
           <h1
-            className="text-2xl sm:text-3xl font-bold "
+            className="text-2xl sm:text-3xl font-bold pl-12 "
             style={{ color: "var(--primary-color)" }}
           >
-            {user.name}
+            {selectedStore?.storeName || "Select Store"}
           </h1>
 
-          <p className="text-sm text-gray-500"> Welcome back!</p>
+          <p className="text-sm text-gray-500 pl-12">
+            {selectedStore?.address || "Welcome Back!"}
+          </p>
         </div>
 
         {/* Desktop Menu */}
@@ -119,25 +124,28 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="lg:hidden mt-4 border-t pt-4 space-y-4">
+        <div className="lg:hidden mt-4 border-t p-3 border-gray-200 pt-4 space-y-5">
           <p className="text-sm text-gray-600">
             {t("navbar.welcome")}, {t("navbar.user")}
           </p>
 
-          <div className="flex justify-between  lg:flex-row gap-4">
-            <div className="flex justify-between gap-2">
-              <div className="flex items-center gap-2 rounded-xl bg-secondary-light px-3 py-2 w-fit">
+          <div className="flex flex-col gap-4 ">
+            <div className="flex justify-between ">
+              <div className="flex items-center gap-2 rounded-xl bg-secondary-light px-3 py-2">
                 {t("navbar.xcoins")}:
                 <span className="font-bold text-[#e7b019]">300</span>
                 <CirclePoundSterling className="text-[#e7b019]" size={18} />
               </div>
-              <div className="flex gap-3">
+              <div className="flex justify-between gap-4">
                 <HandCoins className="w-10 h-10 rounded-full bg-secondary-light p-2" />
                 <Bell className="w-10 h-10 rounded-full bg-secondary-light p-2" />
-                <User className="w-10 h-10 rounded-full bg-secondary-light p-2" />
+                <User
+                  onClick={() => navigate("/profile")}
+                  className="w-10 h-10 rounded-full bg-secondary-light p-2"
+                />
               </div>{" "}
             </div>{" "}
-            <div className="flex  justify-between gap-2">
+            <div className="flex  justify-between gap-4">
               <div>
                 <div className="relative">
                   <button

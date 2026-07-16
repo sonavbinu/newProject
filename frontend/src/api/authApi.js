@@ -10,3 +10,10 @@ export const verifyOTP = (email, otp) => {
     otp,
   });
 };
+
+export const firebaseLogin = (phone, email) => {
+  return API.post("/auth/firebase-login", {
+    phone,
+    email,
+  });
+};

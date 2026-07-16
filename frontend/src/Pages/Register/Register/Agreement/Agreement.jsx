@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { ShieldCheck } from "lucide-react";
 import Stepper from "./Stepper";
@@ -11,6 +11,10 @@ const Agreement = () => {
   const [loading, setLoading] = useState(false);
 
   const { storeData } = useOutletContext();
+
+  useEffect(() => {
+    console.log("Agreement token:", localStorage.getItem("token"));
+  }, []);
 
   const handleSubmit = async () => {
     try {
@@ -35,7 +39,11 @@ const Agreement = () => {
         }
       });
 
+      // Backend's User model requires "email", but storeData only has "ownerEmail"
+      formData.append("email", storeData.ownerEmail ?? "");
+
       const token = localStorage.getItem("token");
+      console.log("Agreement token:", token);
 
       const res = await axios.post(
         "http://localhost:5000/api/stores/register",
