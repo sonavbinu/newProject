@@ -13,6 +13,57 @@ import { useOutletContext } from "react-router-dom";
 const StoreInfo = () => {
   const navigate = useNavigate();
   const { storeData, setStoreData } = useOutletContext();
+  const [phoneVerified, setPhoneVerified] = useState(false);
+
+  const validateStoreInfo = () => {
+    if (!storeData.storeName.trim()) {
+      alert("Please enter the store name.");
+      return false;
+    }
+
+    if (!storeData.address.trim()) {
+      alert("Please enter the store address.");
+      return false;
+    }
+
+    if (!storeData.storePhone.trim()) {
+      alert("Please enter the store contact number.");
+      return false;
+    }
+
+    if (storeData.storePhone.length !== 10) {
+      alert("Store contact number must be 10 digits.");
+      return false;
+    }
+
+    if (!storeData.workingDays || storeData.workingDays.length === 0) {
+      alert("Please select at least one working day.");
+      return false;
+    }
+
+    if (!storeData.openingTime) {
+      alert("Please select the opening time.");
+      return false;
+    }
+
+    if (!storeData.closingTime) {
+      alert("Please select the closing time.");
+      return false;
+    }
+
+    if (!storeData.storeImage) {
+      alert("Please upload a store image.");
+      return false;
+    }
+
+    if (!phoneVerified) {
+      alert("Please verify the store phone number.");
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
       {" "}
@@ -43,7 +94,12 @@ const StoreInfo = () => {
           {/* Form */}
           <main className=" space-y-8">
             <OwnerForm storeData={storeData} setStoreData={setStoreData} />
-            <StoreForm storeData={storeData} setStoreData={setStoreData} />
+            <StoreForm
+              storeData={storeData}
+              setStoreData={setStoreData}
+              phoneVerified={phoneVerified}
+              setPhoneVerified={setPhoneVerified}
+            />
             <WorkingDays storeData={storeData} setStoreData={setStoreData} />
             <WorkingTime storeData={storeData} setStoreData={setStoreData} />
             <StoreImage storeData={storeData} setStoreData={setStoreData} />
@@ -51,7 +107,9 @@ const StoreInfo = () => {
             <div className="flex pt-4 justify-end">
               <button
                 onClick={() => {
-                  navigate("/documents");
+                  if (validateStoreInfo()) {
+                    navigate("/documents");
+                  }
                 }}
                 className="px-10 py-3 rounded-xl bg-[var(--primary-color)]
                 font-semibold shadow-md transition hover:bg-[var(--primary-hover)]

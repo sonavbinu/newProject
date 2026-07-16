@@ -89,4 +89,5 @@ const getMyStores = async (req, res) => {
 
 module.exports = {
   registerStore,
+  getMyStores,
 };

@@ -4,7 +4,10 @@ const router = express.Router();
 const auth = require("../middleware/authMiddleware");
 const upload = require("../middleware/upload");
 
-const { registerStore } = require("../controllers/storeController");
+const {
+  registerStore,
+  getMyStores,
+} = require("../controllers/storeController");
 
 router.post(
   "/register",
@@ -15,5 +18,6 @@ router.post(
   ]),
   registerStore,
 );
+router.get("/", auth, getMyStores);
 
 module.exports = router;

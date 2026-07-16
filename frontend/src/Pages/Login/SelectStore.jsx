@@ -1,110 +1,130 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import profile from "../../assets/profile.avif";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import bgimg from "../../assets/bgimg.jpg";
+import { useDispatch } from "react-redux";
+import { selectStore } from "../../redux/slices/storeSlice";
+import axios from "axios";
 
 const SelectStore = () => {
-  const [selectedStore, setSelectedStore] = useState("1");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [stores, setStores] = useState([]);
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStores = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await axios.get("http://localhost:5000/api/stores", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log(res.data);
+
+        setStores(res.data.stores || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStores();
+  }, []);
+
+  const handleContinue = () => {
+    const store = stores.find((s) => s._id === selectedStore);
+
+    dispatch(selectStore(store));
+
+    navigate("/dashboard");
+  };
 
   return (
-    <div className=" relative min-h-screen w-full flex flex-col justify-center items-center border border-gray-300 px-4 sm:px-6 rounded-md">
+    <div className="relative w-full min-h-screen flex justify-center items-center px-4">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm"
         style={{ backgroundImage: `url(${bgimg})` }}
-      ></div>{" "}
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div
-        className="flex flex-col justify-center items-center
-      shadow-xl
-      gap-4 w-full max-w-md  bg-white px-2 py-4 relative z-10 rounded-xl px-6 py-8 sm:px-8 sm:py-10"
-      >
-        <div className="relative mb-6 ">
-          {" "}
-          <button className="absolute left-0  top-1 text-gay-600 hover:text-black">
-            <ArrowLeft
-              style={{ color: "#555a5f" }}
-              onClick={() => navigate("/mobile-input")}
-            />
+      />
+      <div className="absolute inset-0 bg-black/20" />
+
+      <div className="relative z-10 w-full max-w-md bg-white rounded-xl shadow-xl p-8">
+        <div className="relative mb-8">
+          <button
+            className="absolute left-0 top-1"
+            onClick={() => navigate("/mobile-input")}
+          >
+            <ArrowLeft color="#555a5f" />
           </button>
+
           <h2 className="text-2xl font-bold text-center">Select Your Store</h2>
-          <p className="text-gray-500 mt-2 text-center text-md">
-            Your number is connected with 2 stores
+
+          <p className="text-center text-gray-500 mt-2">
+            Your number is connected with <strong>{stores.length}</strong> store
+            {stores.length !== 1 && "s"}
           </p>
         </div>
-        <label
-          className={`flex justify-between items-center w-full px-4 py-3 rounded-md border cursor-pointer transition-all
-             ${selectedStore === "1" ? "border-[#8BD2B] ring-2 ring-[#8BAD2B] bg-[#f9f9e9]" : "border-gray-200 bg-white hover:border-[#8BAD2B]"}`}
-        >
-          <div className="flex gap-4">
-            <img
-              className="w-16 h-16 object-cover rounded-lg"
-              src={profile}
-              alt=""
-            />
-            <div className="flex flex-col  ">
-              <p>Annapoorna Hotel</p>
-              <p className="text-sm text-gray-400 font-medium ">
-                Sitra,Coimbatore
-              </p>
-              <p className="text-sm text-gray-400 font-medium">
-                Store ID:12345
-              </p>
-            </div>
-          </div>
 
-          <div>
-            <input
-              type="radio"
-              value="1"
-              checked={selectedStore === "1"}
-              onChange={(e) => setSelectedStore(e.target.value)}
-              name="store"
-              className="w-5 h-5 text-[#8BAD2B] border-gray-300 focus:ring-[#8BAD2B]"
-            />
-          </div>
-        </label>
-        <label
-          className={`flex justify-between items-center w-full px-4 py-3 rounded-md border cursor-pointer transition-all
-             ${selectedStore === "2" ? "border-[#8BD2B] ring-2 ring-[#8BAD2B] bg-[#f9f9e9]" : "border-gray-200 bg-white hover:border-[#8BAD2B]"}`}
-        >
-          <div className="flex gap-4">
-            <img
-              className="w-16 h-16 object-cover rounded-lg"
-              src={profile}
-              alt=""
-            />
-            <div className="flex flex-col  ">
-              <p>Annapoorna Hotel</p>
-              <p className="text-sm text-gray-400 font-medium ">
-                Sitra,Coimbatore
-              </p>
-              <p className="text-sm text-gray-400 font-medium">
-                Store ID:12345
-              </p>
-            </div>
-          </div>
+        {loading ? (
+          <p className="text-center text-gray-500">Loading stores...</p>
+        ) : stores.length === 0 ? (
+          <p className="text-center text-gray-500">No stores found.</p>
+        ) : (
+          stores.map((store) => (
+            <label
+              key={store._id}
+              className={`flex justify-between items-center w-full p-4 rounded-lg border cursor-pointer mb-4 transition
+                ${
+                  selectedStore === store._id
+                    ? "border-[var(--primary-color)] ring-2 ring-[var(--primary-color)] bg-[var(--primary-light)]"
+                    : "border-gray-200 hover:border-[var(--primary-color)]"
+                }`}
+            >
+              <div className="flex gap-4">
+                <img
+                  src={store.storeImage || profile}
+                  alt={store.storeName}
+                  className="w-16 h-16 rounded-lg object-cover"
+                />
 
-          <div>
-            <input
-              type="radio"
-              value="2"
-              checked={selectedStore === "2"}
-              onChange={(e) => setSelectedStore(e.target.value)}
-              name="store"
-              className="w-5 h-5 text-[#8BAD2B] border-gray-300 focus:ring-[#8BAD2B]"
-            />
-          </div>
-        </label>{" "}
-        <div className="bg-white">
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="bg-[#8BAD2B] text-white w-full px-4 py-3 rounded-md font-bold cursor-pointer relative z-10 "
-          >
-            Continue
-          </button>
-        </div>
+                <div>
+                  <p className="font-semibold">{store.storeName}</p>
+
+                  <p className="text-sm text-gray-500">{store.address}</p>
+
+                  <p className="text-sm text-gray-400">Store ID: {store._id}</p>
+                </div>
+              </div>
+
+              <input
+                type="radio"
+                name="store"
+                checked={selectedStore === store._id}
+                onChange={() => setSelectedStore(store._id)}
+              />
+            </label>
+          ))
+        )}
+
+        <button
+          disabled={!selectedStore}
+          onClick={handleContinue}
+          className={`w-full py-3 rounded-lg font-semibold text-white mt-4
+            ${
+              selectedStore
+                ? "bg-[var(--primary-color)]"
+                : "bg-gray-400 cursor-not-allowed"
+            }`}
+        >
+          Continue
+        </button>
       </div>
     </div>
   );

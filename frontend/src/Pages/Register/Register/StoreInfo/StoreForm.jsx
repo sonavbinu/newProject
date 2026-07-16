@@ -3,9 +3,13 @@ import { Store, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { auth } from "../../../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-const StoreForm = ({ storeData, setStoreData }) => {
+const StoreForm = ({
+  storeData,
+  setStoreData,
+  phoneVerified,
+  setPhoneVerified,
+}) => {
   const [sameContact, setSameContact] = useState(true);
-  const [phoneVerified, setPhoneVerified] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
 
