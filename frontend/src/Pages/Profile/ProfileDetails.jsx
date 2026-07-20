@@ -1,11 +1,14 @@
 import { Truck } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { getProfile, updateProfile } from "../../api/partnerApi";
 
 const ProfileDetails = () => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem("profile");
     return saved
@@ -17,6 +20,22 @@ const ProfileDetails = () => {
         };
   });
 
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      const res = await getProfile();
+      const { name, phone, email } = res.data.user;
+      setFormData({ name: name || "", phone: phone || "", email: email || "" });
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to load profile");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,16 +43,30 @@ const ProfileDetails = () => {
     });
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    localStorage.setItem("profile", JSON.stringify(formData));
-
-    toast.success("Profile updated successfully!");
-
-    console.log(formData);
-
-    setIsEditing(false);
+    setSaving(true);
+    try {
+      const res = await updateProfile(formData);
+      setFormData({
+        name: res.data.user.name,
+        phone: res.data.user.phone,
+        email: res.data.user.email,
+      });
+      toast.success("Profile updated successfully!");
+      setIsEditing(false);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to update profile");
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="p-4 sm:p-6 bg-white rounded-lg">Loding profile...</div>
+    );
+  }
 
   return (
     <div className=" w-full  rounded-lg flex flex-col gap-4  p-4 sm:p-6 bg-white">
@@ -88,14 +121,14 @@ const ProfileDetails = () => {
           </div>
           <button
             type="submit"
-            disabled={!isEditing}
+            disabled={!isEditing || saving}
             className={`rounded py-2 text-white transition ${
               isEditing
                 ? "bg-[var(--primary-color)] hover:bg-[var(--primary-hover)]"
                 : "bg-gray-300 cursor-not-allowed"
             }`}
           >
-            {t("profileDetails.saveChanges")}
+            {saving ? "Saving..." : t("profileDetails.saveChanges")}
           </button>
         </form>
       </div>
