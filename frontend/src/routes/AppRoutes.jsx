@@ -25,6 +25,7 @@ import StoreInfo from "../Pages/Register/Register/StoreInfo/StoreInfo";
 import Documents from "../Pages/Register/Register/StoreDocument/Documents";
 import Agreement from "../Pages/Register/Register/Agreement/Agreement";
 import Onboarding from "../Pages/Register/Register/onBoarding";
+import ProtectedRoute from "../../ProtectedRoute";
 
 const AppRoutes = () => {
   return (
@@ -49,20 +50,23 @@ const AppRoutes = () => {
 
         {/* Main Routes */}
 
-        <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/order" element={<Orders />} />
-          <Route path="/my-products" element={<MyProducts />}>
-            <Route index element={<ProductList />} />
-          </Route>
-          <Route path="/add-product" element={<AddProduct />} />
+        <Route element={<ProtectedRoute />}>
+          {" "}
+          <Route element={<MainLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/order" element={<Orders />} />
+            <Route path="/my-products" element={<MyProducts />}>
+              <Route index element={<ProductList />} />
+            </Route>
+            <Route path="/add-product" element={<AddProduct />} />
 
-          <Route path="/profile" element={<Profile />}>
-            <Route index element={<ProfileDetails />} />
-            <Route path="shop-details" element={<ShopDetails />} />
-            <Route path="wallet" element={<Wallet />} />
-            <Route path="about" element={<About />} />
-            <Route path="logout" element={<Logout />} />
+            <Route path="/profile" element={<Profile />}>
+              <Route index element={<ProfileDetails />} />
+              <Route path="shop-details" element={<ShopDetails />} />
+              <Route path="wallet" element={<Wallet />} />
+              <Route path="about" element={<About />} />
+              <Route path="logout" element={<Logout />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

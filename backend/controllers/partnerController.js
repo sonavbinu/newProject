@@ -27,17 +27,33 @@ const updateProfile = async (req, res) => {
   try {
     const { name, phone, email } = req.body;
 
+    // Basic validation
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email format",
+      });
+    }
+
+    if (phone && !/^\d{10}$/.test(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone number must be 10 digits",
+      });
+    }
+
     const user = await User.findByIdAndUpdate(
       req.user.id,
-      {
-        name,
-        phone,
-        email,
-      },
-      {
-        new: true,
-      },
+      { name, phone, email },
+      { new: true, runValidators: true },
     ).select("-otp -otpExpires");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
 
     res.json({
       success: true,
@@ -45,6 +61,15 @@ const updateProfile = async (req, res) => {
       user,
     });
   } catch (err) {
+    // Mongo duplicate key error
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyPattern)[0];
+      return res.status(409).json({
+        success: false,
+        message: `This ${field} is already registered with another account`,
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: err.message,

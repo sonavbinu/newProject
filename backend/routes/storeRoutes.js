@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-
 const auth = require("../middleware/authMiddleware");
 const upload = require("../middleware/upload");
-
 const {
   registerStore,
   getMyStores,
+  getStores,
+  saveStore,
+  removeStoreImage,
 } = require("../controllers/storeController");
 
 router.post(
@@ -18,6 +19,9 @@ router.post(
   ]),
   registerStore,
 );
-router.get("/", auth, getMyStores);
+router.get("/", auth, getStores);
+router.get("/me", auth, getMyStores);
+router.post("/", auth, upload.single("storeImage"), saveStore);
+router.delete("/image", auth, removeStoreImage);
 
 module.exports = router;
