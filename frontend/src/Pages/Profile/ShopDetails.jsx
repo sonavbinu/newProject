@@ -29,13 +29,13 @@ const ShopDetails = () => {
   const [closingTime, setClosingTime] = useState("");
 
   const days = [
-    t("shopDetails.days.monday"),
-    t("shopDetails.days.tuesday"),
-    t("shopDetails.days.wednesday"),
-    t("shopDetails.days.thursday"),
-    t("shopDetails.days.friday"),
-    t("shopDetails.days.saturday"),
-    t("shopDetails.days.sunday"),
+    { key: "Mon", label: t("workingDays.mon") },
+    { key: "Tue", label: t("workingDays.tue") },
+    { key: "Wed", label: t("workingDays.wed") },
+    { key: "Thu", label: t("workingDays.thu") },
+    { key: "Fri", label: t("workingDays.fri") },
+    { key: "Sat", label: t("workingDays.sat") },
+    { key: "Sun", label: t("workingDays.sun") },
   ];
 
   const fileInputRef = useRef(null);
@@ -112,9 +112,11 @@ const ShopDetails = () => {
     }
   };
 
-  const handleCheckboxChange = (day) => {
+  const handleCheckboxChange = (dayKey) => {
     setWorkingDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
+      prev.includes(dayKey)
+        ? prev.filter((d) => d !== dayKey)
+        : [...prev, dayKey],
     );
     setIsEditing(true);
   };
@@ -124,7 +126,9 @@ const ShopDetails = () => {
   };
 
   const handleSelectAll = () => {
-    setWorkingDays(workingDays.length === days.length ? [] : days);
+    setWorkingDays(
+      workingDays.length === days.length ? [] : days.map((d) => d.key),
+    );
     setIsEditing(true);
   };
 
@@ -266,16 +270,16 @@ const ShopDetails = () => {
           <div className="flex flex-col gap-2">
             {days.map((day) => (
               <label
-                key={day}
+                key={day.key}
                 className="flex items-center gap-2 cursor-pointer"
               >
                 <input
                   type="checkbox"
                   className="accent-[var(--primary-color)] w-4 h-4"
-                  checked={workingDays.includes(day)}
-                  onChange={() => handleCheckboxChange(day)}
+                  checked={workingDays.includes(day.key)}
+                  onChange={() => handleCheckboxChange(day.key)}
                 />
-                <span>{day}</span>
+                <span>{day.label}</span>
               </label>
             ))}
           </div>

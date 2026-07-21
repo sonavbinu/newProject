@@ -247,5 +247,68 @@
       "totalStock": "Total Stock",
       "productsByCategory": "Products By Category"
     }
+  },
+  "agreement": {
+    "finalStep": "Final Step",
+    "title": "Partner Agreement",
+    "subtitle": "Please review and accept the agreement before continuing.",
+
+    "accountTitle": "1. Account Responsibilities",
+    "accountText": "By registering as an ORIGIN Partner, you confirm that all information provided is accurate, complete, and up to date.",
+
+    "productTitle": "2. Product Quality",
+    "productText": "You agree to maintain product quality standards and ensure that all products listed on the platform are genuine and accurately represented.",
+
+    "orderTitle": "3. Order Fulfillment",
+    "orderText": "Partners are responsible for processing and fulfilling customer orders promptly while maintaining a positive customer experience.",
+
+    "businessTitle": "4. Business Information",
+    "businessText": "You are responsible for keeping your store details, contact information, operating hours, and product inventory accurate and up to date.",
+
+    "policyTitle": "5. Policy Compliance",
+    "policyText": "All partners must comply with ORIGIN policies, applicable laws, and future guidelines communicated by the platform.",
+
+    "paymentTitle": "6. Payments & Settlements",
+    "paymentText": "Payments will be processed only to the verified bank account provided during registration.",
+
+    "suspensionTitle": "7. Account Suspension",
+    "suspensionText": "ORIGIN reserves the right to suspend or terminate partner accounts that violate platform policies.",
+
+    "infoBox": "Once accepted, this agreement remains valid unless updated by ORIGIN. Any future changes will be communicated to partners.",
+
+    "checkboxTitle": "I agree to the ORIGIN Partner Agreement",
+    "checkboxText": "You must accept the agreement before continuing.",
+
+    "submitting": "Submitting...",
+    "finish": "Finish Registration"
+  },
+  "workingDays": {
+    "title": "Working Days",
+    "subtitle": "Select the days your store is open.",
+    "selectAll": "Select All",
+    "unselectAll": "Unselect All",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat",
+    "sun": "Sun"
+  },
+  "storeInfo": {
+    "step": "Step 1 to 3",
+    "title": "Start your Onboarding Process with Us",
+    "subtitle": "Kindly fill all the information correctly to get onboarded quickly with",
+    "continue": "Continue",
+
+    "storeNameRequired": "Please enter the store name.",
+    "addressRequired": "Please enter the store address.",
+    "phoneRequired": "Please enter the store contact number.",
+    "phoneLength": "Store contact number must be 10 digits.",
+    "daysRequired": "Please select at least one working day.",
+    "openingRequired": "Please select the opening time.",
+    "closingRequired": "Please select the closing time.",
+    "imageRequired": "Please upload a store image.",
+    "phoneVerify": "Please verify the store phone number."
   }
 }

@@ -3,10 +3,11 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { ShieldCheck } from "lucide-react";
 import Stepper from "./Stepper";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const Agreement = () => {
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +40,6 @@ const Agreement = () => {
         }
       });
 
-      // Backend's User model requires "email", but storeData only has "ownerEmail"
       formData.append("email", storeData.ownerEmail ?? "");
 
       const token = localStorage.getItem("token");
@@ -81,7 +81,7 @@ const Agreement = () => {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
           {/* Final Step Badge */}
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-5">
-            Final Step
+            {t("agreement.finalStep")}
           </div>
 
           {/* Header */}
@@ -92,94 +92,61 @@ const Agreement = () => {
 
             <div>
               <h2 className="text-3xl font-bold text-gray-900">
-                Partner Agreement
+                {t("agreement.title")}
               </h2>
 
-              <p className="text-gray-500 mt-1">
-                Please review and accept the agreement before continuing.
-              </p>
+              <p className="text-gray-500 mt-1">{t("agreement.subtitle")}</p>
             </div>
           </div>
 
           {/* Agreement Content */}
           <div className="h-96 overflow-y-auto rounded-xl border border-gray-200 bg-gray-50 p-6 text-gray-600 leading-8">
             <h3 className="font-semibold text-gray-900 mb-2">
-              1. Account Responsibilities
+              {t("agreement.accountTitle")}
             </h3>
 
-            <p className="mb-5">
-              By registering as an ORIGIN Partner, you confirm that all
-              information provided is accurate, complete, and up to date.
-            </p>
+            <p className="mb-5">{t("agreement.accountText")}</p>
 
             <h3 className="font-semibold text-gray-900 mb-2">
-              2. Product Quality
+              {t("agreement.productTitle")}
             </h3>
 
-            <p className="mb-5">
-              You agree to maintain product quality standards and ensure that
-              all products listed on the platform are genuine and accurately
-              represented.
-            </p>
+            <p className="mb-5">{t("agreement.productText")}</p>
 
             <h3 className="font-semibold text-gray-900 mb-2">
-              3. Order Fulfillment
+              {t("agreement.orderTitle")}
             </h3>
 
-            <p className="mb-5">
-              Partners are responsible for processing and fulfilling customer
-              orders promptly while maintaining a positive customer experience.
-            </p>
+            <p className="mb-5">{t("agreement.orderText")}</p>
 
             <h3 className="font-semibold text-gray-900 mb-2">
-              4. Business Information
+              {t("agreement.businessTitle")}
             </h3>
 
-            <p className="mb-5">
-              You are responsible for keeping your store details, contact
-              information, operating hours, and product inventory accurate and
-              up to date.
-            </p>
+            <p className="mb-5">{t("agreement.businessText")}</p>
 
             <h3 className="font-semibold text-gray-900 mb-2">
-              5. Policy Compliance
+              {t("agreement.policyTitle")}
             </h3>
 
-            <p className="mb-5">
-              All partners must comply with ORIGIN policies, applicable laws,
-              and any future guidelines communicated by the platform while using
-              ORIGIN services.
-            </p>
+            <p className="mb-5">{t("agreement.policyText")}</p>
 
             <h3 className="font-semibold text-gray-900 mb-2">
-              6. Payments & Settlements
+              {t("agreement.paymentTitle")}
             </h3>
 
-            <p className="mb-5">
-              Payments will be processed only to the verified bank account
-              provided during registration. ORIGIN reserves the right to hold
-              settlements in case of disputes, fraud detection, or policy
-              violations.
-            </p>
+            <p className="mb-5">{t("agreement.paymentText")}</p>
 
             <h3 className="font-semibold text-gray-900 mb-2">
-              7. Account Suspension
+              {t("agreement.suspensionTitle")}
             </h3>
 
-            <p>
-              ORIGIN reserves the right to suspend or terminate partner accounts
-              that violate platform policies, provide false information, engage
-              in fraudulent activities, or fail to meet required quality
-              standards.
-            </p>
+            <p>{t("agreement.suspensionText")}</p>
           </div>
 
           {/* Info Box */}
           <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4">
-            <p className="text-sm text-blue-700">
-              Once accepted, this agreement remains valid unless updated by
-              ORIGIN. Any future changes will be communicated to partners.
-            </p>
+            <p className="text-sm text-blue-700">{t("agreement.infoBox")}</p>
           </div>
 
           {/* Agreement Checkbox */}
@@ -193,11 +160,11 @@ const Agreement = () => {
 
             <div>
               <p className="font-medium text-gray-900">
-                I agree to the ORIGIN Partner Agreement
+                {t("agreement.checkboxTitle")}
               </p>
 
               <p className="text-sm text-gray-500">
-                You must accept the agreement before continuing.
+                {t("agreement.checkboxText")}
               </p>
             </div>
           </label>
@@ -213,7 +180,7 @@ const Agreement = () => {
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
             >
-              {loading ? "Submitting..." : "Finish Registration"}
+              {loading ? t("agreement.submitting") : t("agreement.finish")}
             </button>
           </div>
         </div>

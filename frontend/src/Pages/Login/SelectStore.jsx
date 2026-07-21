@@ -139,7 +139,7 @@ const SelectStore = () => {
                 </button>
 
                 <img
-                  src={store.storeImage || profile}
+                  src={profile}
                   alt={store.storeName}
                   className="w-full h-44 object-cover"
                 />

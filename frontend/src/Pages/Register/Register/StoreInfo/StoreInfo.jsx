@@ -1,63 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import Stepper from "./Stepper";
 import OwnerForm from "./OwnerForm";
 import StoreForm from "./StoreForm";
 import WorkingDays from "./WorkingDays";
 import WorkingTime from "./WorkingTime";
 import StoreImage from "./StoreImage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Store } from "lucide-react";
-import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const StoreInfo = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const { storeData, setStoreData } = useOutletContext();
+
   const [phoneVerified, setPhoneVerified] = useState(false);
 
   const validateStoreInfo = () => {
     if (!storeData.storeName.trim()) {
-      alert("Please enter the store name.");
+      alert(t("storeInfo.storeNameRequired"));
       return false;
     }
 
     if (!storeData.address.trim()) {
-      alert("Please enter the store address.");
+      alert(t("storeInfo.addressRequired"));
       return false;
     }
 
     if (!storeData.storePhone.trim()) {
-      alert("Please enter the store contact number.");
+      alert(t("storeInfo.phoneRequired"));
       return false;
     }
 
     if (storeData.storePhone.length !== 10) {
-      alert("Store contact number must be 10 digits.");
+      alert(t("storeInfo.phoneLength"));
       return false;
     }
 
     if (!storeData.workingDays || storeData.workingDays.length === 0) {
-      alert("Please select at least one working day.");
+      alert(t("storeInfo.daysRequired"));
       return false;
     }
 
     if (!storeData.openingTime) {
-      alert("Please select the opening time.");
+      alert(t("storeInfo.openingRequired"));
       return false;
     }
 
     if (!storeData.closingTime) {
-      alert("Please select the closing time.");
+      alert(t("storeInfo.closingRequired"));
       return false;
     }
 
     if (!storeData.storeImage) {
-      alert("Please upload a store image.");
+      alert(t("storeInfo.imageRequired"));
       return false;
     }
 
     if (!phoneVerified) {
-      alert("Please verify the store phone number.");
+      alert(t("storeInfo.phoneVerify"));
       return false;
     }
 
@@ -66,21 +68,23 @@ const StoreInfo = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
-      {" "}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
         <div className="text-center mb-12">
           <div className="w-16 h-16 mx-auto rounded-full bg-[var(--primary-light)] flex items-center justify-center mb-5">
             <Store size={30} className="text-[var(--primary-color)]" />
           </div>
+
           <span className="inline-block px-4 py-1 rounded-full bg-[var(--primary-light)] text-[var(--primary-color)] text-sm font-medium mb-4">
-            Step 1 to 3
+            {t("storeInfo.step")}
           </span>
-          <h1 className="text-4xl font-bold text-gray-900 ">
-            Start your Onboarding Process with Us
+
+          <h1 className="text-4xl font-bold text-gray-900">
+            {t("storeInfo.title")}
           </h1>
+
           <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
-            Kindly fill all the information correctly to get onboarded quickly
-            with <span className="font-semibold">ORIGIN</span>
+            {t("storeInfo.subtitle")}{" "}
+            <span className="font-semibold">ORIGIN</span>
           </p>
         </div>
 
@@ -91,17 +95,20 @@ const StoreInfo = () => {
             </div>
           </aside>
 
-          {/* Form */}
-          <main className=" space-y-8">
+          <main className="space-y-8">
             <OwnerForm storeData={storeData} setStoreData={setStoreData} />
+
             <StoreForm
               storeData={storeData}
               setStoreData={setStoreData}
               phoneVerified={phoneVerified}
               setPhoneVerified={setPhoneVerified}
             />
+
             <WorkingDays storeData={storeData} setStoreData={setStoreData} />
+
             <WorkingTime storeData={storeData} setStoreData={setStoreData} />
+
             <StoreImage storeData={storeData} setStoreData={setStoreData} />
 
             <div className="flex pt-4 justify-end">
@@ -113,10 +120,9 @@ const StoreInfo = () => {
                 }}
                 className="px-10 py-3 rounded-xl bg-[var(--primary-color)]
                 font-semibold shadow-md transition hover:bg-[var(--primary-hover)]
-                hover:shadow-lg
-                text-white"
+                hover:shadow-lg text-white"
               >
-                Continue
+                {t("storeInfo.continue")}
               </button>
             </div>
           </main>

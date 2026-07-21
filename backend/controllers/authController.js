@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const sendOTP = async (req, res) => {
   try {
     console.log("Request Body:", req.body);
-    const { email } = req.body;
+    const { email, name, phone } = req.body;
     console.log("Email:", email);
     if (!email) {
       return res.status(400).json({
@@ -21,6 +21,8 @@ const sendOTP = async (req, res) => {
       console.log("Creating new user...");
       user = new User({
         email,
+        name,
+        phone,
       });
     }
     //fixed otp for development

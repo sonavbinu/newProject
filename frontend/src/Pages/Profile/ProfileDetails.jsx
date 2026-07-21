@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { getProfile, updateProfile } from "../../api/partnerApi";
+import { useSelector } from "react-redux";
 
 const ProfileDetails = () => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem("profile");
@@ -24,11 +25,23 @@ const ProfileDetails = () => {
     fetchProfile();
   }, []);
 
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+
+  useEffect(() => {
+    if (selectedStore) {
+      setFormData({
+        name: selectedStore.ownerName,
+        phone: selectedStore.phone,
+        email: selectedStore.email,
+      });
+    }
+  }, [selectedStore]);
   const fetchProfile = async () => {
     try {
       const res = await getProfile();
       const { name, phone, email } = res.data.user;
-      console.log(res.data.user);
+      console.log("API response:", res.data);
+      console.log("user:", res.data.user);
       setFormData({
         name: name || "",
         phone: phone || "",
@@ -51,8 +64,11 @@ const ProfileDetails = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
+
+    console.log("Sending:", formData);
     try {
       const res = await updateProfile(formData);
+      console.log("Response:", res.data);
       setFormData({
         name: res.data.user.name,
         phone: res.data.user.phone,
@@ -61,6 +77,7 @@ const ProfileDetails = () => {
       toast.success("Profile updated successfully!");
       setIsEditing(false);
     } catch (error) {
+      console.log("Error:", error.response?.data);
       toast.error(error.response?.data?.message || "Failed to update profile");
     } finally {
       setSaving(false);

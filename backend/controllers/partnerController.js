@@ -25,6 +25,8 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
+    console.log("Request body:", req.body);
+    console.log("User ID:", req.user.id);
     const { name, phone, email } = req.body;
 
     // Basic validation
@@ -47,6 +49,7 @@ const updateProfile = async (req, res) => {
       { name, phone, email },
       { new: true, runValidators: true },
     ).select("-otp -otpExpires");
+    console.log("Updated user:", user);
 
     if (!user) {
       return res.status(404).json({

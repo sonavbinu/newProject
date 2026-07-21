@@ -58,7 +58,7 @@ const registerStore = async (req, res) => {
     const user = await User.findById(req.user.id);
     if (user) {
       let changed = false;
-      if (!user.name && ownerName) {
+      if (ownerName) {
         user.name = ownerName;
         changed = true;
       }
@@ -88,22 +88,61 @@ const registerStore = async (req, res) => {
   }
 };
 
+// const getStoreById = async (req, res) => {
+//   try {
+//     console.log("Store ID:", req.params.id);
+//     console.log("User ID:", req.user.id);
+//     const store = await Store.findOne({
+//       _id: req.params.id,
+//       owner: req.user.id,
+//     });
+//     console.log("Store Found:", store);
+//     if (!store) {
+//       return res.status(404).json({
+//         message: "store details not found",
+//       });
+//     }
+//     res.status(200).json({ success: true, store });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Server error",
+//       error: error.message,
+//     });
+//   }
+// };
+
 const getStoreById = async (req, res) => {
   try {
+    console.log("Store ID:", req.params.id);
+    console.log("User ID:", req.user.id);
+
+    const storeById = await Store.findById(req.params.id);
+    console.log("Store by ID:", storeById);
+
+    const ownerStores = await Store.find({ owner: req.user.id });
+    console.log("Owner Stores:", ownerStores.length);
+
     const store = await Store.findOne({
       _id: req.params.id,
       owner: req.user.id,
     });
+
+    console.log("Final Store:", store);
+
     if (!store) {
       return res.status(404).json({
-        message: "store details not found",
+        message: "Store details not found",
       });
     }
-    res.status(200).json({ success: true, store });
+
+    res.json({
+      success: true,
+      store,
+    });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
-      message: "Server error",
-      error: error.message,
+      message: error.message,
     });
   }
 };
@@ -127,14 +166,24 @@ const getStores = async (req, res) => {
       stores,
     });
   } catch (error) {
+    console.log("update error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
 const saveStore = async (req, res) => {
+  console.log("UPDATE BODY:", req.body);
+  console.log("USER:", req.user);
   try {
-    const { storeId, storeName, address, phone, workingDays, workingTime } =
-      req.body;
+    const {
+      storeId,
+      storeName,
+      address,
+      phone,
+      workingDays,
+      openingTime,
+      closingTime,
+    } = req.body;
     if (!storeId) {
       return res.status(400).json({ message: "storeId is required" });
     }
@@ -148,7 +197,11 @@ const saveStore = async (req, res) => {
       storeName,
       address,
       phone,
-      workingDays: workingDays ? JSON.parse(workingDays) : [],
+      workingDays: Array.isArray(workingDays)
+        ? workingDays
+        : workingDays
+          ? JSON.parse(workingDays)
+          : [],
       openingTime: openingTime || "",
       closingTime: closingTime || "",
     };
@@ -157,7 +210,7 @@ const saveStore = async (req, res) => {
     }
 
     const store = await Store.findOneAndUpdate(
-      { owner: req.user._id },
+      { _id: storeId, owner: req.user.id },
       { $set: updateData },
       { new: true, runValidators: true },
     );
@@ -168,6 +221,7 @@ const saveStore = async (req, res) => {
       .status(200)
       .json({ message: "Store details saved successfully", store });
   } catch (error) {
+    console.log("SAVE STORE ERROR:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -177,7 +231,7 @@ const removeStoreImage = async (req, res) => {
     if (!storeId) {
       return res.status(400).json({ message: "storeId is required" });
     }
-    const store = await Store.findOne({ _id: storeId, owner: req.user._id });
+    const store = await Store.findOne({ _id: storeId, owner: req.user.id });
     if (!store) return res.status(404).json({ message: "Store not found" });
 
     if (store.storeImage) {

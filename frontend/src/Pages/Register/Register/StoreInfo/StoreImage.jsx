@@ -1,27 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UploadCloud, ImageIcon, Info } from "lucide-react";
 
 const StoreImage = ({ storeData, setStoreData }) => {
-  const [preview, setPreview] = useState(
-    storeData.storeImage ? URL.createObjectURL(storeData.storeImage) : null,
-  );
+  const [preview, setPreview] = useState(null);
+  const [fileName, setFileName] = useState("");
 
-  const [fileName, setFileName] = useState(
-    storeData.storeImage ? storeData.storeImage.name : "",
-  );
+  useEffect(() => {
+    if (storeData.storeImage instanceof File) {
+      const imageUrl = URL.createObjectURL(storeData.storeImage);
+
+      setPreview(imageUrl);
+      setFileName(storeData.storeImage.name);
+
+      return () => {
+        URL.revokeObjectURL(imageUrl);
+      };
+    } else {
+      setPreview(null);
+      setFileName("");
+    }
+  }, [storeData.storeImage]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
 
+    // Optional validation
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload an image file");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image size should be less than 5MB");
+      return;
+    }
+
     setStoreData((prev) => ({
       ...prev,
       storeImage: file,
     }));
-
-    setFileName(file.name);
-    setPreview(URL.createObjectURL(file));
   };
 
   return (
