@@ -2,12 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { getMyStores, saveStore, removeStoreImage } from "../../api/storeApi";
+import { useSelector } from "react-redux";
+import { getStoreById, saveStore, removeStoreImage } from "../../api/storeApi";
 
 const BACKEND_URL = "http://localhost:5000";
 
 const ShopDetails = () => {
   const { t } = useTranslation();
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id;
+
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -21,7 +25,8 @@ const ShopDetails = () => {
   const [newImageFile, setNewImageFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [workingDays, setWorkingDays] = useState([]);
-  const [workingTime, setWorkingTime] = useState({ open: "", close: "" });
+  const [openingTime, setOpeningTime] = useState("");
+  const [closingTime, setClosingTime] = useState("");
 
   const days = [
     t("shopDetails.days.monday"),
@@ -35,19 +40,25 @@ const ShopDetails = () => {
 
   const fileInputRef = useRef(null);
 
-  // Fetch existing store details on mount
   useEffect(() => {
+    if (!storeId) {
+      setLoading(false);
+      return;
+    }
+
     const fetchStore = async () => {
+      setLoading(true);
       try {
-        const res = await getMyStores();
+        const res = await getStoreById(storeId);
         const store = res.data.store;
         setFormData({
-          name: store.name || "",
+          name: store.storeName || "",
           address: store.address || "",
           phone: store.phone || "",
         });
         setWorkingDays(store.workingDays || []);
-        setWorkingTime(store.workingTime || { open: "", close: "" });
+        setOpeningTime(store.openingTime || "");
+        setClosingTime(store.closingTime || "");
         setStoreImage(
           store.storeImage ? `${BACKEND_URL}${store.storeImage}` : null,
         );
@@ -55,13 +66,12 @@ const ShopDetails = () => {
         if (err.response?.status !== 404) {
           toast.error("Failed to load shop details");
         }
-        // 404 just means no store yet — that's fine, keep defaults
       } finally {
         setLoading(false);
       }
     };
     fetchStore();
-  }, []);
+  }, [storeId]);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -94,7 +104,7 @@ const ShopDetails = () => {
     if (!storeImage) return;
 
     try {
-      await removeStoreImage();
+      await removeStoreImage(storeId);
       setStoreImage(null);
       toast.success("Image removed successfully!");
     } catch (err) {
@@ -121,6 +131,10 @@ const ShopDetails = () => {
   const handleSave = async (e) => {
     e.preventDefault();
 
+    if (!storeId) {
+      toast.error("No store selected");
+      return;
+    }
     if (!formData.name.trim()) return toast.error("Please enter shop name");
     if (!formData.address.trim())
       return toast.error("Please enter shop address");
@@ -129,11 +143,13 @@ const ShopDetails = () => {
     setIsSaving(true);
     try {
       const payload = new FormData();
-      payload.append("name", formData.name);
+      payload.append("storeId", storeId);
+      payload.append("storeName", formData.name);
       payload.append("address", formData.address);
       payload.append("phone", formData.phone);
       payload.append("workingDays", JSON.stringify(workingDays));
-      payload.append("workingTime", JSON.stringify(workingTime));
+      payload.append("openingTime", openingTime);
+      payload.append("closingTime", closingTime);
       if (newImageFile) {
         payload.append("storeImage", newImageFile);
       }
@@ -141,6 +157,14 @@ const ShopDetails = () => {
       const res = await saveStore(payload);
       const savedStore = res.data.store;
 
+      setFormData({
+        name: savedStore.storeName || "",
+        address: savedStore.address || "",
+        phone: savedStore.phone || "",
+      });
+      setWorkingDays(savedStore.workingDays || []);
+      setOpeningTime(savedStore.openingTime || "");
+      setClosingTime(savedStore.closingTime || "");
       setStoreImage(
         savedStore.storeImage ? `${BACKEND_URL}${savedStore.storeImage}` : null,
       );
@@ -156,6 +180,14 @@ const ShopDetails = () => {
   };
 
   const displayImage = previewImage || storeImage;
+
+  if (!storeId) {
+    return (
+      <p className="text-sm text-gray-400">
+        No store selected. Please select a store first.
+      </p>
+    );
+  }
 
   if (loading) {
     return <p className="text-sm text-gray-400">Loading shop details...</p>;
@@ -255,18 +287,18 @@ const ShopDetails = () => {
           <div className="flex justify-between gap-4">
             <input
               type="time"
-              value={workingTime.open}
+              value={openingTime}
               onChange={(e) => {
-                setWorkingTime((prev) => ({ ...prev, open: e.target.value }));
+                setOpeningTime(e.target.value);
                 setIsEditing(true);
               }}
               className="border border-gray-300 rounded-full px-3 py-2 w-full cursor-pointer"
             />
             <input
               type="time"
-              value={workingTime.close}
+              value={closingTime}
               onChange={(e) => {
-                setWorkingTime((prev) => ({ ...prev, close: e.target.value }));
+                setClosingTime(e.target.value);
                 setIsEditing(true);
               }}
               className="border border-gray-300 rounded-full px-3 py-2 w-full cursor-pointer"

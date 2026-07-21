@@ -32,9 +32,13 @@ const storeSlice = createSlice({
     },
     selectStore: (state, action) => {
       state.selectedStore = action.payload;
+      if (action.payload?._id) {
+        localStorage.setItem("selectedStoreId", action.payload._id);
+      }
     },
     clearStore: (state) => {
       state.selectedStore = null;
+      localStorage.removeItem("selectedStoreId");
     },
   },
   extraReducers: (builder) => {
@@ -46,6 +50,9 @@ const storeSlice = createSlice({
       .addCase(fetchSelectedStore.fulfilled, (state, action) => {
         state.loading = false;
         state.selectedStore = action.payload;
+        if (action.payload?._id) {
+          localStorage.setItem("selectedStoreId", action.payload._id);
+        }
       })
       .addCase(fetchSelectedStore.rejected, (state, action) => {
         state.loading = false;

@@ -13,10 +13,10 @@ app.use(express.json());
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/partnerRoutes");
 const storeRoutes = require("./routes/storeRoutes");
+
 app.use("/api/auth", authRoutes);
 app.use("/api/stores", storeRoutes);
 app.use("/uploads", express.static("uploads"));
-
 app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {

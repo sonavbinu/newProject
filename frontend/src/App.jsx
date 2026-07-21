@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppRoutes from "./routes/AppRoutes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchSelectedStore } from "./redux/slices/storeSlice";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const selectedStore = useSelector((state) => state.store.selectedStore);
   const { color, darkMode } = useSelector((state) => state.theme);
+
+  useEffect(() => {
+    const savedStoreId = localStorage.getItem("selectedStoreId");
+    if (savedStoreId && !selectedStore) {
+      dispatch(fetchSelectedStore(savedStoreId));
+    }
+  }, []);
   return (
     <div
       className={`${color} ${darkMode ? "dark" : ""}`}

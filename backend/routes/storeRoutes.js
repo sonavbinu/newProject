@@ -8,6 +8,8 @@ const {
   getStores,
   saveStore,
   removeStoreImage,
+  getStoreById,
+  deleteStore,
 } = require("../controllers/storeController");
 
 router.post(
@@ -21,7 +23,9 @@ router.post(
 );
 router.get("/", auth, getStores);
 router.get("/me", auth, getMyStores);
+router.get("/:id", auth, getStoreById);
 router.post("/", auth, upload.single("storeImage"), saveStore);
 router.delete("/image", auth, removeStoreImage);
+router.delete("/:id", auth, deleteStore);
 
 module.exports = router;

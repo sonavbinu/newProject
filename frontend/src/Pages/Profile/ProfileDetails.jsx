@@ -28,7 +28,12 @@ const ProfileDetails = () => {
     try {
       const res = await getProfile();
       const { name, phone, email } = res.data.user;
-      setFormData({ name: name || "", phone: phone || "", email: email || "" });
+      console.log(res.data.user);
+      setFormData({
+        name: name || "",
+        phone: phone || "",
+        email: email || "",
+      });
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to load profile");
     } finally {
@@ -64,7 +69,7 @@ const ProfileDetails = () => {
 
   if (loading) {
     return (
-      <div className="p-4 sm:p-6 bg-white rounded-lg">Loding profile...</div>
+      <div className="p-4 sm:p-6 bg-white rounded-lg">Loading profile...</div>
     );
   }
 

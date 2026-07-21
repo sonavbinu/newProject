@@ -26,7 +26,14 @@ const storeSchema = new mongoose.Schema(
     workingDays: [String],
     openingTime: String,
     closingTime: String,
-    images: [String],
+    storeImage: {
+      type: String,
+      default: "",
+    },
+    qrImage: {
+      type: String,
+      default: "",
+    },
 
     status: {
       type: String,

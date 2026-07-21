@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import profile from "../../assets/profile.avif";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import bgimg from "../../assets/bgimg.jpg";
 import { useDispatch } from "react-redux";
 import { selectStore } from "../../redux/slices/storeSlice";
+import { deleteStore } from "../../api/storeApi";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const SelectStore = () => {
@@ -14,6 +16,7 @@ const SelectStore = () => {
   const [stores, setStores] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     const fetchStores = async () => {
@@ -44,6 +47,30 @@ const SelectStore = () => {
 
     dispatch(selectStore(store));
     navigate("/dashboard");
+  };
+
+  const handleDelete = async (e, storeId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const confirmed = window.confirm(
+      "Delete this store ? This cannot be undone.",
+    );
+    if (!confirmed) return;
+
+    setDeletingId(storeId);
+    try {
+      await deleteStore(storeId);
+      setStores((prev) => prev.filter((s) => s._id !== storeId));
+      if (selectStore === storeId) {
+        setSelectedStore(null);
+      }
+      toast.success("Store deleted successfully");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete store");
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   return (
@@ -100,6 +127,16 @@ const SelectStore = () => {
                   checked={selectedStore === store._id}
                   onChange={() => setSelectedStore(store._id)}
                 />
+
+                <button
+                  type="button"
+                  onClick={(e) => handleDelete(e, store._id)}
+                  disabled={deletingId === store._id}
+                  title="Delete store"
+                  className="absolute top-3 left-3 z-10 bg-white/90 hover:bg-red-500 hover:text-white text-red-500 rounded-full p-2 shadow-md transition-colors disabled:opacity-50"
+                >
+                  <Trash2 size={16} />
+                </button>
 
                 <img
                   src={store.storeImage || profile}

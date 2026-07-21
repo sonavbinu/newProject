@@ -1,4 +1,5 @@
 const Store = require("../models/Store");
+const User = require("../models/user");
 const fs = require("fs");
 
 const registerStore = async (req, res) => {
@@ -30,37 +31,47 @@ const registerStore = async (req, res) => {
       workingDays = JSON.parse(workingDays);
     }
 
-    const storeImage = req.files?.storeImage?.[0]?.originalname || "";
-    const qrImage = req.files?.qrImage?.[0]?.originalname || "";
+    const storeImage = req.files?.storeImage?.[0]
+      ? `/uploads/stores/${req.files.storeImage[0].filename}`
+      : "";
+    const qrImage = req.files?.qrImage?.[0]
+      ? `/uploads/stores/${req.files.qrImage[0].filename}`
+      : "";
 
     const store = await Store.create({
       owner: req.user.id,
-
       ownerName,
-
       storeName,
-
       email: ownerEmail,
-
       phone: storePhone || ownerPhone,
-
       address,
-
       gstNumber: gst,
-
       bankName,
-
       accountNumber,
-
       ifscCode: ifsc,
-
       workingDays,
-
       openingTime,
-
       closingTime,
-      image: [storeImage, qrImage],
+      storeImage,
+      qrImage,
     });
+    const user = await User.findById(req.user.id);
+    if (user) {
+      let changed = false;
+      if (!user.name && ownerName) {
+        user.name = ownerName;
+        changed = true;
+      }
+      if (!user.phone && ownerPhone) {
+        user.phone = ownerPhone;
+        changed = true;
+      }
+      if (!user.email && ownerEmail) {
+        user.email = ownerEmail;
+        changed = true;
+      }
+      if (changed) await user.save();
+    }
 
     res.status(201).json({
       success: true,
@@ -73,6 +84,26 @@ const registerStore = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message,
+    });
+  }
+};
+
+const getStoreById = async (req, res) => {
+  try {
+    const store = await Store.findOne({
+      _id: req.params.id,
+      owner: req.user.id,
+    });
+    if (!store) {
+      return res.status(404).json({
+        message: "store details not found",
+      });
+    }
+    res.status(200).json({ success: true, store });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
     });
   }
 };
@@ -102,22 +133,24 @@ const getStores = async (req, res) => {
 
 const saveStore = async (req, res) => {
   try {
-    const { name, address, phone, workingDays, workingTime } = req.body;
-
-    if (!name?.trim() || !address?.trim() || !phone?.trim()) {
+    const { storeId, storeName, address, phone, workingDays, workingTime } =
+      req.body;
+    if (!storeId) {
+      return res.status(400).json({ message: "storeId is required" });
+    }
+    if (!storeName?.trim() || !address?.trim() || !phone?.trim()) {
       return res
         .status(400)
-        .json({ message: "name,address and phone are required" });
+        .json({ message: "storeName,address and phone are required" });
     }
 
     const updateData = {
-      name,
+      storeName,
       address,
       phone,
       workingDays: workingDays ? JSON.parse(workingDays) : [],
-      workingTime: workingTime
-        ? JSON.parse(workingTime)
-        : { open: "", close: "" },
+      openingTime: openingTime || "",
+      closingTime: closingTime || "",
     };
     if (req.file) {
       updateData.storeImage = `/uploads/stores/${req.file.filename}`;
@@ -125,9 +158,12 @@ const saveStore = async (req, res) => {
 
     const store = await Store.findOneAndUpdate(
       { owner: req.user._id },
-      { $set: updateData, owner: req.user._id },
-      { new: true, upsert: true, runValidators: true },
+      { $set: updateData },
+      { new: true, runValidators: true },
     );
+    if (!store) {
+      return res.status(404).json({ message: "Store not found" });
+    }
     res
       .status(200)
       .json({ message: "Store details saved successfully", store });
@@ -137,7 +173,11 @@ const saveStore = async (req, res) => {
 };
 const removeStoreImage = async (req, res) => {
   try {
-    const store = await Store.findOne({ owner: req.user._id });
+    const { storeId } = req.body;
+    if (!storeId) {
+      return res.status(400).json({ message: "storeId is required" });
+    }
+    const store = await Store.findOne({ _id: storeId, owner: req.user._id });
     if (!store) return res.status(404).json({ message: "Store not found" });
 
     if (store.storeImage) {
@@ -155,11 +195,42 @@ const removeStoreImage = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+const deleteStore = async (req, res) => {
+  try {
+    const store = await Store.findOne({
+      _id: req.params.id,
+      owner: req.user.id,
+    });
+
+    if (!store) {
+      return res.status(404).json({ message: "Store not found" });
+    }
+
+    [store.storeImage, store.qrImage].forEach((imgPath) => {
+      if (imgPath) {
+        fs.unlink(`.${imgPath}`, (err) => {
+          if (err) console.error("Failed to delete image file:", err.message);
+        });
+      }
+    });
+    await Store.deleteOne({ _id: store._id });
+    res
+      .status(200)
+      .json({ success: true, message: "Store deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   registerStore,
   getMyStores,
   saveStore,
   removeStoreImage,
+  getStoreById,
   getStores,
+  deleteStore,
 };
