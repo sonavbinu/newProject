@@ -48,7 +48,7 @@ const Sidebar = () => {
       <aside className={`sidebar ${open ? "sidebar-open  " : "sidebar-close"}`}>
         <button
           onClick={() => setOpen(false)}
-          className="lg:hidden absolute right-1 top-1  shadow cursor-pointer py-2 px-2 rounded-md hover:bg-gray-100"
+          className="lg:hidden absolute right-1 top-0  shadow cursor-pointer py-2 px-2 rounded-md hover:bg-gray-100"
         >
           <X size={20} />
         </button>

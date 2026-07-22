@@ -30,7 +30,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 right-0 left-0 lg:left-0   z-50 bg-white  border-b border-gray-200 shadow-md  lg:px-6   py-3">
+    <nav className="fixed top-0 right-0 left-0 lg:left-0 z-50 bg-white  border-b border-gray-200 shadow-md  px-6 py-3">
       {/* Top Row */}
       <div className="flex items-center justify-between">
         {/* Left */}
