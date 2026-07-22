@@ -24,6 +24,7 @@ const registerStore = async (req, res) => {
       gst,
       bankName,
       accountNumber,
+      accountHolderName,
       ifsc,
     } = req.body;
 
@@ -48,6 +49,7 @@ const registerStore = async (req, res) => {
       gstNumber: gst,
       bankName,
       accountNumber,
+      accountHolderName,
       ifscCode: ifsc,
       workingDays,
       openingTime,
@@ -87,29 +89,6 @@ const registerStore = async (req, res) => {
     });
   }
 };
-
-// const getStoreById = async (req, res) => {
-//   try {
-//     console.log("Store ID:", req.params.id);
-//     console.log("User ID:", req.user.id);
-//     const store = await Store.findOne({
-//       _id: req.params.id,
-//       owner: req.user.id,
-//     });
-//     console.log("Store Found:", store);
-//     if (!store) {
-//       return res.status(404).json({
-//         message: "store details not found",
-//       });
-//     }
-//     res.status(200).json({ success: true, store });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Server error",
-//       error: error.message,
-//     });
-//   }
-// };
 
 const getStoreById = async (req, res) => {
   try {
@@ -225,6 +204,44 @@ const saveStore = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+const saveWalletDetails = async (req, res) => {
+  try {
+    const { storeId, accountHolderName, accountNumber, ifsc, upiDetails } =
+      req.body;
+
+    if (!storeId) {
+      return res.status(400).json({ message: "storeId is required" });
+    }
+
+    const updateData = {
+      accountHolderName: accountHolderName || "",
+      accountNumber: accountNumber || "",
+      ifscCode: ifsc || "",
+      upiDetails: upiDetails
+        ? JSON.parse(upiDetails)
+        : { gpay: "", phonepe: "", paytm: "" },
+    };
+
+    const store = await Store.findOneAndUpdate(
+      { _id: storeId, owner: req.user.id },
+      { $set: updateData },
+      { new: true, runValidators: true },
+    );
+
+    if (!store) {
+      return res.status(404).json({ message: "Store not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Wallet details saved successfully", store });
+  } catch (error) {
+    console.log("SAVE WALLET ERROR:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 const removeStoreImage = async (req, res) => {
   try {
     const { storeId } = req.body;
@@ -283,6 +300,7 @@ module.exports = {
   registerStore,
   getMyStores,
   saveStore,
+  saveWalletDetails,
   removeStoreImage,
   getStoreById,
   getStores,

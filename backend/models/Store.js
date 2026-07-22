@@ -20,9 +20,17 @@ const storeSchema = new mongoose.Schema(
     address: String,
     gstNumber: String,
     bankName: String,
+    accountHolderName: {
+      type: String,
+      default: "",
+    },
     accountNumber: String,
     ifscCode: String,
-    upiId: String,
+    upiDetails: {
+      gpay: { type: String, default: "" },
+      phonepe: { type: String, default: "" },
+      paytm: { type: String, default: "" },
+    },
     workingDays: [String],
     openingTime: String,
     closingTime: String,

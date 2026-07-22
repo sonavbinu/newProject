@@ -23,6 +23,7 @@ const Onboarding = () => {
     pan: "",
     gst: "",
     bankName: "",
+    accountHolderName: "",
     accountNumber: "",
     ifsc: "",
     qrImage: null,
@@ -49,6 +50,7 @@ const Onboarding = () => {
         pan: "",
         gst: selectedStore.gstNumber || "",
         bankName: selectedStore.bankName || "",
+        accountHolderName: selectedStore.accountHolderName || "",
         accountNumber: selectedStore.accountNumber || "",
         ifsc: selectedStore.ifscCode || "",
 

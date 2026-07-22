@@ -7,6 +7,7 @@ const {
   getMyStores,
   getStores,
   saveStore,
+  saveWalletDetails,
   removeStoreImage,
   getStoreById,
   deleteStore,
@@ -25,6 +26,7 @@ router.get("/", auth, getStores);
 router.get("/me", auth, getMyStores);
 router.get("/:id", auth, getStoreById);
 router.post("/", auth, upload.single("storeImage"), saveStore);
+router.put("/wallet", auth, saveWalletDetails);
 router.delete("/image", auth, removeStoreImage);
 router.delete("/:id", auth, deleteStore);
 

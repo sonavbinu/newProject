@@ -18,6 +18,8 @@ export const saveStore = (formDataPayload) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+export const saveWalletDetails = (data) => API.put("/stores/wallet", data);
+
 export const removeStoreImage = (storeId) =>
   API.delete("/stores/image", { data: { storeId } });
 export const deleteStore = (storeId) => API.delete(`/stores/${storeId}`);

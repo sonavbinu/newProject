@@ -5,6 +5,7 @@ import {
   CreditCard,
   Hash,
   ShieldCheck,
+  User,
 } from "lucide-react";
 
 const BankInfo = ({ storeData, setStoreData }) => {
@@ -25,6 +26,29 @@ const BankInfo = ({ storeData, setStoreData }) => {
       </div>
 
       <form className="space-y-5">
+        {/* Account Holder Name */}
+        <div className="relative">
+          <User
+            size={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+
+          <input
+            type="text"
+            placeholder="Account Holder Name"
+            value={storeData.accountHolderName}
+            onChange={(e) =>
+              setStoreData({
+                ...storeData,
+                accountHolderName: e.target.value,
+              })
+            }
+            className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4
+            focus:outline-none focus:ring-2
+            focus:ring-[var(--primary-color)]"
+          />
+        </div>
+
         {/* Bank Name */}
         <div className="relative">
           <Building2
