@@ -207,24 +207,18 @@ const saveStore = async (req, res) => {
 
 const saveWalletDetails = async (req, res) => {
   try {
-    const { storeId, accountHolderName, accountNumber, ifsc, upiDetails } =
+    const { storeId, accountHolderName, accountNumber, ifscCode, upiDetails } =
       req.body;
-
-    if (!storeId) {
-      return res.status(400).json({ message: "storeId is required" });
-    }
 
     const updateData = {
       accountHolderName: accountHolderName || "",
       accountNumber: accountNumber || "",
-      ifscCode: ifsc || "",
-      upiDetails: upiDetails
-        ? JSON.parse(upiDetails)
-        : { gpay: "", phonepe: "", paytm: "" },
+      ifscCode: ifscCode || "",
+      upiDetails: upiDetails || { gpay: "", phonepe: "", paytm: "" },
     };
 
     const store = await Store.findOneAndUpdate(
-      { _id: storeId, owner: req.user.id },
+      { owner: req.user.id },
       { $set: updateData },
       { new: true, runValidators: true },
     );

@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Gpay from "../../assets/download.png";
 import paytm from "../../assets/paytm.png";
 import phonepe from "../../assets/phonepe.png";
-import { CheckCircle2, Key } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import API from "../../api/api";
 
 const Wallet = () => {
   const { t } = useTranslation();
   const [openApp, setOpenApp] = useState(false);
-  const [upi, setUpi] = useState(() => {
-    const saved = localStorage.getItem("walletUpi");
-    return saved
-      ? JSON.parse(saved)
-      : {
-          gpay: "",
-          phonepe: "",
-          paytm: "",
-        };
+  const [loading, setLoading] = useState(true);
+  const [upi, setUpi] = useState({
+    gpay: "",
+    phonepe: "",
+    paytm: "",
   });
-  const [bankDetails, setBankDetails] = useState(() => {
-    const saved = localStorage.getItem("bankDetails");
-    return saved
-      ? JSON.parse(saved)
-      : {
-          accountHolder: "",
-          accountNumber: "",
-          ifsc: "",
-        };
+  const [bankDetails, setBankDetails] = useState({
+    accountHolder: "",
+    accountNumber: "",
+    ifsc: "",
   });
 
   const [upiInput, setUpiInput] = useState({
@@ -40,6 +33,27 @@ const Wallet = () => {
     { key: "phonepe", name: "PhonePe", image: phonepe },
     { key: "paytm", name: "Paytm", image: paytm },
   ];
+  useEffect(() => {
+    const fetchStore = async () => {
+      try {
+        const res = await API.get("/stores/me", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        const store = res.data.store;
+        setUpi(store.upiDetails || { gpay: "", phonepe: "", paytm: "" });
+        setBankDetails({
+          accountHolder: store.accountHolderName || "",
+          accountNumber: store.accountNumber || "",
+          ifsc: store.ifscCode || "",
+        });
+      } catch (err) {
+        console.error("Failed to load store data", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStore();
+  }, []);
 
   const handleLink = (app) => {
     const upiId = upiInput[app].trim();
@@ -65,30 +79,32 @@ const Wallet = () => {
       [app]: "",
     }));
 
-    if (app === "gpay") setOpen(false);
-    if (app === "phonepe") setPhonepeOpen(false);
-    if (app === "paytm") setPaytmOpen(false);
+    setOpenApp(null);
 
-    toast.success(
-      t("wallet.upiLinked", {
-        app: app.name,
-      }),
-    );
+    const appName = upiApps.find((a) => a.key === app)?.name;
+    toast.success(t("wallet.upiLinked", { app: appName }));
   };
-  const handleSave = () => {
-    localStorage.setItem("bankDetails", JSON.stringify(bankDetails));
-    localStorage.setItem("walletUpi", JSON.stringify(upi));
-
-    toast.success(t("wallet.saved"));
+  const handleSave = async () => {
+    try {
+      await API.put(
+        "/stores/wallet",
+        {
+          upiDetails: upi,
+          accountHolderName: bankDetails.accountHolder,
+          accountNumber: bankDetails.accountNumber,
+          ifscCode: bankDetails.ifsc,
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
+      );
+      toast.success(t("wallet.saved"));
+    } catch (err) {
+      toast.error("Failed to save wallet details");
+    }
   };
+  if (loading) return <div>{t("common.loading")}</div>;
 
-  useEffect(() => {
-    localStorage.setItem("walletUpi", JSON.stringify(upi));
-  }, [upi]);
-
-  useEffect(() => {
-    localStorage.setItem("bankDetails", JSON.stringify(bankDetails));
-  }, [bankDetails]);
   return (
     <div className="flex flex-col gap-3 justify-center ">
       <div>
