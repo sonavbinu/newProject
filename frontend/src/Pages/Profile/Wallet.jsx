@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useSelector } from "react-redux";
 import Gpay from "../../assets/download.png";
 import paytm from "../../assets/paytm.png";
 import phonepe from "../../assets/phonepe.png";
@@ -10,6 +10,9 @@ import API from "../../api/api";
 
 const Wallet = () => {
   const { t } = useTranslation();
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
+
   const [openApp, setOpenApp] = useState(false);
   const [loading, setLoading] = useState(true);
   const [upi, setUpi] = useState({
@@ -33,12 +36,15 @@ const Wallet = () => {
     { key: "phonepe", name: "PhonePe", image: phonepe },
     { key: "paytm", name: "Paytm", image: paytm },
   ];
+
   useEffect(() => {
+    if (!storeId) {
+      setLoading(false);
+      return;
+    }
     const fetchStore = async () => {
       try {
-        const res = await API.get("/stores/me", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const res = await API.get(`/stores/${storeId}`);
         const store = res.data.store;
         setUpi(store.upiDetails || { gpay: "", phonepe: "", paytm: "" });
         setBankDetails({
@@ -53,7 +59,7 @@ const Wallet = () => {
       }
     };
     fetchStore();
-  }, []);
+  }, [storeId]);
 
   const handleLink = (app) => {
     const upiId = upiInput[app].trim();
@@ -84,25 +90,26 @@ const Wallet = () => {
     const appName = upiApps.find((a) => a.key === app)?.name;
     toast.success(t("wallet.upiLinked", { app: appName }));
   };
+
   const handleSave = async () => {
+    if (!storeId) {
+      toast.error("No store selected");
+      return;
+    }
     try {
-      await API.put(
-        "/stores/wallet",
-        {
-          upiDetails: upi,
-          accountHolderName: bankDetails.accountHolder,
-          accountNumber: bankDetails.accountNumber,
-          ifscCode: bankDetails.ifsc,
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        },
-      );
+      await API.put("/stores/wallet", {
+        storeId,
+        upiDetails: upi,
+        accountHolderName: bankDetails.accountHolder,
+        accountNumber: bankDetails.accountNumber,
+        ifscCode: bankDetails.ifsc,
+      });
       toast.success(t("wallet.saved"));
     } catch (err) {
       toast.error("Failed to save wallet details");
     }
   };
+
   if (loading) return <div>{t("common.loading")}</div>;
 
   return (

@@ -1,33 +1,26 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { addProduct } from "../../../redux/slices/productSlice";
+import { fetchMyProducts } from "../../../redux/slices/productSlice";
 import { useTranslation } from "react-i18next";
 
 const MyProducts = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
 
-  const handleSubmit = () => {
-    dispatch(
-      addProduct({
-        categoryId: 1,
-        product: {
-          name,
-          price,
-          stock,
-          image,
-          description,
-        },
-      }),
-    );
-  };
+  useEffect(() => {
+    if (storeId) {
+      dispatch(fetchMyProducts(storeId));
+    }
+  }, [storeId, dispatch]);
+
   return (
     <div>
       <div className="flex flex-col gap-2">
         <h2 className="text-xl sm:text-lg font-bold">
-          {" "}
           {t("myProducts.title")}
         </h2>
         <div className="flex gap-4 justify-between">

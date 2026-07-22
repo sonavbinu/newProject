@@ -20,6 +20,7 @@ app.use("/api/stores", storeRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/products", require("./routes/productRoutes"));
 
 app.get("/", (req, res) => {
   res.send("API is running...");

@@ -210,6 +210,10 @@ const saveWalletDetails = async (req, res) => {
     const { storeId, accountHolderName, accountNumber, ifscCode, upiDetails } =
       req.body;
 
+    if (!storeId) {
+      return res.status(400).json({ message: "storeId is required" });
+    }
+
     const updateData = {
       accountHolderName: accountHolderName || "",
       accountNumber: accountNumber || "",
@@ -218,7 +222,7 @@ const saveWalletDetails = async (req, res) => {
     };
 
     const store = await Store.findOneAndUpdate(
-      { owner: req.user.id },
+      { _id: storeId, owner: req.user.id },
       { $set: updateData },
       { new: true, runValidators: true },
     );

@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   ChevronDown,
   ChevronUp,
-  MoreVertical,
   Pencil,
   PlusCircle,
   MinusCircle,
   Trash2,
-  Pen,
 } from "lucide-react";
-import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -23,25 +20,28 @@ import {
 const ProductList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [openMenu, setOpenMenu] = useState(null);
   const [open, setOpen] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [actionType, setActionType] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [value, setValue] = useState("");
-  const categories = useSelector((state) => state.products.categories);
 
-  console.log(categories);
+  const categories = useSelector((state) => state.products.categories);
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
+
   const toggleCategory = (id) => {
     setOpen(open === id ? null : id);
   };
+
   const handleAction = (action, categoryId, product) => {
     if (action === "delete") {
       if (window.confirm(t("productList.deleteConfirmation"))) {
         dispatch(
           deleteProduct({
             categoryId,
-            productId: product.id,
+            productId: product._id,
+            storeId,
           }),
         );
       }
@@ -51,17 +51,19 @@ const ProductList = () => {
     setActionType(action);
     setSelectedProduct({
       categoryId,
-      productId: product.id,
+      productId: product._id,
     });
     setValue("");
     setShowModal(true);
   };
+
   const handleSave = () => {
     if (!value) return;
 
     const payload = {
       categoryId: selectedProduct.categoryId,
       productId: selectedProduct.productId,
+      storeId,
     };
 
     switch (actionType) {
@@ -86,6 +88,7 @@ const ProductList = () => {
     setActionType("");
     setValue("");
   };
+
   return (
     <div className="flex flex-col border border-gray-300 gap-3 rounded p-5 ">
       {categories.map((category) => (
@@ -93,7 +96,6 @@ const ProductList = () => {
           key={category.id}
           className="border border-gray-300 rounded-xl shadow"
         >
-          {console.log(categories[0].products)}
           <div
             onClick={() => toggleCategory(category.id)}
             className={`flex items-center justify-between bg-[var(--primary-light)]  p-3 rounded-xl cursor-pointer transition duration-150 ${
@@ -114,12 +116,10 @@ const ProductList = () => {
             <div className="overflow-x-auto space-y-4 p-3 border border-[var(--primary-light)] shadow-xl border-t-0 rounded-b-xl">
               {category.products.length === 0 ? (
                 <p className="p-4 text-center text-gray-500">
-                  {" "}
                   {t("productList.noProducts")}
                 </p>
               ) : (
                 <div>
-                  {" "}
                   <table className="w-full">
                     <thead className="bg-gray-100 ">
                       <tr>
@@ -143,10 +143,9 @@ const ProductList = () => {
                     <tbody>
                       {category.products.map((product) => (
                         <tr
-                          key={product.id}
+                          key={product._id}
                           className="border-t hover:bg-gray-50 transition"
                         >
-                          {console.log(product)}
                           <td className="px-4 py-3 text-center border border-[var(--primary-light)]">
                             {product.productName}
                           </td>

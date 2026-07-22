@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { addProduct } from "../../../redux/slices/productSlice";
 import { useTranslation } from "react-i18next";
 
@@ -8,7 +9,11 @@ const AddProduct = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
+
   const [selectedDelivery, setSelectedDelivery] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     category: "",
     productName: "",
@@ -40,6 +45,7 @@ const AddProduct = () => {
     manufacturer,
     image,
   } = formData;
+
   const categories = [
     { id: 1, key: "fruitsVegetables" },
     { id: 2, key: "dairyBreadEggs" },
@@ -51,9 +57,9 @@ const AddProduct = () => {
   ];
 
   const discount = ["%", "Flat"];
-
   const units = ["kg", "litre", "pieces"];
   const deliveryTypes = ["instant", "schedule", "pickup"];
+
   const handleDeliveryChange = (type) => {
     if (selectedDelivery.includes(type)) {
       setSelectedDelivery(selectedDelivery.filter((item) => item !== type));
@@ -61,6 +67,7 @@ const AddProduct = () => {
       setSelectedDelivery([...selectedDelivery, type]);
     }
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -68,42 +75,60 @@ const AddProduct = () => {
       [name]: value,
     }));
   };
+
   const handleImage = (e) => {
     const file = e.target.files[0];
-    console.log(file);
-
     setFormData((prev) => ({
       ...prev,
       image: file,
     }));
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const categories = [
-      { id: 1, key: "fruitsVegetables" },
-      { id: 2, key: "dairyBreadEggs" },
-      { id: 3, key: "snacksBiscuits" },
-      { id: 4, key: "attaDalRice" },
-      { id: 5, key: "dryFruitsMasala" },
-      { id: 6, key: "teaCoffee" },
-      { id: 7, key: "chocolatesDesserts" },
-    ];
-    dispatch(
-      addProduct({
-        categoryId: Number(formData.category),
-        product: {
-          ...formData,
-          deliveryTypes: selectedDelivery,
-          price: Number(formData.price),
-          mrp: Number(formData.mrp),
-          stock: Number(formData.stock),
-          discountValue: Number(formData.discountValue || 0),
-        },
-      }),
-    );
-    navigate("/my-products");
+    if (!storeId) {
+      toast.error("No store selected");
+      return;
+    }
+    if (!category) {
+      toast.error(t("addProduct.selectCategory"));
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await dispatch(
+        addProduct({
+          storeId,
+          categoryId: Number(category),
+          product: {
+            productName,
+            price: Number(price),
+            mrp: Number(mrp) || 0,
+            discountType,
+            discountValue: Number(discountValue) || 0,
+            unit,
+            size,
+            stock: Number(stock) || 0,
+            description,
+            country,
+            manufacturer,
+            image,
+            deliveryTypes: selectedDelivery,
+          },
+        }),
+      ).unwrap();
+
+      toast.success(t("common.saveChanges"));
+      navigate("/my-products");
+    } catch (err) {
+      toast.error(err || "Failed to add product");
+    } finally {
+      setSubmitting(false);
+    }
   };
+
   return (
     <div className="border border-[var(--primary-color)]  px-4 py-3 rounded-xl shadow flex flex-col gap-3">
       <h1 className="text-xl font-bold mt-5 mb-6">{t("addProduct.title")}</h1>
@@ -122,9 +147,9 @@ const AddProduct = () => {
             >
               <option value=""> {t("addProduct.selectCategory")}</option>
 
-              {categories.map((category) => (
-                <option className="" key={category.id} value={category.id}>
-                  {t(`addProduct.categories.${category.key}`)}
+              {categories.map((cat) => (
+                <option className="" key={cat.id} value={cat.id}>
+                  {t(`addProduct.categories.${cat.key}`)}
                 </option>
               ))}
             </select>
@@ -293,9 +318,10 @@ const AddProduct = () => {
             </div>
             <button
               type="submit"
-              className="bg-[var(--primary-color)] py-3 px-8 rounded-lg hover:opacity-90 text-white cursor-pointer "
+              disabled={submitting}
+              className="bg-[var(--primary-color)] py-3 px-8 rounded-lg hover:opacity-90 text-white cursor-pointer disabled:opacity-50"
             >
-              {t("common.saveChanges")}
+              {submitting ? t("common.loading") : t("common.saveChanges")}
             </button>
           </div>
         </form>{" "}
