@@ -16,11 +16,13 @@ const userRoutes = require("./routes/partnerRoutes");
 const storeRoutes = require("./routes/storeRoutes");
 const customerAuthRoutes = require("./routes/customerAuthRoutes");
 const publicRoutes = require("./routes/publicRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/stores", storeRoutes);
 app.use("/api/customer-auth", customerAuthRoutes);
 app.use("/api/public", publicRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRoutes);

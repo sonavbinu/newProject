@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowLeft, Package, ShoppingCart } from "lucide-react";
 import { fetchStoreProducts } from "../../redux/slices/storeBrowseSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
+import { toast } from "react-toastify";
 
 const categoryLabels = {
   1: "Fruits & Vegetables",
@@ -21,6 +23,8 @@ const ProductBrowse = () => {
   const { selectedStoreProducts, loading } = useSelector(
     (state) => state.storeBrowse,
   );
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   useEffect(() => {
     if (storeId) dispatch(fetchStoreProducts(storeId));
@@ -41,6 +45,11 @@ const ProductBrowse = () => {
       );
     }
     return Math.max(0, product.price - product.discountValue);
+  };
+
+  const handleAddtoCart = (product) => {
+    dispatch(addToCart({ storeId, product }));
+    toast.success(`${product.productName} added to cart`);
   };
 
   return (
@@ -87,7 +96,7 @@ const ProductBrowse = () => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                   {products.map((product) => {
                     const price = finalPrice(product);
                     const hasDiscount = price < product.price;
@@ -160,7 +169,12 @@ const ProductBrowse = () => {
 
                           <button
                             disabled={product.stock === 0}
-                            className="mt-2 cursor-pointer flex items-center justify-center gap-1.5 w-full bg-[#8BAD2B] disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-white rounded-lg py-2 text-sm font-medium hover:opacity-90 active:scale-[0.98] transition"
+                            onClick={() => handleAddtoCart(product)}
+                            className="mt-2 cursor-pointer flex items-center justify-center gap-1.5 w-full bg-[#8BAD2B]
+                             disabled:bg-gray-100 disabled:text-gray-400 
+                             disabled:cursor-not-allowed text-white
+                              rounded-lg py-2 text-sm font-medium hover:opacity-90 
+                              active:scale-[0.98] transition"
                           >
                             <ShoppingCart size={14} />
                             Add
@@ -175,6 +189,16 @@ const ProductBrowse = () => {
           </div>
         )}
       </div>
+
+      {cartCount > 0 && (
+        <button
+          onClick={() => navigate("/cart")}
+          className="fixed bottom-6 right-6 z-20 flex items-center gap-2 bg-[#8BAD2B] text-white px-5 py-3 rounded-full shadow-lg hover:opacity-90 active:scale-[0.98] transition cursor-pointer"
+        >
+          <ShoppingCart size={18} />
+          <span className="font-semibold text-sm">{cartCount} in cart</span>
+        </button>
+      )}
     </div>
   );
 };

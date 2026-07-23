@@ -5,6 +5,8 @@ import Register from "../Pages/Login/Register";
 import StoreSelect from "../Pages/Stores/StoreSelect";
 import ProductBrowse from "../Pages/Products/ProductBrowse";
 import ProtectedRoute from "../ProtectedRoute";
+import Cart from "../Pages/Cart/Cart";
+import OrderDetail from "../Pages/Orders/OrderDetail";
 
 const AppRoutes = () => {
   return (
@@ -15,6 +17,8 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/stores" element={<StoreSelect />} />
         <Route path="/stores/:storeId/products" element={<ProductBrowse />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/orders/:orderId" element={<OrderDetail />} />
       </Route>
     </Routes>
   );
