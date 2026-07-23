@@ -14,9 +14,14 @@ app.use(express.json());
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/partnerRoutes");
 const storeRoutes = require("./routes/storeRoutes");
+const customerAuthRoutes = require("./routes/customerAuthRoutes");
+const publicRoutes = require("./routes/publicRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/stores", storeRoutes);
+app.use("/api/customer-auth", customerAuthRoutes);
+app.use("/api/public", publicRoutes);
+
 app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
