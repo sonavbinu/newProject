@@ -75,12 +75,12 @@ const StoreSelect = () => {
             </p>
           </div>
         ) : (
-          <div>
+          <div className="flex flex-col gap-4 ">
             {filteredStores.map((store) => (
               <button
                 key={store._id}
                 onClick={() => handleSelect(store._id)}
-                className="group flex items-center gap-4 w-full text-left bg-white border border-gray-200 rounded-xl p-4 hover:border-[#8BAD2B] hover:shadow-md transition-all"
+                className="group flex items-center gap-4 w-full cursor-pointer text-left bg-white border border-gray-200 rounded-xl p-4 hover:border-[#8BAD2B] hover:shadow-md transition-all"
               >
                 <div className="w-14 h-14 rounded-lg bg-[#F1F5E3] flex items-center justify-center overflow-hidden shrink-0">
                   {store.storeImage ? (
