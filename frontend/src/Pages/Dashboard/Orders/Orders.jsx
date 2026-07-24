@@ -26,9 +26,7 @@ const Orders = () => {
   }, [storeId, dispatch]);
 
   const filteredOrders = orders.filter((order) => order.status === activeTab);
-  console.log("activeTab:", activeTab);
-  console.log("orders", orders);
-  console.log("filteredOrder:", filteredOrders);
+
   return (
     <div>
       <div className="flex flex-col gap-3">
@@ -71,6 +69,7 @@ const Orders = () => {
                         status: "completed",
                       }),
                     );
+                    setActiveTab("completed");
                   }}
                 />
               );
@@ -97,6 +96,7 @@ const Orders = () => {
                         status: "preparing",
                       }),
                     );
+                    setActiveTab("preparing");
                   }
                 }}
               />
@@ -121,6 +121,7 @@ const Orders = () => {
               );
               setOpenModal(false);
               setSelectedOrder(null);
+              setActiveTab("packed");
             }}
           />
         )}

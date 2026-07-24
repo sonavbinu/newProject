@@ -7,6 +7,7 @@ import ProductBrowse from "../Pages/Products/ProductBrowse";
 import ProtectedRoute from "../ProtectedRoute";
 import Cart from "../Pages/Cart/Cart";
 import OrderDetail from "../Pages/Orders/OrderDetail";
+import OrderHistory from "../Pages/Orders/OrderHistory";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path="/stores/:storeId/products" element={<ProductBrowse />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders/:orderId" element={<OrderDetail />} />
+        <Route path="/orders" element={<OrderHistory />} />
       </Route>
     </Routes>
   );

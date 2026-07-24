@@ -3,7 +3,7 @@ import API from "../../api/api";
 
 export const placeOrder = createAsyncThunk(
   "order/placeOrder",
-  async ({ storeId, items }, { rejectWithValue }) => {
+  async ({ storeId, items, phone, address }, { rejectWithValue }) => {
     try {
       const res = await API.post("/orders", {
         storeId,
@@ -11,6 +11,8 @@ export const placeOrder = createAsyncThunk(
           productId: i.productId,
           quantity: i.quantity,
         })),
+        phone,
+        address,
       });
       return res.data.order;
     } catch (err) {
