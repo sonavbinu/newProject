@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { fetchMyProducts } from "../../../redux/slices/productSlice";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const MyProducts = () => {
   const { t } = useTranslation();
@@ -10,6 +11,7 @@ const MyProducts = () => {
   const dispatch = useDispatch();
   const selectedStore = useSelector((state) => state.store.selectedStore);
   const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (storeId) {
@@ -26,6 +28,8 @@ const MyProducts = () => {
         <div className="flex gap-4 justify-between">
           <input
             type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder={t("myProducts.searchPlaceholder")}
             className="border border-gray-300 rounded-xl px-2 py-2 focus:ring-2 focus:ring-[var(--primary-color)] 
             outline-none w-[80%]"
@@ -37,7 +41,7 @@ const MyProducts = () => {
             {t("myProducts.addProduct")}
           </button>
         </div>
-        <Outlet />
+        <Outlet context={{ search }} />
       </div>
     </div>
   );

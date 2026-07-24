@@ -38,7 +38,7 @@ const StoreSelect = () => {
   return (
     <div className="min-h-screen bg-[#FAFAF7]">
       <div className="max-w-3xl mx-auto px-6 pt-16 pb-24">
-        <div className="mb-8">
+        <div className="mb-8 ">
           <div className="flex justify-between items-start mb-2">
             <p className="text-sm font-medium tracking-wide text-[#8BAD2B] uppercase">
               Pick a Store
@@ -62,6 +62,7 @@ const StoreSelect = () => {
               </button>
             </div>
           </div>
+          <hr className="text-gray-100 mb-6 mt-6" />
 
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
             Where are you ordering from today?

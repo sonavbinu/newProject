@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useOutletContext } from "react-router-dom";
 import {
   ChevronDown,
   ChevronUp,
@@ -20,6 +21,7 @@ import {
 const ProductList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { search } = useOutletContext();
   const [open, setOpen] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [actionType, setActionType] = useState("");
@@ -88,6 +90,15 @@ const ProductList = () => {
     setActionType("");
     setValue("");
   };
+
+  const filteredCategories = categories
+    .map((category) => ({
+      ...category,
+      products: category.products.filter((product) =>
+        product.productName.toLowerCase().includes(search.toLowerCase()),
+      ),
+    }))
+    .filter((category) => !search || category.products.length > 0);
 
   return (
     <div className="flex flex-col border border-gray-300 gap-3 rounded p-5 ">
@@ -168,7 +179,7 @@ const ProductList = () => {
                                 : t("productList.outOfStock")}
                             </span>
                           </td>
-                          <td className=" px-4 py-3 text-center border border-[var(--primary-light)]">
+                          <td className=" px-4 py-3 text-center border  border-[var(--primary-light)]">
                             <div className="grid grid-cols-4 items-center w-fit mx-auto  gap-2">
                               <button
                                 onClick={() =>

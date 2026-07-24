@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { CheckCircle2, ArrowLeft } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { CheckCircle2, ArrowLeft, Package, LogOut } from "lucide-react";
 import API from "../../api/api";
+import { logout } from "../../redux/slices/customerAuthSlice";
 
 const OrderDetail = () => {
   const { orderId } = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,18 +26,44 @@ const OrderDetail = () => {
     fetchOrder();
   }, [orderId]);
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   if (loading) return <div className="text-center mt-20">Loading order...</div>;
   if (!order) return <div className="text-center mt-20">Order not found</div>;
   return (
     <div className="min-h-screen bg-[#FAFAF7] px-6 pt-10 pb-24">
       <div className="max-w-xl mx-auto">
-        <button
-          className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] mb-6"
-          onClick={() => navigate("/stores")}
-        >
-          <ArrowLeft size={16} />
-          Continue shopping
-        </button>
+        <div>
+          <button
+            className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] mb-6"
+            onClick={() => navigate("/stores")}
+          >
+            <ArrowLeft size={16} />
+            Continue shopping
+          </button>
+          <div className="flex items-center gap-4 justify-end">
+            <button
+              onClick={() => navigate("/orders")}
+              className="flex items-center gap-1.5 
+            text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer
+            "
+            >
+              <Package size={16} />
+              My Orders
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 text-sm text-gray-500
+               hover:text-[#8BAD2B] transition cursor-pointer     "
+            >
+              <LogOut size={16} />
+              Logout
+            </button>
+          </div>
+        </div>
 
         <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col gap-4">
           <div className="flex items-center gap-2 text-[#8BAD2B]">

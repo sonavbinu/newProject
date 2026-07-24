@@ -33,7 +33,7 @@ const OrderHistory = () => {
   const handleDelete = (e, orderId) => {
     e.stopPropagation();
     if (
-      window.confirm("Delete this oder permanently ? This cannot be undone.")
+      window.confirm("Delete this order permanently ? This cannot be undone.")
     ) {
       dispatch(deleteOrder(orderId))
         .unwrap()
@@ -83,12 +83,12 @@ const OrderHistory = () => {
               <div
                 key={order._id}
                 onClick={() => navigate(`/orders/${order._id}`)}
-                className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer "
+                className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer text-end "
               >
                 <button
                   onClick={(e) => handleDelete(e, order._id)}
                   title="Delete order"
-                  className="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition p-1 cursor-pointer"
+                  className="top-3 right-0 ml-10 text-gray-300 hover:text-red-500 transition p-1 cursor-pointer"
                 >
                   <Trash2 size={16} />
                 </button>
