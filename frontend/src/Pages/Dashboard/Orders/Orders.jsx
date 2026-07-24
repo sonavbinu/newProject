@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Phone, MapPin } from "lucide-react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { completeOrder, confirmOrder } from "../../../redux/slices/orderSlice";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchStoreOrders,
+  updateOrderStatus,
+} from "../../../redux/slices/orderSlice";
 import OrderVerificationModal from "./OrderVerificationModal";
 import PackedIOrders from "./PackedIOrders";
 import OrderCard from "./OrderCard";
@@ -13,11 +14,21 @@ const Orders = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
+
   const [activeTab, setActiveTab] = useState("confirmation");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
+  useEffect(() => {
+    if (storeId) dispatch(fetchStoreOrders(storeId));
+  }, [storeId, dispatch]);
+
   const filteredOrders = orders.filter((order) => order.status === activeTab);
+  console.log("activeTab:", activeTab);
+  console.log("orders", orders);
+  console.log("filteredOrder:", filteredOrders);
   return (
     <div>
       <div className="flex flex-col gap-3">
@@ -27,8 +38,8 @@ const Orders = () => {
             type="text"
             placeholder={t("orders.searchPlaceholder")}
             className="border w-[80%] border-gray-300 py-2 px-2 focus:ring-2 focus:ring-[var(--primary-color)] rounded-xl focus:outline-none"
-          />{" "}
-        </div>{" "}
+          />
+        </div>
         <p>{t("orders.lastUpdated")}</p>
         <div className="flex justify-around shadow py-4 rounded-lg">
           {["confirmation", "preparing", "packed", "completed"].map((tab) => (
@@ -50,23 +61,28 @@ const Orders = () => {
             if (activeTab === "packed") {
               return (
                 <PackedIOrders
-                  key={order.id}
+                  key={order._id}
                   order={order}
                   onComplete={() => {
-                    dispatch(completeOrder(order.id));
-                    setActiveTab("completed");
+                    dispatch(
+                      updateOrderStatus({
+                        orderId: order._id,
+                        storeId,
+                        status: "completed",
+                      }),
+                    );
                   }}
                 />
               );
             }
 
             if (activeTab === "completed") {
-              return <CompletedOrders key={order.id} order={order} />;
+              return <CompletedOrders key={order._id} order={order} />;
             }
 
             return (
               <OrderCard
-                key={order.id}
+                key={order._id}
                 order={order}
                 activeTab={activeTab}
                 onConfirm={() => {
@@ -74,8 +90,13 @@ const Orders = () => {
                     setSelectedOrder(order);
                     setOpenModal(true);
                   } else {
-                    dispatch(confirmOrder(order.id));
-                    setActiveTab("preparing");
+                    dispatch(
+                      updateOrderStatus({
+                        orderId: order._id,
+                        storeId,
+                        status: "preparing",
+                      }),
+                    );
                   }
                 }}
               />
@@ -83,21 +104,25 @@ const Orders = () => {
           })}
         </div>
         {openModal && selectedOrder && (
-          <div>
-            <OrderVerificationModal
-              order={selectedOrder}
-              open={openModal}
-              onClose={() => {
-                setOpenModal(false);
-                setSelectedOrder(null);
-              }}
-              onPacked={() => {
-                setActiveTab("packed");
-                setOpenModal(false);
-                setSelectedOrder(null);
-              }}
-            />
-          </div>
+          <OrderVerificationModal
+            order={selectedOrder}
+            open={openModal}
+            onClose={() => {
+              setOpenModal(false);
+              setSelectedOrder(null);
+            }}
+            onPacked={() => {
+              dispatch(
+                updateOrderStatus({
+                  orderId: selectedOrder._id,
+                  storeId,
+                  status: "packed",
+                }),
+              );
+              setOpenModal(false);
+              setSelectedOrder(null);
+            }}
+          />
         )}
       </div>
     </div>
