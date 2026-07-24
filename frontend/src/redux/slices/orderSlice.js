@@ -1,147 +1,64 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import API from "../../api/api";
 
-const initialState = {
-  orders: [
-    {
-      id: 12345,
-      date: "Apr 10 2024",
-      customer: {
-        name: "Rajesh Kannan",
-        phone: "+91 8526547512",
-        address: "RS Puram,Coimbatore",
-      },
-      payment: "PAID-UPI",
-      total: 150,
-      status: "confirmation",
-      items: [
-        {
-          id: 1,
-          name: "Ooty Apple",
-          quantity: 1,
-          price: 100,
-        },
-        {
-          id: 2,
-          name: "White Egg",
-          quantity: 5,
-          price: 50,
-        },
-      ],
-    },
-    {
-      id: 12305,
-      date: "Apr 10 2024",
-      customer: {
-        name: "Rajesh Kannan",
-        phone: "+91 8526547512",
-        address: "RS Puram,Coimbatore",
-      },
-      payment: "PAID-UPI",
-      total: 150,
-      status: "confirmation",
-      items: [
-        {
-          id: 1,
-          name: "Ooty Apple",
-          quantity: 1,
-          price: 100,
-        },
-        {
-          id: 2,
-          name: "White Egg",
-          quantity: 5,
-          price: 50,
-        },
-      ],
-    },
-    {
-      id: 12346,
-      date: "Apr 10 2024",
-      customer: {
-        name: "Rajesh Kannan",
-        phone: "+91 8526547512",
-        address: "RS Puram,Coimbatore",
-      },
-      payment: "PAID-UPI",
-      total: 150,
-      status: "confirmation",
-      items: [
-        {
-          id: 1,
-          name: "Ooty Apple",
-          quantity: 1,
-          price: 100,
-        },
-        {
-          id: 2,
-          name: "White Egg",
-          quantity: 5,
-          price: 50,
-        },
-      ],
-    },
-    {
-      id: 12347,
-      date: "Apr 10 2024",
-      customer: {
-        name: "Rajesh Kannan",
-        phone: "+91 8526547512",
-        address: "RS Puram,Coimbatore",
-      },
-      payment: "PAID-UPI",
-      total: 150,
-      status: "confirmation",
-      items: [
-        {
-          id: 1,
-          name: "Ooty Apple",
-          quantity: 1,
-          price: 100,
-        },
-        {
-          id: 2,
-          name: "White Egg",
-          quantity: 5,
-          price: 50,
-        },
-      ],
-    },
-  ],
-};
+export const fetchStoreOrders = createAsyncThunk(
+  "orders/fetchStoreOrders",
+  async (storeId, { rejectWithValue }) => {
+    try {
+      const res = await API.get("/vendor-orders", { params: { storeId } });
+      return res.data.orders;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to load orders",
+      );
+    }
+  },
+);
+
+export const updateOrderStatus = createAsyncThunk(
+  "orders/updateOrderStatus",
+  async ({ orderId, storeId, status }, { rejectWithValue }) => {
+    try {
+      const res = await API.put("/vendor-orders/status", {
+        orderId,
+        storeId,
+        status,
+      });
+      return res.data.order;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to update order",
+      );
+    }
+  },
+);
 
 const orderSlice = createSlice({
   name: "orders",
-  initialState,
-
-  reducers: {
-    confirmOrder: (state, action) => {
-      const order = state.orders.find((o) => o.id === action.payload);
-
-      if (order) {
-        order.status = "preparing";
-      }
-    },
-    rejectOrder: (state, action) => {
-      const order = state.orders.filter((o) => o.id !== action.payload);
-    },
-    packOrder: (state, action) => {
-      const order = state.orders.find((o) => o.id === action.payload);
-
-      if (order) {
-        order.status = "packed";
-      }
-    },
-
-    completeOrder: (state, action) => {
-      const order = state.orders.find((o) => o.id === action.payload);
-      if (order) {
-        order.status = "completed";
-      }
-    },
+  initialState: {
+    orders: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchStoreOrders.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchStoreOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload;
+      })
+      .addCase(fetchStoreOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateOrderStatus.fulfilled, (state, action) => {
+        const idx = state.orders.findIndex((o) => o._id === action.payload._id);
+        if (idx !== -1) state.orders[idx] = action.payload;
+      });
   },
 });
-
-export const { confirmOrder, rejectOrder, packOrder, completeOrder } =
-  orderSlice.actions;
 
 export default orderSlice.reducer;

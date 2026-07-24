@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { StoreIcon, MapPin, Search } from "lucide-react";
+import { StoreIcon, MapPin, Search, LogOut, Package } from "lucide-react";
 import {
   fetchApprovedStores,
   selectStore,
 } from "../../redux/slices/storeBrowseSlice";
 import { useState } from "react";
+import { logout } from "../../redux/slices/customerAuthSlice";
 
 const StoreSelect = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,10 @@ const StoreSelect = () => {
       navigate(`/stores/${storeId}/products`);
     }
   };
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
   const filteredStores = stores.filter(
     (store) =>
       store.storeName.toLowerCase().includes(query.toLowerCase()) ||
@@ -34,9 +39,30 @@ const StoreSelect = () => {
     <div className="min-h-screen bg-[#FAFAF7]">
       <div className="max-w-3xl mx-auto px-6 pt-16 pb-24">
         <div className="mb-8">
-          <p className="text-sm font-medium tracking-wide text-[#8BAD2B] uppercase mb-2">
-            Pick a Store
-          </p>
+          <div className="flex justify-between items-start mb-2">
+            <p className="text-sm font-medium tracking-wide text-[#8BAD2B] uppercase">
+              Pick a Store
+            </p>
+
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => navigate("/orders")}
+                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer"
+              >
+                <Package size={16} />
+                My Orders
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-500 transition cursor-pointer"
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
+            </div>
+          </div>
+
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
             Where are you ordering from today?
           </h1>
@@ -75,12 +101,12 @@ const StoreSelect = () => {
             </p>
           </div>
         ) : (
-          <div>
+          <div className="flex flex-col gap-4 ">
             {filteredStores.map((store) => (
               <button
                 key={store._id}
                 onClick={() => handleSelect(store._id)}
-                className="group flex items-center gap-4 w-full text-left bg-white border border-gray-200 rounded-xl p-4 hover:border-[#8BAD2B] hover:shadow-md transition-all"
+                className="group flex items-center gap-4 w-full cursor-pointer text-left bg-white border border-gray-200 rounded-xl p-4 hover:border-[#8BAD2B] hover:shadow-md transition-all"
               >
                 <div className="w-14 h-14 rounded-lg bg-[#F1F5E3] flex items-center justify-center overflow-hidden shrink-0">
                   {store.storeImage ? (
