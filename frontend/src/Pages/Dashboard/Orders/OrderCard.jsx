@@ -2,7 +2,7 @@ import React from "react";
 import { Phone, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const OrderCard = ({ order, activeTab, onConfirm }) => {
+const OrderCard = ({ order, activeTab, onConfirm, onReject }) => {
   const { t } = useTranslation();
   return (
     <div className="border border-gray-300 rounded-xl p-4 shadow hover:shadow-xl">
@@ -17,7 +17,7 @@ const OrderCard = ({ order, activeTab, onConfirm }) => {
 
       <div className="mt-3">
         <p className="font-semibold text-sm sm:text-base">
-          {t("orders.orderFor")}:
+          {t("orders.orderFor")}
         </p>
         <p className="text-gray-400">{order.customerName}</p>
 
@@ -60,7 +60,10 @@ const OrderCard = ({ order, activeTab, onConfirm }) => {
         <span>{order.payment}</span>
 
         <div className="flex gap-3 mt-2">
-          <button className="bg-gray-400 text-white p-2 rounded cursor-pointer">
+          <button
+            onClick={onReject}
+            className="bg-gray-400 text-white p-2 rounded cursor-pointer"
+          >
             {t("orders.rejectOrder")}
           </button>
 

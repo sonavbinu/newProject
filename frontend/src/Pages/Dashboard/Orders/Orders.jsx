@@ -99,6 +99,17 @@ const Orders = () => {
                     setActiveTab("preparing");
                   }
                 }}
+                onReject={() => {
+                  if (window.confirm("Reject this order?")) {
+                    dispatch(
+                      updateOrderStatus({
+                        orderId: order._id,
+                        storeId,
+                        status: "rejected",
+                      }),
+                    );
+                  }
+                }}
               />
             );
           })}
