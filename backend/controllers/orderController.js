@@ -74,6 +74,19 @@ const placeOrder = async (req, res) => {
   }
 };
 
+const deleteOrder = async (req, res) => {
+  try {
+    const order = await Order.findOneAndDelete({
+      _id: req.params.id,
+      customer: req.customer.id,
+    });
+    if (!order) return res.status(404).json({ message: "Order not found" });
+    res.status(200).json({ success: true, message: "Order deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 const getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ customer: req.customer.id })
@@ -98,4 +111,4 @@ const getOrderById = async (req, res) => {
   }
 };
 
-module.exports = { placeOrder, getMyOrders, getOrderById };
+module.exports = { placeOrder, getMyOrders, getOrderById, deleteOrder };

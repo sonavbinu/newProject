@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Package, ShoppingBag } from "lucide-react";
-import { fetchMyOrders } from "../../redux/slices/orderSlice";
+import { ArrowLeft, Package, ShoppingBag, Trash2 } from "lucide-react";
+import { fetchMyOrders, deleteOrder } from "../../redux/slices/orderSlice";
+import { toast } from "react-toastify";
 
 const statusColors = {
   confirmation: "bg-yellow-100 text-yellow-700",
@@ -28,6 +29,18 @@ const OrderHistory = () => {
   useEffect(() => {
     dispatch(fetchMyOrders());
   }, [dispatch]);
+
+  const handleDelete = (e, orderId) => {
+    e.stopPropagation();
+    if (
+      window.confirm("Delete this oder permanently ? This cannot be undone.")
+    ) {
+      dispatch(deleteOrder(orderId))
+        .unwrap()
+        .then(() => toast.success("Order Deleted"))
+        .catch((err) => toast.error(err || "Failed to delete order"));
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#FAFAF7]">
@@ -70,8 +83,15 @@ const OrderHistory = () => {
               <div
                 key={order._id}
                 onClick={() => navigate(`/orders/${order._id}`)}
-                className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer"
+                className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer "
               >
+                <button
+                  onClick={(e) => handleDelete(e, order._id)}
+                  title="Delete order"
+                  className="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition p-1 cursor-pointer"
+                >
+                  <Trash2 size={16} />
+                </button>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Package className="text-[#8BAD2B]" size={18} />

@@ -36,6 +36,19 @@ export const fetchMyOrders = createAsyncThunk(
     }
   },
 );
+export const deleteOrder = createAsyncThunk(
+  "order/deleteOrder",
+  async (orderId, { rejectWithValue }) => {
+    try {
+      await API.delete(`/orders/${orderId}`);
+      return orderId;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to delete order",
+      );
+    }
+  },
+);
 
 const orderSlice = createSlice({
   name: "order",
@@ -69,6 +82,9 @@ const orderSlice = createSlice({
       .addCase(fetchMyOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(deleteOrder.fulfilled, (state, action) => {
+        state.orders = state.orders.filter((o) => o._id !== action.payload);
       });
   },
 });
