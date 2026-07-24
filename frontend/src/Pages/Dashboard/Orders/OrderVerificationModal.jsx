@@ -1,12 +1,14 @@
 import { MapPin, Phone, X } from "lucide-react";
 import React, { useState } from "react";
-import { packOrder } from "../../../redux/slices/orderSlice";
-import { useDispatch } from "react-redux";
+import { updateOrderStatus } from "../../../redux/slices/orderSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
   const [checkedItems, setCheckedItems] = useState([]);
 
   const handleCheckboxChange = (id) => {
@@ -29,15 +31,16 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
           <div className="flex justify-between ">
             <p className="text-[var(--primary-color)]">
               {" "}
-              {t("orders.orderId")} :{order.id}
+              {t("orders.orderId")} :{order._id}
             </p>
             <p className="text-gray-400">
-              {t("orders.date")}:{order.date}
+              {t("orders.date")}:
+              {new Date(order.createdAt).toLocaleDateString()}
             </p>
           </div>
           <div className="w-full">
             <h2 className="font-semibold"> {t("orders.orderFor")} :</h2>
-            <p className="text-gray-500 mb-2">{order.customer.name}</p>
+            <p className="text-gray-500 mb-2">{order.customerName}</p>
           </div>
           <div className="flex w-full gap-3">
             <span
@@ -46,14 +49,14 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
           "
             >
               <Phone size={16} className="text-[var(--primary-color)]" />
-              {order.customer.phone}
+              {order.customerPhone}
             </span>
             <span
               className="flex items-center gap-2 text-sm sm:text-base  border border-gray-300
             rounded-xl p-2"
             >
               <MapPin size={16} className="text-[var(--primary-color)]" />
-              {order.customer.address}
+              {order.customerAddress}
             </span>
           </div>
           <div className="flex flex-col items-center justify-center gap-2  mt-2">
@@ -80,14 +83,14 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
           </h2>
           {order.items.map((item) => (
             <div
-              key={item.id}
+              key={item.product}
               className="flex justify-between py-2 border-b border-gray-300 last:border-b-0"
             >
               <div className="flex ">
                 <input
                   type="checkbox"
-                  checked={checkedItems.includes(item.id)}
-                  onChange={() => handleCheckboxChange(item.id)}
+                  checked={checkedItems.includes(item.product)}
+                  onChange={() => handleCheckboxChange(item.product)}
                   className="accent-[var(--primary-color)]"
                 />
                 <span>
@@ -112,7 +115,13 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
           <button
             disabled={!allChecked}
             onClick={() => {
-              dispatch(packOrder(order.id));
+              dispatch(
+                updateOrderStatus({
+                  orderId: order._id,
+                  storeId,
+                  status: "packed",
+                }),
+              );
               onClose();
               onPacked();
             }}

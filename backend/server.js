@@ -8,6 +8,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.set("etag", false);
 app.use(cors());
 app.use(express.json());
 
@@ -17,12 +18,14 @@ const storeRoutes = require("./routes/storeRoutes");
 const customerAuthRoutes = require("./routes/customerAuthRoutes");
 const publicRoutes = require("./routes/publicRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const vendorOrderRoutes = require("./routes/vendorOrderRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/stores", storeRoutes);
 app.use("/api/customer-auth", customerAuthRoutes);
 app.use("/api/public", publicRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/vendor-orders", vendorOrderRoutes);
 
 app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRoutes);

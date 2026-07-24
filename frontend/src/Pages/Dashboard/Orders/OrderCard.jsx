@@ -8,30 +8,28 @@ const OrderCard = ({ order, activeTab, onConfirm }) => {
     <div className="border border-gray-300 rounded-xl p-4 shadow hover:shadow-xl">
       <div className="flex justify-between">
         <h3 className="text-[var(--primary-color)]">
-          {t("orders.orderId")}: {order.id}
+          {t("orders.orderId")}: {order._id}
         </h3>
         <p className="text-gray-400">
-          {" "}
-          {t("orders.date")}: {order.date}
+          {t("orders.date")}: {new Date(order.createdAt).toLocaleDateString()}
         </p>
       </div>
 
       <div className="mt-3">
         <p className="font-semibold text-sm sm:text-base">
-          {" "}
           {t("orders.orderFor")}:
         </p>
-        <p className="text-gray-400">{order.customer.name}</p>
+        <p className="text-gray-400">{order.customerName}</p>
 
         <div className="flex gap-4 mt-2 flex-wrap">
           <p className="flex items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
             <Phone size={16} className="text-[var(--primary-color)]" />
-            {order.customer.phone}
+            {order.customerPhone}
           </p>
 
           <p className="flex items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
             <MapPin size={16} className="text-[var(--primary-color)]" />
-            {order.customer.address}
+            {order.customerAddress}
           </p>
         </div>
       </div>
@@ -42,7 +40,7 @@ const OrderCard = ({ order, activeTab, onConfirm }) => {
         <div className="bg-[var(--primary-light)] rounded-xl p-3">
           {order.items.map((item) => (
             <div
-              key={item.id}
+              key={item.product}
               className="flex justify-between py-2 border-b border-gray-300 last:border-b-0"
             >
               <span>

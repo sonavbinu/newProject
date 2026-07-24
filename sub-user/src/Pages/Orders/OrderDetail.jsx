@@ -51,7 +51,7 @@ const OrderDetail = () => {
             {order.items.map((item) => (
               <div key={item.product} className="flex justify-between text-sm">
                 <span>
-                  {item.productName} x {item.quantity}
+                  {item.name} x {item.quantity}
                 </span>
                 <span>Rs{item.price * item.quantity}</span>
               </div>
@@ -59,7 +59,7 @@ const OrderDetail = () => {
           </div>
           <div className="flex justify-between font-bold border-t border-gray-100 pt-4">
             <span>Total</span>
-            <span>{order.totalAmount}</span>
+            <span>{order.total}</span>
           </div>
           <p className="text-xs text-gray-400 flex gap-2 justify-between">
             Status: {order.status}

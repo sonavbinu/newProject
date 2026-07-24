@@ -1,9 +1,10 @@
 const Order = require("../models/Order");
 const Product = require("../models/Product");
+const Customer = require("../models/customer");
 
 const placeOrder = async (req, res) => {
   try {
-    const { storeId, items } = req.body;
+    const { storeId, items, phone, address } = req.body;
 
     if (!storeId || !items?.length) {
       return res
@@ -11,7 +12,11 @@ const placeOrder = async (req, res) => {
         .json({ message: "storeId and items are required" });
     }
 
-    let totalAmount = 0;
+    const customer = await Customer.findById(req.customer.id);
+    if (!customer)
+      return res.status(404).json({ message: "Customer not found" });
+
+    let total = 0;
     const orderItems = [];
 
     for (const item of items) {
@@ -25,9 +30,9 @@ const placeOrder = async (req, res) => {
           .json({ message: `Product not found: ${item.productId}` });
       }
       if (product.stock < item.quantity) {
-        return res.status(400).json({
-          message: `Not enough stock for ${product.productName}`,
-        });
+        return res
+          .status(400)
+          .json({ message: `Not enough stock for ${product.productName}` });
       }
 
       const price =
@@ -41,22 +46,25 @@ const placeOrder = async (req, res) => {
 
       orderItems.push({
         product: product._id,
-        productName: product.productName,
+        name: product.productName,
         price,
         quantity: item.quantity,
       });
 
-      totalAmount += price * item.quantity;
-
+      total += price * item.quantity;
       product.stock -= item.quantity;
       await product.save();
     }
 
     const order = await Order.create({
-      customer: req.customer.id,
+      customer: customer._id,
       store: storeId,
+      customerName: customer.name || "Customer",
+      customerPhone: phone || customer.phone || "",
+      customerAddress: address || "",
       items: orderItems,
-      totalAmount,
+      total,
+      payment: "COD",
     });
 
     res.status(201).json({ success: true, order });

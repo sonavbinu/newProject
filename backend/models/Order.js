@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const customer = require("./customer");
 
 const orderItemSchema = new mongoose.Schema(
   {
@@ -8,7 +7,7 @@ const orderItemSchema = new mongoose.Schema(
       ref: "Product",
       required: true,
     },
-    productName: { type: String, required: true },
+    name: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
   },
@@ -27,21 +26,17 @@ const orderSchema = new mongoose.Schema(
       ref: "Store",
       required: true,
     },
+    customerName: { type: String, required: true },
+    customerPhone: { type: String, default: "" },
+    customerAddress: { type: String, default: "" },
     items: [orderItemSchema],
-    totalAmount: { type: Number, required: true },
+    total: { type: Number, required: true },
+    payment: { type: String, default: "COD" },
     status: {
       type: String,
-      enum: [
-        "placed",
-        "confirmed",
-        "preparing",
-        "out_for_delivery",
-        "delivered",
-        "cancelled",
-      ],
-      default: "placed",
+      enum: ["confirmation", "preparing", "packed", "completed", "rejected"],
+      default: "confirmation",
     },
-    paymentMethod: { type: String, default: "cod" },
   },
   { timestamps: true },
 );
