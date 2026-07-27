@@ -132,6 +132,51 @@ export const deleteProduct = createAsyncThunk(
   },
 );
 
+export const fetchProductById = createAsyncThunk(
+  "products/fetchProductById",
+  async ({ productId, storeId }, { rejectWithValue }) => {
+    try {
+      const res = await API.get(`/products/${productId}`, {
+        params: { storeId },
+      });
+      return res.data.product;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to load product",
+      );
+    }
+  },
+);
+export const updateProduct = createAsyncThunk(
+  "products/updateProduct",
+  async ({ productId, storeId, categoryId, product }, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("storeId", storeId);
+      formData.append("categoryId", categoryId);
+      Object.entries(product).forEach(([key, value]) => {
+        if (key === "image" && value instanceof File) {
+          formData.append("image", value);
+        } else if (key === "deliveryTypes") {
+          formData.append("deliveryTypes", JSON.stringify(value));
+        } else if (value !== null && value !== undefined) {
+          formData.append(key, value);
+        }
+      });
+
+      const res = await API.put(`/products/${productId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      return { categoryId: Number(categoryId), product: res.data.product };
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update product",
+      );
+    }
+  },
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState,
@@ -195,6 +240,17 @@ const productSlice = createSlice({
             (p) => p._id !== productId,
           );
         }
+      })
+
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        const { categoryId, product } = action.payload;
+        //remove from old category and re-add to the right one
+        state.categories.forEach((cat) => {
+          cat.products = cat.products.filter((p) => p._id !== product._id);
+        });
+
+        const category = state.categories.find((c) => c.id === categoryId);
+        if (category) category.products.push(product);
       });
   },
 });

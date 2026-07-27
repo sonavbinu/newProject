@@ -16,7 +16,7 @@ const CompletedOrders = ({ order }) => {
           </p>
         </div>
         <div>
-          <h4 className="font-semibold"> {t("orders.orderFor")}:</h4>
+          <h4 className="font-semibold"> {t("orders.orderFor")}</h4>
           <p className="font-medium">{order.customerName}</p>
         </div>
         <div className="flex flex-col lg:flex-row mt-3 gap-3">
@@ -57,7 +57,7 @@ const CompletedOrders = ({ order }) => {
             ))}
           </div>
           <div className="flex justify-between items-center mt-2 pt-5 pb-5 border-t border-t-gray-300">
-            <h4 className="font-semibold"> {t("orders.totalBillAmount")}:</h4>
+            <h4 className="font-semibold"> {t("orders.totalBillAmount")}</h4>
             <div className="flex items-center">
               <span>Rs{order.total}</span>
             </div>

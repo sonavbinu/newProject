@@ -109,7 +109,8 @@
     "cancel": "Cancel",
     "link": "Link",
     "saveChanges": "Save Changes",
-    "save": "Save"
+    "save": "Save",
+    "loading": "Loading..."
   },
   "about": {
     "title": "About ORIGIN",

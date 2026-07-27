@@ -11,6 +11,6 @@ const {
 router.post("/", customerAuth, placeOrder);
 router.get("/my-orders", customerAuth, getMyOrders);
 router.get("/:id", customerAuth, getOrderById);
-router.get("/:id", customerAuth, deleteOrder);
+router.delete("/:id", customerAuth, deleteOrder);
 
 module.exports = router;

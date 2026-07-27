@@ -15,12 +15,27 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import OrderData from "./OrderData";
 import ProductData from "./ProductData";
+import { fetchStoreOrders } from "../../../redux/slices/orderSlice";
+import { fetchMyProducts } from "../../../redux/slices/productSlice";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
+
+  useEffect(() => {
+    if (storeId) {
+      dispatch(fetchStoreOrders(storeId));
+      dispatch(fetchMyProducts(storeId));
+    }
+  }, [storeId, dispatch]);
+
   const menuItems = [
     { key: "makePayment", icon: CreditCard },
     { key: "settlements", icon: ChartColumn },

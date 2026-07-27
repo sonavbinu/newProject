@@ -15,7 +15,7 @@ const PackedIOrders = ({ order, onComplete }) => {
         </p>
       </div>
       <div>
-        <h4 className="font-semibold"> {t("orders.orderFor")}:</h4>
+        <h4 className="font-semibold"> {t("orders.orderFor")}</h4>
         <p className="font-medium">{order.customerName}</p>
       </div>
       <div className="flex flex-wrap gap-3">

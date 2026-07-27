@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowLeft, Package, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Package, ShoppingCart, LogOut } from "lucide-react";
 import { fetchStoreProducts } from "../../redux/slices/storeBrowseSlice";
 import { addToCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
+import { logout } from "../../redux/slices/customerAuthSlice";
 
 const categoryLabels = {
   1: "Fruits & Vegetables",
@@ -51,11 +52,15 @@ const ProductBrowse = () => {
     dispatch(addToCart({ storeId, product }));
     toast.success(`${product.productName} added to cart`);
   };
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen bg-[#FAFAF7] p-3 ">
       <div className="sticky top-0 z-10 bg-[#FAFAF7]/90 backdrop-blur-sm border-b border-gray-100 px-6 py-4 ">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto flex justify-between items-center">
           <button
             onClick={() => navigate("/stores")}
             className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer mb-3 hover:underline"
@@ -63,6 +68,23 @@ const ProductBrowse = () => {
             <ArrowLeft size={16} />
             Back to stores
           </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate("/orders")}
+              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer"
+            >
+              <Package size={16} />
+              My Orders
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-500 transition cursor-pointer"
+            >
+              <LogOut size={16} />
+              Logout
+            </button>
+          </div>
         </div>
       </div>
 
@@ -111,12 +133,12 @@ const ProductBrowse = () => {
                         key={product._id}
                         className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
                       >
-                        <div className="relative  bg-[#F1F5E3] flex items-center justify-center overflow-hidden p-2">
+                        <div className="relative h-30  bg-[#F1F5E3] flex items-center justify-center overflow-hidden ">
                           {product.image ? (
                             <img
                               src={`http://localhost:5000${product.image}`}
                               alt={product.productName}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              className="w-full h-full  object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           ) : (
                             <Package className="text-[#8BAD2B]" size={28} />
