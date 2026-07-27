@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreIcon, MapPin, Search, LogOut, Package } from "lucide-react";
@@ -8,12 +8,14 @@ import {
 } from "../../redux/slices/storeBrowseSlice";
 import { useState } from "react";
 import { logout } from "../../redux/slices/customerAuthSlice";
+import Navbar from "../../Components/Navbar";
 
 const StoreSelect = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { stores, loading } = useSelector((state) => state.storeBrowse);
   const [query, setQuery] = useState("");
+  const inputRef = useRef();
 
   useEffect(() => {
     dispatch(fetchApprovedStores());
@@ -37,6 +39,15 @@ const StoreSelect = () => {
 
   return (
     <div className="min-h-screen bg-[#FAFAF7]">
+      <Navbar
+        onSearchClick={() => {
+          inputRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+          inputRef.current?.focus();
+        }}
+      />
       <div className="max-w-3xl mx-auto px-6 pt-16 pb-24">
         <div className="mb-8 ">
           <div className="flex justify-between items-start mb-2">
@@ -76,6 +87,7 @@ const StoreSelect = () => {
           />
           <input
             type="text"
+            ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by name or area"

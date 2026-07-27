@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { CheckCircle2, ArrowLeft, Package, LogOut } from "lucide-react";
 import API from "../../api/api";
 import { logout } from "../../redux/slices/customerAuthSlice";
+import Navbar from "../../Components/Navbar";
 
 const OrderDetail = () => {
   const { orderId } = useParams();
@@ -34,8 +35,9 @@ const OrderDetail = () => {
   if (loading) return <div className="text-center mt-20">Loading order...</div>;
   if (!order) return <div className="text-center mt-20">Order not found</div>;
   return (
-    <div className="min-h-screen bg-[#FAFAF7] px-6 pt-10 pb-24">
-      <div className="max-w-xl mx-auto">
+    <div className="min-h-screen bg-[#FAFAF7]   pb-24">
+      <Navbar />
+      <div className="max-w-xl mx-auto pt-10">
         <div>
           <button
             className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] mb-6"
@@ -44,7 +46,7 @@ const OrderDetail = () => {
             <ArrowLeft size={16} />
             Continue shopping
           </button>
-          <div className="flex items-center gap-4 justify-end">
+          <div className="flex items-center gap-4 justify-end pb-10">
             <button
               onClick={() => navigate("/orders")}
               className="flex items-center gap-1.5 

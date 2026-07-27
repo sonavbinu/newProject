@@ -6,6 +6,7 @@ import { fetchStoreProducts } from "../../redux/slices/storeBrowseSlice";
 import { addToCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { logout } from "../../redux/slices/customerAuthSlice";
+import Navbar from "../../Components/Navbar";
 
 const categoryLabels = {
   1: "Fruits & Vegetables",
@@ -58,7 +59,8 @@ const ProductBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF7] p-3 ">
+    <div className="min-h-screen bg-[#FAFAF7] ">
+      <Navbar />
       <div className="sticky top-0 z-10 bg-[#FAFAF7]/90 backdrop-blur-sm border-b border-gray-100 px-6 py-4 ">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
           <button

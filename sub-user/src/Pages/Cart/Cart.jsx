@@ -8,6 +8,7 @@ import {
   ShoppingBag,
   LogOut,
   Package,
+  ArrowLeft,
 } from "lucide-react";
 import {
   incrementItem,
@@ -18,6 +19,7 @@ import {
 import { placeOrder } from "../../redux/slices/orderSlice";
 import { toast } from "react-toastify";
 import { logout } from "../../redux/slices/customerAuthSlice";
+import Navbar from "../../Components/Navbar";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -61,25 +63,35 @@ const Cart = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF7] px-6 pt-10 pb-32">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-[#FAFAF7] px-6 pl-0 pr-0 pb-32">
+      <Navbar />
+      <div className="max-w-2xl pt-10 mx-auto">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Cart</h1>
 
-        <div className="flex items-center gap-4 justify-end mb-6">
+        <div className="flex  items-center gap-4 justify-between mb-6">
           <button
-            onClick={() => navigate("/orders")}
-            className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer"
+            className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] mb-6"
+            onClick={() => navigate("/stores")}
           >
-            <Package size={16} />
-            My Orders
+            <ArrowLeft size={16} />
+            Continue shopping
           </button>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer"
-          >
-            <LogOut size={16} />
-            Logout
-          </button>
+          <div className="flex gap-4 items-center">
+            <button
+              onClick={() => navigate("/orders")}
+              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer"
+            >
+              <Package size={16} />
+              My Orders
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer"
+            >
+              <LogOut size={16} />
+              Logout
+            </button>
+          </div>
         </div>
         <div className="flex flex-col gap-3">
           {items.map((item) => (
