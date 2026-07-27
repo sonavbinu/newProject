@@ -1,19 +1,26 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { addProduct } from "../../../redux/slices/productSlice";
+import {
+  addProduct,
+  updateProduct,
+  fetchProductById,
+} from "../../../redux/slices/productSlice";
 import { useTranslation } from "react-i18next";
 
 const AddProduct = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { productId } = useParams();
+  const isEditMode = Boolean(productId);
   const selectedStore = useSelector((state) => state.store.selectedStore);
   const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
 
   const [selectedDelivery, setSelectedDelivery] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const [existingImageUrl, setExistingImageUrl] = useState(null);
   const [formData, setFormData] = useState({
     category: "",
     productName: "",
@@ -29,6 +36,35 @@ const AddProduct = () => {
     manufacturer: "",
     image: null,
   });
+
+  useEffect(() => {
+    if (isEditMode && storeId) {
+      dispatch(fetchProductById({ productId, storeId }))
+        .unwrap()
+        .then((product) => {
+          setFormData({
+            category: String(product.categoryId),
+            productName: product.productName,
+            mrp: product.mrp,
+            price: product.price,
+            discountType: product.discountType,
+            discountValue: product.discountValue,
+            unit: product.unit,
+            size: product.size,
+            stock: product.stock,
+            description: product.description,
+            country: product.country,
+            manufacturer: product.manufacturer,
+            image: null,
+          });
+          setSelectedDelivery(product.deliveryTypes || []);
+          if (product.image) {
+            setExistingImageUrl(`http://localhost:5000${product.image}`);
+          }
+        })
+        .catch((err) => toast.error(err || "Failed to load product"));
+    }
+  }, [isEditMode, productId, storeId, dispatch]);
 
   const {
     category,
@@ -98,32 +134,46 @@ const AddProduct = () => {
 
     setSubmitting(true);
     try {
-      await dispatch(
-        addProduct({
-          storeId,
-          categoryId: Number(category),
-          product: {
-            productName,
-            price: Number(price),
-            mrp: Number(mrp) || 0,
-            discountType,
-            discountValue: Number(discountValue) || 0,
-            unit,
-            size,
-            stock: Number(stock) || 0,
-            description,
-            country,
-            manufacturer,
-            image,
-            deliveryTypes: selectedDelivery,
-          },
-        }),
-      ).unwrap();
+      const productPayload = {
+        productName,
+        price: Number(price),
+        mrp: Number(mrp) || 0,
+        discountType,
+        discountValue: Number(discountValue) || 0,
+        unit,
+        size,
+        stock: Number(stock) || 0,
+        description,
+        country,
+        manufacturer,
+        image,
+        deliveryTypes: selectedDelivery,
+      };
+
+      if (isEditMode) {
+        console.log(productPayload);
+        await dispatch(
+          updateProduct({
+            productId,
+            storeId,
+            categoryId: Number(category),
+            product: productPayload,
+          }),
+        ).unwrap();
+      } else {
+        await dispatch(
+          addProduct({
+            storeId,
+            categoryId: Number(category),
+            product: productPayload,
+          }),
+        ).unwrap();
+      }
 
       toast.success(t("common.saveChanges"));
       navigate("/my-products");
     } catch (err) {
-      toast.error(err || "Failed to add product");
+      toast.error(err || "Failed to save product");
     } finally {
       setSubmitting(false);
     }
@@ -131,7 +181,9 @@ const AddProduct = () => {
 
   return (
     <div className="border border-[var(--primary-color)]  px-4 py-3 rounded-xl shadow flex flex-col gap-3">
-      <h1 className="text-xl font-bold mt-5 mb-6">{t("addProduct.title")}</h1>
+      <h1 className="text-xl font-bold mt-5 mb-6">
+        {isEditMode ? "Edit Product" : t("addProduct.title")}
+      </h1>
       <div>
         <form
           onSubmit={handleSubmit}
@@ -296,6 +348,12 @@ const AddProduct = () => {
                         alt="Preview"
                         className="w-full h-full object-cover"
                       />
+                    ) : existingImageUrl ? (
+                      <img
+                        src={existingImageUrl}
+                        alt="Current"
+                        className="w-full h-full object-cover"
+                      />
                     ) : (
                       <div className="flex flex-col items-center">
                         <span className="text-3xl text-gray-400">+</span>
@@ -321,7 +379,11 @@ const AddProduct = () => {
               disabled={submitting}
               className="bg-[var(--primary-color)] py-3 px-8 rounded-lg hover:opacity-90 text-white cursor-pointer disabled:opacity-50"
             >
-              {submitting ? t("common.loading") : t("common.saveChanges")}
+              {submitting
+                ? t("common.loading")
+                : isEditMode
+                  ? "Update Product"
+                  : t("common.saveChanges")}
             </button>
           </div>
         </form>{" "}

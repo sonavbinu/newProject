@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import {
   ChevronDown,
   ChevronUp,
   Pencil,
+  SquarePen,
   PlusCircle,
   MinusCircle,
   Trash2,
@@ -21,6 +22,7 @@ import {
 const ProductList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { search } = useOutletContext();
   const [open, setOpen] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -180,7 +182,16 @@ const ProductList = () => {
                             </span>
                           </td>
                           <td className=" px-4 py-3 text-center border  border-[var(--primary-light)]">
-                            <div className="grid grid-cols-4 items-center w-fit mx-auto  gap-2">
+                            <div className="grid grid-cols-5 items-center w-fit mx-auto  gap-2">
+                              <button
+                                onClick={() =>
+                                  navigate(`/edit-product/${product._id}`)
+                                }
+                                className="text-gray-600 hover:bg-gray-100 p-2 rounded-full cursor-pointer transition"
+                                title="Edit Product"
+                              >
+                                <SquarePen size={18} />
+                              </button>
                               <button
                                 onClick={() =>
                                   handleAction("edit", category.id, product)

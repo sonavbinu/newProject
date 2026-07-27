@@ -146,9 +146,70 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getProductById = async (req, res) => {
+  try {
+    const { storeId } = req.query;
+    const store = await verifyStoreOwnership(storeId, req.user.id);
+    if (!store) return res.status(404).json({ message: "Store not found" });
+
+    const product = await Product.findOne({
+      _id: req.params.id,
+      store: storeId,
+    });
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    res.status(200).json({ success: true, product });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+const updateProduct = async (req, res) => {
+  try {
+    const { storeId, categoryId, ...productData } = req.body;
+    const store = await verifyStoreOwnership(storeId, req.user.id);
+    if (!store) return res.status(404).json({ message: "Store not found" });
+
+    const updateData = {
+      categoryId: Number(categoryId),
+      productName: productData.productName,
+      mrp: Number(productData.mrp) || 0,
+      price: Number(productData.price) || "",
+      discountType: productData.discountType || "",
+      discountValue: Number(productData.discountValue) || 0,
+      unit: productData.unit || "kg",
+      size: productData.size || "",
+      stock: Number(productData.stock) || 0,
+      description: productData.description || "",
+      country: productData.country || "",
+      manufacturer: productData.manufacturer || "",
+      deliveryTypes: productData.deliveryTypes
+        ? JSON.parse(productData.deliveryTypes)
+        : [],
+    };
+
+    if (req.file) {
+      updateData.image = `/uploads/products/${req.file.filename}`;
+    }
+    console.log(updateData);
+    const product = await Product.findOneAndUpdate(
+      { _id: req.params.id, store: storeId },
+      { $set: updateData },
+      { new: true, runValidators: true },
+    );
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    res.status(200).json({ success: true, product });
+  } catch (error) {
+    console.log("update product error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 module.exports = {
   addProduct,
   getMyProducts,
+  getProductById,
+  updateProduct,
   editPrice,
   addStock,
   minusStock,
