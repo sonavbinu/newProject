@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Package, ShoppingBag, Trash2 } from "lucide-react";
 import { fetchMyOrders, deleteOrder } from "../../redux/slices/orderSlice";
 import { toast } from "react-toastify";
+import Navbar from "../../Components/Navbar";
 
 const statusColors = {
   confirmation: "bg-yellow-100 text-yellow-700",
@@ -44,6 +45,7 @@ const OrderHistory = () => {
 
   return (
     <div className="min-h-screen bg-[#FAFAF7]">
+      <Navbar />
       <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
         <button
           onClick={() => navigate("/stores")}
