@@ -61,6 +61,10 @@ const Navbar = ({ onSearchClick }) => {
             className="cursor-pointer"
             onClick={() => navigate("/cart")}
           />
+          <Store
+            className="cursor-pointer"
+            onClick={() => navigate("/stores")}
+          />
           <User
             className="cursor-pointer"
             onClick={() => navigate("/profile")}
