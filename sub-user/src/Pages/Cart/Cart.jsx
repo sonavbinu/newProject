@@ -95,7 +95,7 @@ const Cart = () => {
         <div className="mb-4 rounded-lg bg-blue-50 border border-gray-200 p-3">
           <p className="text-sm text-blue-700">
             Please verify your current delivery address before placing your
-            order. Address changes made after placing an order will only apply
+            order . Address changes made after placing an order will only apply
             to future orders
           </p>
         </div>
