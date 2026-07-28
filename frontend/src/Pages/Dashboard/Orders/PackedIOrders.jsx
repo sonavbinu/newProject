@@ -1,8 +1,8 @@
 import React from "react";
-import { Phone, MapPin, Clock } from "lucide-react";
+import { Phone, MapPin, Clock, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const PackedIOrders = ({ order, onComplete }) => {
+const PackedIOrders = ({ order, onComplete, onDelete }) => {
   const { t } = useTranslation();
   return (
     <div className="border border-gray-300 rounded-xl p-6 shadow hover:shadow-lg">
@@ -88,6 +88,13 @@ const PackedIOrders = ({ order, onComplete }) => {
         className="bg-[var(--primary-color)] text-white py-2 px-4 w-full rounded-xl hover:opacity-90 cursor-pointer"
       >
         {t("orders.markAsDelivered")}
+      </button>
+      <button
+        onClick={onDelete}
+        className="bg-red-500 text-white py-2 px-4 rounded-xl hover:bg-red-600 cursor-pointer"
+        title="Delete order"
+      >
+        <Trash2 size={18} />
       </button>
     </div>
   );

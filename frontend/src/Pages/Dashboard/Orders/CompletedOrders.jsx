@@ -1,8 +1,8 @@
 import React from "react";
-import { Phone, MapPin, Clock } from "lucide-react";
+import { Phone, MapPin, Clock, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const CompletedOrders = ({ order }) => {
+const CompletedOrders = ({ order, onDelete }) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -39,8 +39,7 @@ const CompletedOrders = ({ order }) => {
             </span>
           </div>
         </div>
-
-        <div>
+        <div className="flex flex-col ">
           <h2 className="font-semibold"> {t("orders.orderItems")}</h2>
           <div className="border border-gray-300 px-4 py-3 mt-4 rounded-xl bg-[var(--primary-light)] ">
             {order.items.map((item) => (
@@ -80,8 +79,15 @@ const CompletedOrders = ({ order }) => {
               <span>{t("orders.delivered")}</span>
             </div>
             <p>{t("orders.dateTime")}</p>
-          </div>
-        </div>
+          </div>{" "}
+          <button
+            onClick={onDelete}
+            className="bg-red-500  flex justify-center text-white py-2 px-4 rounded-xl hover:bg-red-600 cursor-pointer"
+            title="Delete order"
+          >
+            <Trash2 size={18} />
+          </button>
+        </div>{" "}
       </div>
     </div>
   );

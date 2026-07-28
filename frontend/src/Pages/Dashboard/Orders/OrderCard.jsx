@@ -1,8 +1,8 @@
 import React from "react";
-import { Phone, MapPin } from "lucide-react";
+import { Phone, MapPin, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const OrderCard = ({ order, activeTab, onConfirm, onReject }) => {
+const OrderCard = ({ order, activeTab, onConfirm, onReject, onDelete }) => {
   const { t } = useTranslation();
   return (
     <div className="border border-gray-300 rounded-xl p-4 shadow hover:shadow-xl">
@@ -74,6 +74,13 @@ const OrderCard = ({ order, activeTab, onConfirm, onReject }) => {
             {activeTab === "preparing"
               ? t("orders.verifyPackItems")
               : t("orders.confirmOrder")}
+          </button>
+          <button
+            onClick={onDelete}
+            className="bg-red-500  text-white p-2 rounded cursor-pointer hover:bg-red-600 transition "
+            title="Delete order"
+          >
+            <Trash2 size={18} />
           </button>
         </div>
       </div>

@@ -61,7 +61,7 @@ const placeOrder = async (req, res) => {
       store: storeId,
       customerName: customer.name || "Customer",
       customerPhone: phone || customer.phone || "",
-      customerAddress: address || "",
+      customerAddress: address || customer.address || "",
       items: orderItems,
       total,
       payment: "COD",
