@@ -72,4 +72,18 @@ const login = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-module.exports = { register, login };
+
+const getprofile = async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.customer.id).select(
+      "-password",
+    );
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+    res.status(200).json({ success: true, customer });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+module.exports = { register, login, getprofile };
