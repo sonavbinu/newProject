@@ -9,6 +9,7 @@ import Cart from "../Pages/Cart/Cart";
 import OrderDetail from "../Pages/Orders/OrderDetail";
 import OrderHistory from "../Pages/Orders/OrderHistory";
 import Profile from "../Customer/Pages/Profile";
+import EditProfile from "../Customer/Pages/EditProfile";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path="/orders/:orderId" element={<OrderDetail />} />
         <Route path="/orders" element={<OrderHistory />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
       </Route>
     </Routes>
   );

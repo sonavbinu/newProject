@@ -90,4 +90,31 @@ const getprofile = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-module.exports = { register, login, getprofile };
+
+const updateProfile = async (req, res) => {
+  try {
+    const { name, phone, address } = req.body;
+    const customer = await Customer.findById(req.customer.id);
+    if (!customer) {
+      return res.status(404).json({
+        message: "Customer not found",
+      });
+    }
+    customer.name = name;
+    customer.phone = phone;
+    customer.address = address;
+
+    await customer.save();
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      customer,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+module.exports = { register, login, getprofile, updateProfile };

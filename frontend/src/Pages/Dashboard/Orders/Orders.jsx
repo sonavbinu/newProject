@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 const Orders = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const [searchItem, setSearchItem] = useState("");
   const orders = useSelector((state) => state.orders.orders);
   const selectedStore = useSelector((state) => state.store.selectedStore);
   const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
@@ -27,7 +29,16 @@ const Orders = () => {
     if (storeId) dispatch(fetchStoreOrders(storeId));
   }, [storeId, dispatch]);
 
-  const filteredOrders = orders.filter((order) => order.status === activeTab);
+  const filteredOrders = orders.filter((order) => {
+    const search = searchItem.toLowerCase();
+
+    return (
+      order.status === activeTab &&
+      (order.customerName?.toLowerCase().includes(search) ||
+        order.customerPhone?.toLowerCase().includes(search) ||
+        order._id?.toLowerCase().includes(search))
+    );
+  });
 
   const handleDelete = (orderId) => {
     if (
@@ -49,6 +60,8 @@ const Orders = () => {
           <h2 className="text-xl sm:text-lg font-bold"> {t("orders.title")}</h2>
           <input
             type="text"
+            value={searchItem}
+            onChange={(e) => setSearchItem(e.target.value)}
             placeholder={t("orders.searchPlaceholder")}
             className="border w-[80%] border-gray-300 py-2 px-2 focus:ring-2 focus:ring-[var(--primary-color)] rounded-xl focus:outline-none"
           />
