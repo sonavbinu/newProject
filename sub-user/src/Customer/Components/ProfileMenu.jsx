@@ -87,14 +87,14 @@ const ProfileMenu = ({ user }) => {
         <div className="space-y-3">
           <button
             onClick={() => navigate("/profile/edit")}
-            className="w-full bg-[var(--primary-color)] text-white py-3 rounded-xl"
+            className="w-full bg-[#8BAD2B] hover:bg-white hover:text-black hover:border-[#8BAD2B] border cursor-pointer text-white py-3 rounded-xl"
           >
             Edit Profile
           </button>
 
           <button
             onClick={handleLogout}
-            className="w-full hover:bg-red-500 hover:text-white border border-red-500 text-red-500 py-3 transition-all duration-200 cursor-pointer rounded-xl"
+            className="w-full mb-10 hover:bg-red-500 hover:text-white border border-red-500 text-red-500 py-3 transition-all duration-200 cursor-pointer rounded-xl"
           >
             Logout
           </button>

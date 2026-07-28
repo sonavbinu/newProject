@@ -38,15 +38,16 @@ const OrderDetail = () => {
     <div className="min-h-screen bg-[#FAFAF7]   pb-24">
       <Navbar />
       <div className="max-w-xl mx-auto pt-10">
-        <div>
+        <div className="flex justify-between items-center mb-6">
+          {" "}
           <button
-            className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] mb-6"
+            className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] "
             onClick={() => navigate("/stores")}
           >
             <ArrowLeft size={16} />
             Continue shopping
           </button>
-          <div className="flex items-center gap-4 justify-end pb-10">
+          <div className="flex items-center  gap-4 justify-end ">
             <button
               onClick={() => navigate("/orders")}
               className="flex items-center gap-1.5 

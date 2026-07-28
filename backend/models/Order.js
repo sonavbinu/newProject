@@ -34,7 +34,14 @@ const orderSchema = new mongoose.Schema(
     payment: { type: String, default: "COD" },
     status: {
       type: String,
-      enum: ["confirmation", "preparing", "packed", "completed", "rejected"],
+      enum: [
+        "confirmation",
+        "preparing",
+        "packed",
+        "completed",
+        "rejected",
+        "deliveryAccepted",
+      ],
       default: "confirmation",
     },
     confirmedAt: {

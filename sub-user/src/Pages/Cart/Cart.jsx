@@ -67,7 +67,6 @@ const Cart = () => {
       <Navbar />
       <div className="max-w-2xl pt-10 mx-auto">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Cart</h1>
-
         <div className="flex  items-center gap-4 justify-between mb-6">
           <button
             className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] mb-6"
@@ -92,6 +91,13 @@ const Cart = () => {
               Logout
             </button>
           </div>
+        </div>
+        <div className="mb-4 rounded-lg bg-blue-50 border border-gray-200 p-3">
+          <p className="text-sm text-blue-700">
+            Please verify your current delivery address before placing your
+            order . Address changes made after placing an order will only apply
+            to future orders
+          </p>
         </div>
         <div className="flex flex-col gap-3">
           {items.map((item) => (
@@ -138,7 +144,6 @@ const Cart = () => {
             </div>
           ))}
         </div>
-
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
           <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
             <div>

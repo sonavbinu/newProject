@@ -82,7 +82,7 @@ const Orders = () => {
             </span>
           ))}
         </div>
-        <div className=" grid sm:grid-cols-2 grid-cols-1 gap-6 ">
+        <div className=" grid md:grid-cols-2 grid-cols-1 gap-6 ">
           {filteredOrders.map((order) => {
             if (activeTab === "packed") {
               return (

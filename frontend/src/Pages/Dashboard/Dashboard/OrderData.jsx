@@ -24,7 +24,6 @@ const OrderData = () => {
   const navigate = useNavigate();
   const orders = useSelector((state) => state.orders.orders);
 
-  const totalOrders = orders.length;
   const pendingConfirmation = orders.filter(
     (order) => order.status === "confirmation",
   ).length;
@@ -39,6 +38,8 @@ const OrderData = () => {
   const completedOrders = orders.filter(
     (order) => order.status === "completed",
   ).length;
+  const totalOrders =
+    pendingConfirmation + confirmOrders + packedOrders + completedOrders;
 
   const data = [
     { name: t("dashboard.orderData.confirmed"), value: confirmOrders },

@@ -33,6 +33,7 @@ const ProductList = () => {
   const categories = useSelector((state) => state.products.categories);
   const selectedStore = useSelector((state) => state.store.selectedStore);
   const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
+  const products = useSelector((state) => state.products.products);
 
   const toggleCategory = (id) => {
     setOpen(open === id ? null : id);
@@ -92,19 +93,24 @@ const ProductList = () => {
     setActionType("");
     setValue("");
   };
+  const searchText = search.toLowerCase();
 
   const filteredCategories = categories
     .map((category) => ({
       ...category,
-      products: category.products.filter((product) =>
-        product.productName.toLowerCase().includes(search.toLowerCase()),
-      ),
+      products: category.products.filter((product) => {
+        return (
+          product.productName?.toLowerCase().includes(searchText) ||
+          product.price?.toString().includes(searchText) ||
+          product.stock?.toString().includes(searchText)
+        );
+      }),
     }))
     .filter((category) => !search || category.products.length > 0);
 
   return (
     <div className="flex flex-col border border-gray-300 gap-3 rounded p-5 ">
-      {categories.map((category) => (
+      {filteredCategories.map((category) => (
         <div
           key={category.id}
           className="border border-gray-300 rounded-xl shadow"

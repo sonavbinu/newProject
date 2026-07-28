@@ -28,23 +28,21 @@ const CompletedOrders = ({ order, onDelete }) => {
             <div className="flex gap-2 text-sm items-center border border-gray-200 rounded-xl p-2">
               <MapPin size={16} className="text-[var(--primary-color)]" />
               {order.customerAddress}
+            </div>{" "}
+            <div className="flex  items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
+              <Clock size={16} className="text-[var(--primary-color)]" />
+              <span className="text-gray-500">
+                {t("orders.selfPickup")} :{" "}
+                {order.createdAt
+                  ? `${new Date(order.createdAt).toLocaleDateString()}  |  ${new Date(
+                      order.createdAt,
+                    ).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}`
+                  : "-"}
+              </span>
             </div>
-          </div>
-
-          <div className="flex  items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
-            <Clock size={16} className="text-[var(--primary-color)]" />
-            <span className="text-gray-500">
-              {" "}
-              {t("orders.selfPickup")} :{" "}
-              {order.createdAt
-                ? `${new Date(order.createdAt).toLocaleDateString()}  |  ${new Date(
-                    order.createdAt,
-                  ).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}`
-                : "-"}
-            </span>
           </div>
         </div>
         <div className="flex flex-col ">
