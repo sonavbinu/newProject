@@ -17,15 +17,15 @@ const CompletedOrders = ({ order, onDelete }) => {
         </div>
         <div>
           <h4 className="font-semibold"> {t("orders.orderFor")}</h4>
-          <p className="font-medium">{order.customerName}</p>
+          <p className="font-medium text-gray-400">{order.customerName}</p>
         </div>
         <div className="flex flex-col lg:flex-row mt-3 gap-3">
-          <div className="flex items-center justify-center flex-1 gap-2">
-            <div className="flex items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
+          <div className="flex items-center sm:flex-row  flex-1 gap-3">
+            <div className="flex items-center justify-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
               <Phone size={16} className="text-[var(--primary-color)]" />
               {order.customerPhone}
             </div>
-            <div className="flex gap-2 text-sm border border-gray-200 rounded-xl p-2">
+            <div className="flex gap-2 text-sm items-center border border-gray-200 rounded-xl p-2">
               <MapPin size={16} className="text-[var(--primary-color)]" />
               {order.customerAddress}
             </div>
@@ -33,9 +33,17 @@ const CompletedOrders = ({ order, onDelete }) => {
 
           <div className="flex  items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
             <Clock size={16} className="text-[var(--primary-color)]" />
-            <span>
+            <span className="text-gray-500">
               {" "}
-              {t("orders.selfPickup")} : {t("orders.dateTime")}
+              {t("orders.selfPickup")} :{" "}
+              {order.createdAt
+                ? `${new Date(order.createdAt).toLocaleDateString()}  |  ${new Date(
+                    order.createdAt,
+                  ).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`
+                : "-"}
             </span>
           </div>
         </div>
@@ -71,14 +79,32 @@ const CompletedOrders = ({ order, onDelete }) => {
                 <span>{t("orders.deliveryPickup")}</span>
               </div>
             </div>
-            <p>{t("orders.dateTime")}</p>
+            <p className="text-gray-400 text-center">
+              {order.packedAt
+                ? `${new Date(order.packedAt).toLocaleDateString()} | ${new Date(
+                    order.packedAt,
+                  ).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`
+                : "-"}
+            </p>
           </div>
           <div className="flex justify-between p-2">
             <div className="flex items-center gap-2">
               <div className="bg-green-500 rounded-full w-2 h-2"></div>
               <span>{t("orders.delivered")}</span>
             </div>
-            <p>{t("orders.dateTime")}</p>
+            <p className="text-gray-400">
+              {order.completedAt
+                ? `${new Date(order.completedAt).toLocaleDateString()} | ${new Date(
+                    order.completedAt,
+                  ).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`
+                : "-"}
+            </p>
           </div>{" "}
           <button
             onClick={onDelete}

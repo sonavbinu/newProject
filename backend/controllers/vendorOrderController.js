@@ -32,6 +32,7 @@ const updateOrderStatus = async (req, res) => {
       "packed",
       "completed",
       "rejected",
+      "deliveryAccepted",
     ];
 
     if (!validStatuses.includes(status)) {
@@ -41,10 +42,29 @@ const updateOrderStatus = async (req, res) => {
     const store = await verifyStoreOwnership(storeId, req.user.id);
     if (!store) return res.status(404).json({ message: "Store not found" });
 
+    const updateFields = {
+      status,
+    };
+    if (status === "preparing") {
+      updateFields.confirmedAt = new Date();
+    }
+    if (status === "packed") {
+      updateFields.packedAt = new Date();
+    }
+    if (status === "completed") {
+      updateFields.completedAt = new Date();
+    }
+    if (status === "rejected") {
+      updateFields.rejectedAt = new Date();
+    }
+    if (status === "deliveryAccepted") {
+      updateFields.deliveryAcceptedAt = new Date();
+    }
+
     const order = await Order.findOneAndUpdate(
       { _id: orderId, store: storeId },
-      { $set: { status } },
-      { new: true },
+      { $set: updateFields },
+      { new: "true" },
     );
     if (!order) return res.status(404).json({ message: "Order not found" });
 
