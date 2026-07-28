@@ -37,6 +37,21 @@ const orderSchema = new mongoose.Schema(
       enum: ["confirmation", "preparing", "packed", "completed", "rejected"],
       default: "confirmation",
     },
+    confirmedAt: {
+      type: Date,
+    },
+    packedAt: {
+      type: Date,
+    },
+    completedAt: {
+      type: Date,
+    },
+    rejectedAt: {
+      type: Date,
+    },
+    deliveryAcceptedAt: {
+      type: Date,
+    },
   },
   { timestamps: true },
 );

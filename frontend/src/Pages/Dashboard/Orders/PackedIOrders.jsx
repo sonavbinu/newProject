@@ -34,7 +34,15 @@ const PackedIOrders = ({ order, onComplete, onDelete }) => {
           <Clock size={16} />
           <span>
             {" "}
-            {t("orders.selfPickup")} : {t("orders.dateTime")}
+            {t("orders.selfPickup")} :{" "}
+            {order.createdAt
+              ? `${new Date(order.createdAt).toLocaleDateString()}|${new Date(
+                  order.createdAt,
+                ).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}`
+              : "-"}
           </span>
         </div>
       </div>
@@ -66,36 +74,65 @@ const PackedIOrders = ({ order, onComplete, onDelete }) => {
             <div className="bg-green-500 rounded-full w-2 h-2"></div>
             <span>{t("orders.storeConfirmation")}</span>
           </div>
-          <p>{t("orders.dateTime")}</p>
+          <p>
+            {order.confirmedAt
+              ? `${new Date(order.confirmedAt).toLocaleDateString()}|${new Date(
+                  order.confirmedAt,
+                ).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}`
+              : "-"}
+          </p>
         </div>
-        <div className="flex justify-between p-2">
+        {/* <div className="flex justify-between p-2">
           <div className="flex items-center gap-2">
             <div className="bg-green-500 rounded-full w-2 h-2"></div>
             <span>{t("orders.deliveryAccepted")}</span>
           </div>
-          <p>{t("orders.dateTime")}</p>
-        </div>{" "}
+          <p>
+            {order.deliveryAcceptedAt
+              ? `${new Date(order.deliveryAcceptedAt).toLocaleDateString()}|${new Date(
+                  order.deliveryAcceptedAt,
+                ).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}`
+              : "-"}
+          </p>
+        </div>{" "} */}
         <div className="flex justify-between  p-2">
           <div className="flex items-center gap-2">
             <div className="bg-green-500 rounded-full w-2 h-2"></div>
             <span>{t("orders.deliveryPickup")}</span>
           </div>
-          <p>{t("orders.dateTime")}</p>
+          <p>
+            {order.packedAt
+              ? `${new Date(order.packedAt).toLocaleDateString()}|${new Date(
+                  order.packedAt,
+                ).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}`
+              : "-"}
+          </p>
         </div>
       </div>
-      <button
-        onClick={onComplete}
-        className="bg-[var(--primary-color)] text-white py-2 px-4 w-full rounded-xl hover:opacity-90 cursor-pointer"
-      >
-        {t("orders.markAsDelivered")}
-      </button>
-      <button
-        onClick={onDelete}
-        className="bg-red-500 text-white py-2 px-4 rounded-xl hover:bg-red-600 cursor-pointer"
-        title="Delete order"
-      >
-        <Trash2 size={18} />
-      </button>
+      <div className="flex gap-3">
+        <button
+          onClick={onComplete}
+          className="bg-[var(--primary-color)] text-white py-2 px-4 w-full rounded-xl hover:opacity-90 cursor-pointer"
+        >
+          {t("orders.markAsDelivered")}
+        </button>
+        <button
+          onClick={onDelete}
+          className="bg-red-500 text-white py-2 px-4 rounded-xl hover:bg-red-600 cursor-pointer"
+          title="Delete order"
+        >
+          <Trash2 size={18} />
+        </button>
+      </div>
     </div>
   );
 };

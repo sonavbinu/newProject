@@ -64,7 +64,14 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
               <div className="rounded-full w-3 h-3 bg-green-500"></div>
               <div className="flex justify-between gap-2 w-full ">
                 <p>{t("orders.orderPlaced")}</p>
-                <p>Date | Time</p>
+                <p>
+                  {" "}
+                  {new Date(order.createdAt).toLocaleDateString()}|
+                  {new Date(order.createdAt).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
               </div>
             </div>
 
@@ -72,7 +79,16 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
               <div className="rounded-full w-3 h-3 bg-green-500"></div>
               <div className="flex justify-between w-full ">
                 <p>{t("orders.orderConfirmed")}</p>
-                <p>Date | Time</p>
+                <p>
+                  {order.confirmedAt
+                    ? `${new Date(order.confirmedAt).toLocaleDateString()}|${new Date(
+                        order.confirmedAt,
+                      ).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}`
+                    : "-"}
+                </p>
               </div>
             </div>
           </div>
