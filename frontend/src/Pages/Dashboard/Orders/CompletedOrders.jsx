@@ -35,7 +35,15 @@ const CompletedOrders = ({ order, onDelete }) => {
             <Clock size={16} className="text-[var(--primary-color)]" />
             <span>
               {" "}
-              {t("orders.selfPickup")} : {t("orders.dateTime")}
+              {t("orders.selfPickup")} :{" "}
+              {order.createdAt
+                ? `${new Date(order.createdAt).toLocaleDateString()} | ${new Date(
+                    order.createdAt,
+                  ).toLocaleDateString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`
+                : "-"}
             </span>
           </div>
         </div>
@@ -71,14 +79,32 @@ const CompletedOrders = ({ order, onDelete }) => {
                 <span>{t("orders.deliveryPickup")}</span>
               </div>
             </div>
-            <p>{t("orders.dateTime")}</p>
+            <p>
+              {order.packedAt
+                ? `${new Date(order.packedAt).toLocaleDateString()} | ${new Date(
+                    order.packedAt,
+                  ).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`
+                : "-"}
+            </p>
           </div>
           <div className="flex justify-between p-2">
             <div className="flex items-center gap-2">
               <div className="bg-green-500 rounded-full w-2 h-2"></div>
               <span>{t("orders.delivered")}</span>
             </div>
-            <p>{t("orders.dateTime")}</p>
+            <p>
+              {order.completedAt
+                ? `${new Date(order.completedAt).toLocaleDateString()} | ${new Date(
+                    order.completedAt,
+                  ).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`
+                : "-"}
+            </p>
           </div>{" "}
           <button
             onClick={onDelete}
