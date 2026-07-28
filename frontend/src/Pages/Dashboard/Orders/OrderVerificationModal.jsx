@@ -66,7 +66,7 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
                 <p>{t("orders.orderPlaced")}</p>
                 <p className="text-gray-500">
                   {" "}
-                  {new Date(order.createdAt).toLocaleDateString()}|
+                  {new Date(order.createdAt).toLocaleDateString()} |{" "}
                   {new Date(order.createdAt).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -81,7 +81,7 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
                 <p>{t("orders.orderConfirmed")}</p>
                 <p className="text-gray-500">
                   {order.confirmedAt
-                    ? `${new Date(order.confirmedAt).toLocaleDateString()}|${new Date(
+                    ? `${new Date(order.confirmedAt).toLocaleDateString()} | ${new Date(
                         order.confirmedAt,
                       ).toLocaleTimeString([], {
                         hour: "2-digit",
