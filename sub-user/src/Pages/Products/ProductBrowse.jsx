@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowLeft, Package, ShoppingCart, LogOut } from "lucide-react";
 import { fetchStoreProducts } from "../../redux/slices/storeBrowseSlice";
-import { addToCart } from "../../redux/slices/cartSlice";
+import { addToCart, clearCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { logout } from "../../redux/slices/customerAuthSlice";
 import Navbar from "../../Components/Navbar";
@@ -27,6 +27,7 @@ const ProductBrowse = () => {
   );
   const cartItems = useSelector((state) => state.cart.items);
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const cartStoreId = useSelector((state) => state.cart.storeId);
 
   useEffect(() => {
     if (storeId) dispatch(fetchStoreProducts(storeId));
@@ -50,6 +51,14 @@ const ProductBrowse = () => {
   };
 
   const handleAddtoCart = (product) => {
+    if (cartStoreId && cartStoreId !== storeId) {
+      const confirmClear = window.confirm(
+        "Your cart contains items from another store.\n\n Do you want to clear the cart and add this item?",
+      );
+
+      if (!confirmClear) return;
+      dispatch(clearCart());
+    }
     dispatch(addToCart({ storeId, product }));
     toast.success(`${product.productName} added to cart`);
   };

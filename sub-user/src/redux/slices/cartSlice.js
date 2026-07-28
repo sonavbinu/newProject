@@ -22,10 +22,6 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const { storeId, product } = action.payload;
 
-      // If cart has items from a different store, clear it first
-      if (state.storeId && state.storeId !== storeId) {
-        state.items = [];
-      }
       state.storeId = storeId;
 
       const existing = state.items.find((i) => i.productId === product._id);
