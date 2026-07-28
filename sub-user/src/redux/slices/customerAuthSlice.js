@@ -3,12 +3,14 @@ import API from "../../api/api";
 
 export const registerCustomer = createAsyncThunk(
   "customerAuth/register",
-  async ({ name, email, password }, { rejectWithValue }) => {
+  async ({ name, email, password, phone, address }, { rejectWithValue }) => {
     try {
       const res = await API.post("/customer-auth/register", {
         name,
         email,
         password,
+        phone,
+        address,
       });
       localStorage.setItem("customerToken", res.data.token);
       return res.data.customer;
