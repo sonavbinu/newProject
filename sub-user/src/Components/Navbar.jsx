@@ -58,15 +58,15 @@ const Navbar = ({ onSearchClick }) => {
             />
           )}
           <ShoppingCart
-            className="cursor-pointer"
+            className="cursor-pointer hover:text-[#8BAD2B]"
             onClick={() => navigate("/cart")}
           />
           <Store
-            className="cursor-pointer"
+            className="cursor-pointer hover:text-[#8BAD2B]"
             onClick={() => navigate("/stores")}
           />
           <User
-            className="cursor-pointer"
+            className="cursor-pointer hover:text-[#8BAD2B]"
             onClick={() => navigate("/profile")}
           />
         </div>
