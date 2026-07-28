@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, address } = req.body;
     if (!email || !password) {
       return res
         .status(400)
@@ -21,6 +21,8 @@ const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      address: address || "",
+      phone: phone || "",
     });
 
     const token = jwt.sign(
@@ -36,6 +38,8 @@ const register = async (req, res) => {
         _id: customer._id,
         name: customer.name,
         email: customer.email,
+        phone: customer.phone,
+        address: customer.address,
       },
     });
   } catch (error) {
