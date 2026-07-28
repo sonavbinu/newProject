@@ -53,4 +53,21 @@ const updateOrderStatus = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-module.exports = { getStoreOrders, updateOrderStatus };
+const deleteOrder = async (req, res) => {
+  try {
+    const { storeId } = req.query;
+    if (!storeId)
+      return res.status(400).json({ message: "Storeid is required" });
+
+    const order = await Order.findOneAndDelete({
+      _id: req.params.id,
+      store: storeId,
+    });
+    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    res.status(200).json({ success: true, message: "Order deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+module.exports = { getStoreOrders, updateOrderStatus, deleteOrder };

@@ -16,7 +16,7 @@ const Navbar = ({ onSearchClick }) => {
         >
           <div className="w-10 h-10 rounded-lg bg-[#8BAD2B] flex items-center justify-center">
             <Store className="text-white" size={20} />
-          </div>{" "}
+          </div>
           <div>
             <h2 className="font-bold text-lg">Origin</h2>
             <p className="text-xs text-gray-500">Grocery Delivery</p>
@@ -61,7 +61,10 @@ const Navbar = ({ onSearchClick }) => {
             className="cursor-pointer"
             onClick={() => navigate("/cart")}
           />
-          <User className="cursor-pointer" />
+          <User
+            className="cursor-pointer"
+            onClick={() => navigate("/profile")}
+          />
         </div>
       </div>
     </nav>

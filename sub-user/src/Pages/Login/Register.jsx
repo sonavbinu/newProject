@@ -9,6 +9,8 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    phone: "",
+    address: "",
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,6 +54,22 @@ const Register = () => {
           onChange={handleChange}
           required
           className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#8BAD2B] border-gray-300"
+        />
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone number"
+          value={formData.phone}
+          onChange={handleChange}
+          className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#8BAD2B] border-gray-300"
+        />
+        <input
+          type="address"
+          name="address"
+          placeholder="Address"
+          onChange={handleChange}
+          value={formData.address}
+          className="border rounded-lg p-2 focus:outline-none border-gray-300 focus:ring-[#8BAD2B] focus:ring-2"
         />
         <input
           type="password"

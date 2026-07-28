@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, address } = req.body;
     if (!email || !password) {
       return res
         .status(400)
@@ -21,6 +21,8 @@ const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      address: address || "",
+      phone: phone || "",
     });
 
     const token = jwt.sign(
@@ -36,6 +38,8 @@ const register = async (req, res) => {
         _id: customer._id,
         name: customer.name,
         email: customer.email,
+        phone: customer.phone,
+        address: customer.address,
       },
     });
   } catch (error) {
@@ -72,4 +76,18 @@ const login = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-module.exports = { register, login };
+
+const getprofile = async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.customer.id).select(
+      "-password",
+    );
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+    res.status(200).json({ success: true, customer });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+module.exports = { register, login, getprofile };

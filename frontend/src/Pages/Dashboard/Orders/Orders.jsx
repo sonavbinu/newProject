@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   fetchStoreOrders,
   updateOrderStatus,
+  deleteOrder,
 } from "../../../redux/slices/orderSlice";
 import OrderVerificationModal from "./OrderVerificationModal";
 import PackedIOrders from "./PackedIOrders";
 import OrderCard from "./OrderCard";
 import CompletedOrders from "./CompletedOrders";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const Orders = () => {
   const { t } = useTranslation();
@@ -26,6 +28,19 @@ const Orders = () => {
   }, [storeId, dispatch]);
 
   const filteredOrders = orders.filter((order) => order.status === activeTab);
+
+  const handleDelete = (orderId) => {
+    if (
+      window.confirm("Delete this order permanently ?This cannot be undone.")
+    ) {
+      console.log("Deleting order:", orderId);
+
+      dispatch(deleteOrder({ orderId, storeId }))
+        .unwrap()
+        .then(() => toast.success("Order deleted"))
+        .catch((err) => toast.error(err || "Failed to delete order"));
+    }
+  };
 
   return (
     <div>
@@ -71,12 +86,19 @@ const Orders = () => {
                     );
                     setActiveTab("completed");
                   }}
+                  onDelete={() => handleDelete(order._id)}
                 />
               );
             }
 
             if (activeTab === "completed") {
-              return <CompletedOrders key={order._id} order={order} />;
+              return (
+                <CompletedOrders
+                  key={order._id}
+                  order={order}
+                  onDelete={() => handleDelete(order._id)}
+                />
+              );
             }
 
             return (
@@ -110,6 +132,7 @@ const Orders = () => {
                     );
                   }
                 }}
+                onDelete={() => handleDelete(order._id)}
               />
             );
           })}
