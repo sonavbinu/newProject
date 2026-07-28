@@ -19,7 +19,7 @@ const PackedIOrders = ({ order, onComplete, onDelete }) => {
         <p className="font-medium">{order.customerName}</p>
       </div>
       <div className="flex flex-wrap gap-3">
-        <div className="flex items-center justify-center flex-wrap">
+        <div className="flex items-center justify-center flex-wrap gap-2">
           <div className="flex items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
             <Phone size={16} className="text-[var(--primary-color)]" />
             {order.customerPhone}
@@ -31,12 +31,12 @@ const PackedIOrders = ({ order, onComplete, onDelete }) => {
         </div>
 
         <div className="flex flex-wrap items-center gap-3 text-sm border border-gray-200 rounded-xl p-2">
-          <Clock size={16} />
-          <span>
+          <Clock size={16} className="text-[var(--primary-color)]" />
+          <span className="text-gray-500">
             {" "}
             {t("orders.selfPickup")} :{" "}
             {order.createdAt
-              ? `${new Date(order.createdAt).toLocaleDateString()}|${new Date(
+              ? `${new Date(order.createdAt).toLocaleDateString()} | ${new Date(
                   order.createdAt,
                 ).toLocaleTimeString([], {
                   hour: "2-digit",
@@ -74,9 +74,9 @@ const PackedIOrders = ({ order, onComplete, onDelete }) => {
             <div className="bg-green-500 rounded-full w-2 h-2"></div>
             <span>{t("orders.storeConfirmation")}</span>
           </div>
-          <p>
+          <p className="text-gray-500">
             {order.confirmedAt
-              ? `${new Date(order.confirmedAt).toLocaleDateString()}|${new Date(
+              ? `${new Date(order.confirmedAt).toLocaleDateString()} | ${new Date(
                   order.confirmedAt,
                 ).toLocaleTimeString([], {
                   hour: "2-digit",
@@ -106,9 +106,9 @@ const PackedIOrders = ({ order, onComplete, onDelete }) => {
             <div className="bg-green-500 rounded-full w-2 h-2"></div>
             <span>{t("orders.deliveryPickup")}</span>
           </div>
-          <p>
+          <p className="text-gray-500">
             {order.packedAt
-              ? `${new Date(order.packedAt).toLocaleDateString()}|${new Date(
+              ? `${new Date(order.packedAt).toLocaleDateString()} | ${new Date(
                   order.packedAt,
                 ).toLocaleTimeString([], {
                   hour: "2-digit",

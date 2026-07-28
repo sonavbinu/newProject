@@ -64,7 +64,7 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
               <div className="rounded-full w-3 h-3 bg-green-500"></div>
               <div className="flex justify-between gap-2 w-full ">
                 <p>{t("orders.orderPlaced")}</p>
-                <p>
+                <p className="text-gray-500">
                   {" "}
                   {new Date(order.createdAt).toLocaleDateString()}|
                   {new Date(order.createdAt).toLocaleTimeString([], {
@@ -79,7 +79,7 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
               <div className="rounded-full w-3 h-3 bg-green-500"></div>
               <div className="flex justify-between w-full ">
                 <p>{t("orders.orderConfirmed")}</p>
-                <p>
+                <p className="text-gray-500">
                   {order.confirmedAt
                     ? `${new Date(order.confirmedAt).toLocaleDateString()}|${new Date(
                         order.confirmedAt,
@@ -102,12 +102,12 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
               key={item.product}
               className="flex justify-between py-2 border-b border-gray-300 last:border-b-0"
             >
-              <div className="flex ">
+              <div className="flex items-center gap-2 ">
                 <input
                   type="checkbox"
                   checked={checkedItems.includes(item.product)}
                   onChange={() => handleCheckboxChange(item.product)}
-                  className="accent-[var(--primary-color)]"
+                  className="accent-[var(--primary-color)] w-4 h-4"
                 />
                 <span>
                   {item.quantity}x {item.name}
