@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../../api/api";
 import { toast } from "react-toastify";
 import ProfileMenu from "../Components/ProfileMenu";
+import Navbar from "../../Components/Navbar";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -32,8 +33,9 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF7] py-10">
-      <div className="max-w-xl mx-auto px-6">
+    <div className="min-h-screen bg-[#FAFAF7] ">
+      <Navbar />
+      <div className="max-w-xl mx-auto px-6 mt-10">
         <ProfileHeader user={user} onEdit={() => navigate("/profile/edit")} />
         <ProfileMenu user={user} />
       </div>
