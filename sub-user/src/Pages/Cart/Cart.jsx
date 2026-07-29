@@ -67,9 +67,9 @@ const Cart = () => {
       <Navbar />
       <div className="max-w-2xl pt-10 mx-auto">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Cart</h1>
-        <div className="flex  items-center gap-4 justify-between mb-6">
+        <div className="flex  items-center gap-4 justify-between mb-6 ">
           <button
-            className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] mb-6"
+            className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] "
             onClick={() => navigate("/stores")}
           >
             <ArrowLeft size={16} />

@@ -189,7 +189,7 @@ const updateProduct = async (req, res) => {
     };
 
     if (req.file) {
-      updateData.image = `/uploads/products/${req.file.filename}`;
+      updateData.image = req.file.path;
     }
     console.log(updateData);
     const product = await Product.findOneAndUpdate(
