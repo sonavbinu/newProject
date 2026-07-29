@@ -116,74 +116,78 @@ const ProfileDetails = () => {
   return (
     <div className=" w-full  rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-5  p-5 sm:p-6 bg-white">
       <div>
-        <h2 className="text-lg sm:text-xl  font-bold text-gray-900 ">
-          {t("profileDetails.title")}
-        </h2>
-        <p className="text-sm text-gray-400 mt-0.5">
-          {t("profileDetails.subtitle")}
-        </p>
-        <form className="flex flex-col gap-4" onSubmit={handleSave}>
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-900">
+            {t("profileDetails.title")}
+          </h2>
+
+          <p className="text-gray-500 mt-1">{t("profileDetails.subtitle")}</p>
+        </div>
+        <form className="flex flex-col gap-5" onSubmit={handleSave}>
           {fields.map(({ name, label, type, icon: Icon }) => (
-            <div key={name} className="flex flex-col gap-1.5 mt-3">
-              <div className="flex items-center gap-3">
-                <Icon size={18} />
+            <div key={name} className="space-y-2">
+              <label className="text-sm font-medium text-gray-600">
+                {label}
+              </label>
+
+              <div
+                className={`flex items-center rounded-xl border transition-all duration-200 ${
+                  isEditing
+                    ? "border-gray-300 focus-within:border-[var(--primary-color)] focus-within:ring-4 focus-within:ring-[var(--primary-color)]/40 bg-white"
+                    : "border-gray-200 bg-gray-50"
+                }`}
+              >
+                <Icon
+                  size={18}
+                  className="ml-4 text-[var(--primary-color)] shrink-0"
+                />
+
                 <input
                   type={type}
                   name={name}
                   value={formData[name]}
                   onChange={handleChange}
                   readOnly={!isEditing}
-                  className={`w-full border rounded-xl pl-11 pr-4 py-2.5 text-sm sm:text-base transition ${
-                    isEditing
-                      ? "border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
-                      : "border-gray-100 bg-gray-50 text-gray-500 cursor-default"
+                  className={`w-full bg-transparent px-4 py-3 text-sm sm:text-base outline-none ${
+                    !isEditing
+                      ? "text-gray-500 cursor-default"
+                      : "text-gray-900"
                   }`}
                 />
               </div>
             </div>
           ))}
 
-          {!isEditing && (
+          {!isEditing ? (
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="text-[var(--primary-color)] font-medium text-sm hover:underline"
+              className="self-start px-5 py-2.5 rounded-xl bg-[var(--primary-color)] text-white font-medium hover:opacity-90 transition cursor-pointer"
             >
               {t("profileDetails.change")}
             </button>
-          )}
-          {isEditing && (
-            <div className="flex gap-3">
+          ) : (
+            <div className="flex gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => {
                   setIsEditing(false);
                   fetchProfile();
                 }}
-                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition cursor-pointer"
+                className="flex-1 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition cursor-pointer"
               >
                 {t("common.cancel")}
               </button>
+
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 py-2.5 rounded-xl bg-[var(--primary-color)] text-white font-medium hover:opacity-90 transition disabled:opacity-50 cursor-pointer"
+                className="flex-1 py-3 rounded-xl bg-[var(--primary-color)] text-white font-medium hover:opacity-90 transition disabled:opacity-50 cursor-pointer"
               >
                 {saving ? "Saving..." : t("profileDetails.saveChanges")}
               </button>
             </div>
           )}
-          <button
-            type="submit"
-            disabled={!isEditing || saving}
-            className={`rounded py-2 text-white transition ${
-              isEditing
-                ? "bg-[var(--primary-color)] hover:bg-[var(--primary-hover)]"
-                : "bg-gray-300 cursor-not-allowed"
-            }`}
-          >
-            {saving ? "Saving..." : t("profileDetails.saveChanges")}
-          </button>
         </form>
       </div>
     </div>
