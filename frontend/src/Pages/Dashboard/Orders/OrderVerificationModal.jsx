@@ -1,4 +1,4 @@
-import { MapPin, Phone, X } from "lucide-react";
+import { MapPin, Phone, X, CheckCircle2, Circle } from "lucide-react";
 import React, { useState } from "react";
 import { updateOrderStatus } from "../../../redux/slices/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,113 +21,145 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
   if (!open || !order) return null;
 
   const allChecked = checkedItems.length === order.items.length;
+
+  const formatDateTime = (date) =>
+    `${new Date(date).toLocaleDateString()} | ${new Date(
+      date,
+    ).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+
   return (
-    <div className="fixed z-[100] inset-0 bg-black/50 backdrop-blur flex  items-center justify-center ">
-      <div className=" relative bg-white flex flex-col justify-center gap-4 p-6 rounded-xl w-full max-w-2xl ">
-        <h2 className="text-xl sm:text-lg font-bold border-b  mb-2 border-b-gray-300">
+    <div className="fixed z-[100] inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="relative bg-white flex flex-col gap-4 p-6 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 hover:bg-gray-100 p-2 rounded-full cursor-pointer transition"
+        >
+          <X size={20} />
+        </button>
+
+        <h2 className="text-lg font-bold text-gray-900 pr-10">
           {t("orders.orderConfirmation")}
         </h2>
-        <div className="flex flex-col border border-gray-300 rounded-xl px-3 py-2 hover:shadow ">
-          <div className="flex justify-between ">
-            <p className="text-[var(--primary-color)]">
-              {" "}
-              {t("orders.orderId")} :{order._id}
+
+        <div className="flex flex-col border border-gray-100 rounded-2xl px-4 py-3 gap-3 bg-gray-50">
+          <div className="flex justify-between items-center">
+            <p className="text-[var(--primary-color)] font-semibold text-sm">
+              #{order._id.slice(-8).toUpperCase()}
             </p>
-            <p className="text-gray-400">
-              {t("orders.date")}:
+            <p className="text-gray-400 text-xs">
               {new Date(order.createdAt).toLocaleDateString()}
             </p>
           </div>
-          <div className="w-full">
-            <h2 className="font-semibold"> {t("orders.orderFor")} :</h2>
-            <p className="text-gray-500 mb-2">{order.customerName}</p>
-          </div>
-          <div className="flex w-full gap-3">
-            <span
-              className="flex items-center gap-2 text-sm sm:text-base  border border-gray-300 
-          rounded-xl p-2
-          "
-            >
-              <Phone size={16} className="text-[var(--primary-color)]" />
-              {order.customerPhone}
-            </span>
-            <span
-              className="flex items-center gap-2 text-sm sm:text-base  border border-gray-300
-            rounded-xl p-2"
-            >
-              <MapPin size={16} className="text-[var(--primary-color)]" />
-              {order.customerAddress}
-            </span>
-          </div>
-          <div className="flex flex-col items-center justify-center gap-2  mt-2">
-            <div className="flex items-center gap-2 w-full ">
-              <div className="rounded-full w-3 h-3 bg-green-500"></div>
-              <div className="flex justify-between gap-2 w-full ">
-                <p>{t("orders.orderPlaced")}</p>
-                <p className="text-gray-500">
-                  {" "}
-                  {new Date(order.createdAt).toLocaleDateString()} |{" "}
-                  {new Date(order.createdAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
-              </div>
-            </div>
 
-            <div className="flex items-center gap-2 w-full">
-              <div className="rounded-full w-3 h-3 bg-green-500"></div>
-              <div className="flex justify-between w-full ">
-                <p>{t("orders.orderConfirmed")}</p>
-                <p className="text-gray-500">
-                  {order.confirmedAt
-                    ? `${new Date(order.confirmedAt).toLocaleDateString()} | ${new Date(
-                        order.confirmedAt,
-                      ).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}`
-                    : "-"}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col border border-gray-300 px-3 py-2 rounded-xl hover:shadow">
-          <h2 className="font-semibold bg-[var(--primary-light)] p-2 rounded-xl ">
-            {t("orders.verifyItems", { count: order.items.length })}
-          </h2>
-          {order.items.map((item) => (
-            <div
-              key={item.product}
-              className="flex justify-between py-2 border-b border-gray-300 last:border-b-0"
-            >
-              <div className="flex items-center gap-2 ">
-                <input
-                  type="checkbox"
-                  checked={checkedItems.includes(item.product)}
-                  onChange={() => handleCheckboxChange(item.product)}
-                  className="accent-[var(--primary-color)] w-4 h-4"
-                />
-                <span>
-                  {item.quantity}x {item.name}
-                </span>
-              </div>
-
-              <span>Rs{item.price}</span>
-            </div>
-          ))}
           <div>
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 text-2xl text-black hover:text-gray-600 hover:shadow px-3  pb-1 cursor-pointer rounded-xl"
-            >
-              <X size={20} />
-            </button>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
+              {t("orders.orderFor")}
+            </p>
+            <p className="text-gray-900 font-medium">{order.customerName}</p>
+          </div>
+
+          <div className="flex w-full gap-2 flex-wrap">
+            {order.customerPhone && (
+              <span className="flex items-center gap-1.5 text-xs bg-white border border-gray-200 rounded-lg px-2.5 py-1.5">
+                <Phone size={14} className="text-[var(--primary-color)]" />
+                {order.customerPhone}
+              </span>
+            )}
+            {order.customerAddress && (
+              <span className="flex items-center gap-1.5 text-xs bg-white border border-gray-200 rounded-lg px-2.5 py-1.5">
+                <MapPin size={14} className="text-[var(--primary-color)]" />
+                {order.customerAddress}
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2.5 mt-1">
+            <div className="flex items-center gap-2.5 w-full">
+              <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+              <div className="flex justify-between w-full text-sm">
+                <p className="text-gray-700">{t("orders.orderPlaced")}</p>
+                <p className="text-gray-400 text-xs">
+                  {formatDateTime(order.createdAt)}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5 w-full">
+              {order.confirmedAt ? (
+                <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+              ) : (
+                <Circle size={16} className="text-gray-300 shrink-0" />
+              )}
+              <div className="flex justify-between w-full text-sm">
+                <p
+                  className={
+                    order.confirmedAt ? "text-gray-700" : "text-gray-400"
+                  }
+                >
+                  {t("orders.orderConfirmed")}
+                </p>
+                <p className="text-gray-400 text-xs">
+                  {order.confirmedAt
+                    ? formatDateTime(order.confirmedAt)
+                    : "Pending"}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col items-center gap-2">
+        <div className="flex flex-col border border-gray-100 rounded-2xl overflow-hidden">
+          <div className="flex items-center justify-between bg-[var(--primary-light)] px-4 py-3">
+            <h2 className="font-semibold text-gray-900">
+              {t("orders.verifyItems", { count: order.items.length })}
+            </h2>
+            <span className="text-xs font-medium text-gray-500 bg-white px-2.5 py-1 rounded-full">
+              {checkedItems.length}/{order.items.length}
+            </span>
+          </div>
+
+          <div className="px-4">
+            {order.items.map((item) => {
+              const isChecked = checkedItems.includes(item.product);
+              return (
+                <label
+                  key={item.product}
+                  className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0 cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => handleCheckboxChange(item.product)}
+                      className="accent-[var(--primary-color)] w-4 h-4 cursor-pointer"
+                    />
+                    <span
+                      className={
+                        isChecked
+                          ? "text-gray-400 line-through"
+                          : "text-gray-700"
+                      }
+                    >
+                      {item.quantity}× {item.name}
+                    </span>
+                  </div>
+                  <span
+                    className={
+                      isChecked ? "text-gray-400" : "text-gray-900 font-medium"
+                    }
+                  >
+                    ₹{item.price}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-2">
           <button
             disabled={!allChecked}
             onClick={() => {
@@ -141,15 +173,15 @@ const OrderVerificationModal = ({ order, open, onClose, onPacked }) => {
               onClose();
               onPacked();
             }}
-            className={`px-6 py-2 rounded-lg ${
+            className={`w-full py-3 rounded-xl font-semibold transition ${
               allChecked
                 ? "bg-[var(--primary-color)] text-white hover:opacity-90 cursor-pointer"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-100 text-gray-400 cursor-not-allowed"
             }`}
           >
             {t("orders.readyForDelivery")}
           </button>
-          <p className="text-xs text-gray-500">*{t("orders.selectAllItems")}</p>
+          <p className="text-xs text-gray-400">*{t("orders.selectAllItems")}</p>
         </div>
       </div>
     </div>

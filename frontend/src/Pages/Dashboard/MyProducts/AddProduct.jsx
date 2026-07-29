@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { ArrowLeft, ImagePlus } from "lucide-react";
 import {
   addProduct,
   updateProduct,
@@ -151,7 +152,6 @@ const AddProduct = () => {
       };
 
       if (isEditMode) {
-        console.log(productPayload);
         await dispatch(
           updateProduct({
             productId,
@@ -179,85 +179,131 @@ const AddProduct = () => {
     }
   };
 
+  const inputClass =
+    "p-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition";
+  const labelClass = "text-sm font-medium text-gray-600 mb-1 block";
+
   return (
-    <div className="border border-[var(--primary-color)]  px-4 py-3 rounded-xl shadow flex flex-col gap-3">
-      <h1 className="text-xl font-bold mt-5 mb-6">
+    <div className="max-w-3xl mx-auto flex flex-col gap-4 pb-10">
+      <button
+        onClick={() => navigate("/my-products")}
+        className="flex items-center gap-2 text-sm text-gray-500 hover:text-[var(--primary-color)] transition cursor-pointer w-fit"
+      >
+        <ArrowLeft size={16} />
+        Back to products
+      </button>
+
+      <h1 className="text-2xl font-bold text-gray-900">
         {isEditMode ? "Edit Product" : t("addProduct.title")}
       </h1>
-      <div>
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-2 border border-gray-300 px-4 py-3 rounded shadow-md"
-        >
-          <h2 className="font-semibold">{t("addProduct.productDetails")}</h2>
-          <div className="flex flex-col gap-3 ">
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {/* Basic details */}
+        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col gap-4">
+          <h2 className="font-semibold text-gray-900">
+            {t("addProduct.productDetails")}
+          </h2>
+
+          <div>
+            <label className={labelClass}>
+              {t("addProduct.selectCategory")}
+            </label>
             <select
               name="category"
               value={category}
               onChange={handleChange}
-              className="border border-gray-300 rounded-lg p-2 w-full "
+              className={`${inputClass} w-full`}
             >
-              <option value=""> {t("addProduct.selectCategory")}</option>
-
+              <option value="">{t("addProduct.selectCategory")}</option>
               {categories.map((cat) => (
-                <option className="" key={cat.id} value={cat.id}>
+                <option key={cat.id} value={cat.id}>
                   {t(`addProduct.categories.${cat.key}`)}
                 </option>
               ))}
             </select>
-            <div className="flex flex-col gap-2">
-              <input
-                placeholder={t("addProduct.productName")}
-                name="productName"
-                value={productName}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
-                type="text"
-              />
+          </div>
+
+          <div>
+            <label className={labelClass}>{t("addProduct.productName")}</label>
+            <input
+              placeholder={t("addProduct.productName")}
+              name="productName"
+              value={productName}
+              onChange={handleChange}
+              className={`${inputClass} w-full`}
+              type="text"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>{t("addProduct.productMrp")}</label>
               <input
                 name="mrp"
                 value={mrp}
                 onChange={handleChange}
-                placeholder={t("addProduct.productMrp")}
-                className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+                placeholder="0"
+                className={`${inputClass} w-full`}
                 type="text"
               />
+            </div>
+            <div>
+              <label className={labelClass}>
+                {t("addProduct.productPrice")}
+              </label>
               <input
                 name="price"
                 value={price}
                 onChange={handleChange}
-                placeholder={t("addProduct.productPrice")}
-                className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+                placeholder="0"
+                className={`${inputClass} w-full`}
                 type="text"
               />
-              <div className="flex justify-between gap-4">
-                <select
-                  name="discountType"
-                  value={discountType}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-lg p-2 w-[50%] "
-                >
-                  <option value=""> {t("addProduct.discountType")}</option>
-                  {discount.map((d) => (
-                    <option key={d} value={d}>
-                      {d}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  name="discountValue"
-                  onChange={handleChange}
-                  value={discountValue}
-                  className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
-                  placeholder={t("addProduct.discountValue")}
-                />
-              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>
+                {t("addProduct.discountType")}
+              </label>
+              <select
+                name="discountType"
+                value={discountType}
+                onChange={handleChange}
+                className={`${inputClass} w-full`}
+              >
+                <option value="">{t("addProduct.discountType")}</option>
+                {discount.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>
+                {t("addProduct.discountValue")}
+              </label>
+              <input
+                type="text"
+                name="discountValue"
+                onChange={handleChange}
+                value={discountValue}
+                className={`${inputClass} w-full`}
+                placeholder="0"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className={labelClass}>{t("addProduct.units.kg")}</label>
               <select
                 name="unit"
                 value={unit}
                 onChange={handleChange}
-                className="border border-gray-300 rounded-lg p-2 w-full "
+                className={`${inputClass} w-full`}
               >
                 {units.map((u) => (
                   <option key={u} value={u}>
@@ -265,129 +311,161 @@ const AddProduct = () => {
                   </option>
                 ))}
               </select>
+            </div>
+            <div>
+              <label className={labelClass}>
+                {t("addProduct.productSize")}
+              </label>
               <input
                 onChange={handleChange}
                 value={size}
                 name="size"
                 placeholder={t("addProduct.productSize")}
-                className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+                className={`${inputClass} w-full`}
                 type="text"
-              />{" "}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>
+                {t("addProduct.availableQuantity")}
+              </label>
               <input
                 onChange={handleChange}
                 value={stock}
                 name="stock"
-                placeholder={t("addProduct.availableQuantity")}
-                className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+                placeholder="0"
+                className={`${inputClass} w-full`}
                 type="text"
               />
             </div>
-            <div className="border border-gray-300 px-4 py-3 rounded shadow flex flex-col gap-3">
-              <h1 className="font-bold">
-                {t("addProduct.productInformation")}
-              </h1>
-              <input
-                onChange={handleChange}
-                value={description}
-                name="description"
-                placeholder={t("addProduct.description")}
-                className="px-2 py-8 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
-                type="text"
-              />
+          </div>
+        </div>
+
+        {/* Product information */}
+        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col gap-4">
+          <h2 className="font-semibold text-gray-900">
+            {t("addProduct.productInformation")}
+          </h2>
+
+          <div>
+            <label className={labelClass}>{t("addProduct.description")}</label>
+            <textarea
+              onChange={handleChange}
+              value={description}
+              name="description"
+              placeholder={t("addProduct.description")}
+              rows={3}
+              className={`${inputClass} w-full resize-none`}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>{t("addProduct.country")}</label>
               <input
                 onChange={handleChange}
                 value={country}
                 name="country"
                 placeholder={t("addProduct.country")}
-                className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+                className={`${inputClass} w-full`}
                 type="text"
               />
+            </div>
+            <div>
+              <label className={labelClass}>
+                {t("addProduct.manufacturer")}
+              </label>
               <input
                 onChange={handleChange}
                 value={manufacturer}
                 name="manufacturer"
                 placeholder={t("addProduct.manufacturer")}
-                className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+                className={`${inputClass} w-full`}
                 type="text"
               />
             </div>
-            <div className="flex flex-col sm:flex-row space-x-3 justify-around  w-full">
-              <div className="flex flex-col w-[40%] gap-2 border border-gray-300 px-4 py-3 rounded shadow-md">
-                <h2 className="font-bold">{t("addProduct.deliveryType")}</h2>
-                <p className="text-sm text-gray-400">
-                  {t("addProduct.deliveryDescription")}
-                </p>
-                {deliveryTypes.map((type) => (
-                  <label
-                    key={type}
-                    className="flex items-center gap-2 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedDelivery.includes(type)}
-                      onChange={() => handleDeliveryChange(type)}
-                      className="accent-[var(--primary-color)] w-4 h-4 hover:cursor-pointer"
-                    />
-                    <span>{t(`addProduct.deliveryTypes.${type}`)}</span>
-                  </label>
-                ))}
-              </div>
-              <div>
-                <div className="flex flex-col gap-2 border border-gray-300 px-4 py-3 rounded shadow-md">
-                  <h2 className="font-bold">{t("addProduct.productImage")}</h2>
-                  <p className="text-sm text-gray-400">
-                    {t("addProduct.productImageDescription")}
-                  </p>
-                  <label
-                    htmlFor="product-image"
-                    className="w-40 h-40 border border-dashed border-gray-300 rounded-2xl flex items-center justify-center cursor-pointer overflow-hidden"
-                  >
-                    {image ? (
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt="Preview"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : existingImageUrl ? (
-                      <img
-                        src={existingImageUrl}
-                        alt="Current"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex flex-col items-center">
-                        <span className="text-3xl text-gray-400">+</span>
-                        <p className="text-sm text-gray-500 mt-2">
-                          {t("addProduct.uploadImage")}
-                        </p>
-                      </div>
-                    )}
-                  </label>
-
-                  <input
-                    type="file"
-                    id="product-image"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImage}
-                  />
-                </div>
-              </div>
-            </div>
-            <button
-              type="submit"
-              disabled={submitting}
-              className="bg-[var(--primary-color)] py-3 px-8 rounded-lg hover:opacity-90 text-white cursor-pointer disabled:opacity-50"
-            >
-              {submitting
-                ? t("common.loading")
-                : isEditMode
-                  ? "Update Product"
-                  : t("common.saveChanges")}
-            </button>
           </div>
-        </form>{" "}
-      </div>
+        </div>
+
+        {/* Delivery + image */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col gap-3">
+            <h2 className="font-semibold text-gray-900">
+              {t("addProduct.deliveryType")}
+            </h2>
+            <p className="text-sm text-gray-400">
+              {t("addProduct.deliveryDescription")}
+            </p>
+            <div className="flex flex-col gap-2 mt-1">
+              {deliveryTypes.map((type) => (
+                <label
+                  key={type}
+                  className="flex items-center gap-2.5 cursor-pointer text-sm text-gray-700"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedDelivery.includes(type)}
+                    onChange={() => handleDeliveryChange(type)}
+                    className="accent-[var(--primary-color)] w-4 h-4 cursor-pointer"
+                  />
+                  {t(`addProduct.deliveryTypes.${type}`)}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col gap-3">
+            <h2 className="font-semibold text-gray-900">
+              {t("addProduct.productImage")}
+            </h2>
+            <p className="text-sm text-gray-400">
+              {t("addProduct.productImageDescription")}
+            </p>
+            <label
+              htmlFor="product-image"
+              className="w-full h-36 border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center cursor-pointer overflow-hidden hover:border-[var(--primary-color)] transition"
+            >
+              {image ? (
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+              ) : existingImageUrl ? (
+                <img
+                  src={existingImageUrl}
+                  alt="Current"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="flex flex-col items-center text-gray-400">
+                  <ImagePlus size={24} />
+                  <p className="text-sm mt-2">{t("addProduct.uploadImage")}</p>
+                </div>
+              )}
+            </label>
+            <input
+              type="file"
+              id="product-image"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImage}
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={submitting}
+          className="bg-[var(--primary-color)] py-3.5 rounded-xl hover:opacity-90 text-white font-semibold cursor-pointer disabled:opacity-50 active:scale-[0.99] transition"
+        >
+          {submitting
+            ? t("common.loading")
+            : isEditMode
+              ? "Update Product"
+              : t("common.saveChanges")}
+        </button>
+      </form>
     </div>
   );
 };
