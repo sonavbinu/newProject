@@ -114,132 +114,184 @@ const Wallet = () => {
 
   return (
     <div className="flex flex-col gap-3 justify-center ">
-      <div>
-        <h2 className="font-semibold text-lg sm:text-xl">
+      <div className="mb-6 border-b border-gray-100 pb-5">
+        <h2 className="font-bold text-2xl sm:text-3xl  text-gray-900">
           {t("wallet.title")}
         </h2>
-        <p className="text-gray-400 text-sm sm:text-base">
+        <p className=" mt-2 max-w-2xl text-gray-500 leading-6 text-sm sm:text-base">
           {t("wallet.description")}
         </p>
       </div>
-      <div className="flex flex-col gap-2 shadow px-4 py-2 rounded-xl">
-        <label className="text-sm sm:text-base font-bold ">Bank Details</label>
-        <input
-          placeholder={t("wallet.accountHolder")}
-          value={bankDetails.accountHolder}
-          onChange={(e) =>
-            setBankDetails({
-              ...bankDetails,
-              accountHolder: e.target.value,
-            })
-          }
-          type="text"
-          className="border px-3 py-2.5  rounded  border-gray-300 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none"
-        />
-        <input
-          type="text"
-          placeholder={t("wallet.accountNumber")}
-          value={bankDetails.accountNumber}
-          onChange={(e) =>
-            setBankDetails({
-              ...bankDetails,
-              accountNumber: e.target.value,
-            })
-          }
-          className="border px-3 py-2.5 rounded border-gray-300 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none"
-        />
-        <input
-          placeholder={t("wallet.ifsc")}
-          value={bankDetails.ifsc}
-          onChange={(e) => {
-            setBankDetails({
-              ...bankDetails,
-              ifsc: e.target.value.toUpperCase(),
-            });
-          }}
-          type="text"
-          className="border px-3 py-2.5 rounded border-gray-300 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none"
-        />
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mb-5">
+          <h3 className="text-lg font-semibold text-gray-900">Bank Details</h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Enter the bank account where your payouts will be received.
+          </p>
+        </div>
+
+        <div className="space-y-5">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              {t("wallet.accountHolder")}
+            </label>
+
+            <input
+              type="text"
+              placeholder={t("wallet.accountHolder")}
+              value={bankDetails.accountHolder}
+              onChange={(e) =>
+                setBankDetails({
+                  ...bankDetails,
+                  accountHolder: e.target.value,
+                })
+              }
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-all
+        focus:border-[var(--primary-color)]
+        focus:ring-2 focus:ring-[var(--primary-color)]/20"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              {t("wallet.accountNumber")}
+            </label>
+
+            <input
+              type="text"
+              placeholder={t("wallet.accountNumber")}
+              value={bankDetails.accountNumber}
+              onChange={(e) =>
+                setBankDetails({
+                  ...bankDetails,
+                  accountNumber: e.target.value,
+                })
+              }
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-all
+        focus:border-[var(--primary-color)]
+        focus:ring-2 focus:ring-[var(--primary-color)]/20"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              {t("wallet.ifsc")}
+            </label>
+
+            <input
+              type="text"
+              placeholder={t("wallet.ifsc")}
+              value={bankDetails.ifsc}
+              onChange={(e) =>
+                setBankDetails({
+                  ...bankDetails,
+                  ifsc: e.target.value.toUpperCase(),
+                })
+              }
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 uppercase outline-none transition-all
+        focus:border-[var(--primary-color)]
+        focus:ring-2 focus:ring-[var(--primary-color)]/20"
+            />
+          </div>
+        </div>
       </div>
+      <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-gray-900">
+            {t("wallet.linkUpi")}
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Link your preferred UPI apps to receive payments instantly.
+          </p>
+        </div>
 
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm space-y-4">
-        <h2 className="font-semibold text-lg">{t("wallet.linkUpi")}</h2>
+        <div className="space-y-5">
+          {upiApps.map((app) => (
+            <div key={app.key}>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 rounded-2xl border border-gray-200 p-5 hover:border-[var(--primary-color)] hover:shadow-md transition-all duration-200">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                    <img
+                      src={app.image}
+                      className="w-10 h-10 object-contain"
+                      alt={app.name}
+                    />
+                  </div>
 
-        {upiApps.map((app) => (
-          <div key={app.key}>
-            <div className="flex items-center justify-between rounded-xl border border-gray-200 p-4 hover:shadow-md transition">
-              <div className="flex items-center gap-4">
-                <img
-                  src={app.image}
-                  className="w-12 h-12 rounded-lg object-contain"
-                  alt=""
-                />
-                <div>
-                  <h3 className="font-semibold">{app.name}</h3>
-                  <p className="text-sm text-gray-500">
-                    {t("wallet.linkYourUpi", { app: app.name })}
-                  </p>
-                </div>
-              </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">{app.name}</h3>
 
-              {upi[app.key] ? (
-                <div className="text-right">
-                  <p className="text-sm font-medium">{upi[app.key]}</p>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm mt-1">
-                    <CheckCircle2 size={16} />
-                    {t("wallet.linked")}
+                    <p className="text-sm text-gray-500 mt-1">
+                      {t("wallet.linkYourUpi", { app: app.name })}
+                    </p>
                   </div>
                 </div>
-              ) : (
-                <button
-                  onClick={() => setOpenApp(app.key)}
-                  className="rounded-lg bg-[var(--primary-color)] cursor-pointer px-5 py-2 text-white hover:bg-[var(--primary-hover)]"
-                >
-                  {t("wallet.linkUpiButton")}
-                </button>
+
+                {upi[app.key] ? (
+                  <div className="text-left sm:text-right">
+                    <p className="font-medium text-gray-800 break-all">
+                      {upi[app.key]}
+                    </p>
+
+                    <div className="inline-flex items-center gap-2 mt-2 rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
+                      <CheckCircle2 size={16} />
+                      {t("wallet.linked")}
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setOpenApp(app.key)}
+                    className="rounded-xl bg-[var(--primary-color)] px-5 py-2.5 text-white font-medium hover:bg-[var(--primary-hover)] transition cursor-pointer"
+                  >
+                    {t("wallet.linkUpiButton")}
+                  </button>
+                )}
+              </div>
+
+              {openApp === app.key && (
+                <div className="mt-4 rounded-2xl border border-[var(--primary-color)]/20 bg-[#FAFAF7] p-5">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t("wallet.enterUpi")}
+                  </label>
+
+                  <input
+                    type="text"
+                    value={upiInput[app.key]}
+                    onChange={(e) =>
+                      setUpiInput({
+                        ...upiInput,
+                        [app.key]: e.target.value,
+                      })
+                    }
+                    placeholder={t("wallet.upiPlaceholder")}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+                  />
+
+                  <div className="mt-5 flex justify-end gap-3">
+                    <button
+                      onClick={() => setOpenApp(null)}
+                      className="rounded-xl border border-gray-300 px-5 py-2.5 font-medium text-gray-700 hover:bg-gray-100 transition cursor-pointer"
+                    >
+                      {t("common.cancel")}
+                    </button>
+
+                    <button
+                      onClick={() => handleLink(app.key)}
+                      className="rounded-xl bg-[var(--primary-color)] px-6 py-2.5 font-medium text-white hover:bg-[var(--primary-hover)] transition cursor-pointer"
+                    >
+                      {t("common.link")}
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
-            {openApp === app.key && (
-              <div className="mt-3 rounded-xl border border-gray-100  p-5 flex flex-col items-start gap-3">
-                <label className="mb-2 block text-sm font-medium">
-                  {t("wallet.enterUpi")}
-                </label>
+          ))}
+        </div>
 
-                <input
-                  type="text"
-                  value={upiInput[app.key]}
-                  onChange={(e) => {
-                    setUpiInput({
-                      ...upiInput,
-                      [app.key]: e.target.value,
-                    });
-                  }}
-                  placeholder={t("wallet.upiPlaceholder")}
-                  className="w-full rounded-lg border px-4 py-3 focus:ring-2 focus:ring-[var(--primary-color)] focus:outline-none border-gray-300"
-                />
-
-                <div className="flex justify-end gap-3">
-                  <button
-                    className="rounded-lg border border-gray-300 cursor-pointer px-5 py-2 hover:bg-gray-100"
-                    onClick={() => setOpenApp(null)}
-                  >
-                    {t("common.cancel")}
-                  </button>
-                  <button
-                    className="rounded-lg bg-[var(--primary-color)] px-5 py-2 text-white hover:bg-[var(--primary-hover)] cursor-pointer "
-                    onClick={() => handleLink(app.key)}
-                  >
-                    {t("common.link")}
-                  </button>
-                </div>
-              </div>
-            )}{" "}
-          </div>
-        ))}
-        <div>
+        <div className="mt-8 flex justify-end">
           <button
-            className="rounded-xl hover: bg-[var(--primary-color)] px-8 py-3 font-medium text-white hover:bg-[var(--primary-hover)] transition"
             onClick={handleSave}
+            className="rounded-xl bg-[var(--primary-color)] px-8 py-3 font-medium text-white hover:bg-[var(--primary-hover)] transition cursor-pointer"
           >
             {t("common.saveChanges")}
           </button>
