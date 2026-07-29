@@ -1,6 +1,5 @@
 const Store = require("../models/Store");
 const User = require("../models/user");
-const fs = require("fs");
 
 const registerStore = async (req, res) => {
   try {
@@ -33,11 +32,9 @@ const registerStore = async (req, res) => {
     }
 
     const storeImage = req.files?.storeImage?.[0]
-      ? `/uploads/stores/${req.files.storeImage[0].filename}`
+      ? req.files.storeImage[0].path
       : "";
-    const qrImage = req.files?.qrImage?.[0]
-      ? `/uploads/stores/${req.files.qrImage[0].filename}`
-      : "";
+    const qrImage = req.files?.qrImage?.[0] ? req.files.qrImage[0].path : "";
 
     const store = await Store.create({
       owner: req.user.id,
@@ -185,7 +182,7 @@ const saveStore = async (req, res) => {
       closingTime: closingTime || "",
     };
     if (req.file) {
-      updateData.storeImage = `/uploads/stores/${req.file.filename}`;
+      updateData.storeImage = req.file.patho;
     }
 
     const store = await Store.findOneAndUpdate(
@@ -249,13 +246,6 @@ const removeStoreImage = async (req, res) => {
     const store = await Store.findOne({ _id: storeId, owner: req.user.id });
     if (!store) return res.status(404).json({ message: "Store not found" });
 
-    if (store.storeImage) {
-      const filePath = `.${store.storeImage}`;
-      fs.unlink(filePath, (err) => {
-        if (err) console.error("Failed to delete image file:", err.message);
-      });
-    }
-
     store.storeImage = "";
     await store.save();
 
@@ -275,17 +265,12 @@ const deleteStore = async (req, res) => {
       return res.status(404).json({ message: "Store not found" });
     }
 
-    [store.storeImage, store.qrImage].forEach((imgPath) => {
-      if (imgPath) {
-        fs.unlink(`.${imgPath}`, (err) => {
-          if (err) console.error("Failed to delete image file:", err.message);
-        });
-      }
-    });
     await Store.deleteOne({ _id: store._id });
-    res
-      .status(200)
-      .json({ success: true, message: "Store deleted successfully" });
+
+    res.status(200).json({
+      success: true,
+      message: "Store deleted successfully",
+    });
   } catch (error) {
     res.status(500).json({
       message: "Server error",
@@ -293,7 +278,6 @@ const deleteStore = async (req, res) => {
     });
   }
 };
-
 module.exports = {
   registerStore,
   getMyStores,
