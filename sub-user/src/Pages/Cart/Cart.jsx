@@ -46,11 +46,14 @@ const Cart = () => {
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-[#FAFAF7] flex flex-col items-center justify-center gap-3">
-        <ShoppingBag className="text-gray-300" size={40} />
+        <div className="w-16 h-16 rounded-2xl bg-[#F1F5F3] flex items-center justify-center">
+          <ShoppingBag className="text-[#8BAD2B]" size={40} />
+        </div>
+
         <p className="text-gray-500">Your cart is empty</p>
         <button
           onClick={() => navigate("/stores")}
-          className="text-[#8BAD2B] font-medium text-sm hover:underline"
+          className="text-[#8BAD2B] font-semibold text-sm hover:underline cursor-pointer"
         >
           Browse stores
         </button>
@@ -66,45 +69,35 @@ const Cart = () => {
     <div className="min-h-screen bg-[#FAFAF7] px-6 pl-0 pr-0 pb-32">
       <Navbar />
       <div className="max-w-2xl pt-10 mx-auto">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-am text-gray-500 hover:text-[#8BAD2B] transition"
+        >
+          <ArrowLeft size={16} />
+          Back
+        </button>
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Cart</h1>
-        <div className="flex  items-center gap-4 justify-between mb-6 ">
-          <button
-            className="flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-[#8BAD2B] "
-            onClick={() => navigate("/stores")}
-          >
-            <ArrowLeft size={16} />
-            Continue shopping
-          </button>
-          <div className="flex gap-4 items-center">
-            <button
-              onClick={() => navigate("/orders")}
-              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer"
-            >
-              <Package size={16} />
-              My Orders
-            </button>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#8BAD2B] transition cursor-pointer"
-            >
-              <LogOut size={16} />
-              Logout
-            </button>
-          </div>
-        </div>
-        <div className="mb-4 rounded-lg bg-blue-50 border border-gray-200 p-3">
-          <p className="text-sm text-blue-700">
-            Please verify your current delivery address before placing your
-            order . Address changes made after placing an order will only apply
-            to future orders
-          </p>
-        </div>
+
         <div className="flex flex-col gap-3">
           {items.map((item) => (
             <div
               key={item.productId}
               className="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-4"
             >
+              <div>
+                {item.image ? (
+                  <img
+                    src={`${import.meta.env.VITE_API_URL?.replace("/api", "")}${item.image}`}
+                    alt={item.productName}
+                    className="w-20 h-20 rounded-xl shadow-md p-1 object-cover"
+                  />
+                ) : (
+                  <ShoppingBag
+                    className="text-[#8BAD2B] w-20 h-20 rounded-xl shadow-md "
+                    size={18}
+                  />
+                )}
+              </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-medium text-gray-900 truncate">
                   {item.productName}
@@ -115,7 +108,7 @@ const Cart = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => dispatch(decrementItem(item.productId))}
-                  className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 hover:bg-gray-50"
+                  className="w-7 h-7 flex items-center justify-center rounded-full border cursor-pointer border-gray-200 hover:bg-gray-50"
                 >
                   <Minus size={14} />
                 </button>
@@ -125,7 +118,7 @@ const Cart = () => {
                 <button
                   onClick={() => dispatch(incrementItem(item.productId))}
                   disabled={item.quantity >= item.stock}
-                  className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 hover:bg-gray-50 disabled:opacity-30"
+                  className="w-7 h-7 flex items-center cursor-pointer justify-center rounded-full border border-gray-200 hover:bg-gray-50 disabled:opacity-30"
                 >
                   <Plus size={14} />
                 </button>
@@ -137,7 +130,7 @@ const Cart = () => {
 
               <button
                 onClick={() => dispatch(removeItem(item.productId))}
-                className="text-gray-400 hover:text-red-500 transition"
+                className="text-gray-400 hover:text-red-500 transition cursor-pointer"
               >
                 <Trash2 size={16} />
               </button>

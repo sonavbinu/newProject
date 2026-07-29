@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
+import { User, Mail, Phone, MapPin, Lock, ShoppingBasket } from "lucide-react";
 import { registerCustomer } from "../../redux/slices/customerAuthSlice";
 import { toast } from "react-toastify";
 
@@ -12,6 +13,7 @@ const Register = () => {
     phone: "",
     address: "",
   });
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,70 +32,89 @@ const Register = () => {
     }
   };
 
+  const fields = [
+    {
+      name: "name",
+      type: "text",
+      placeholder: "Full name",
+      icon: User,
+      required: true,
+    },
+    {
+      name: "email",
+      type: "email",
+      placeholder: "Email",
+      icon: Mail,
+      requrie: true,
+    },
+    { name: "phone", type: "tel", placeholder: "Phone number", icon: Phone },
+    {
+      name: "address",
+      type: "text",
+      placeholder: "Delivery address",
+      icon: MapPin,
+    },
+    {
+      name: "password",
+      type: "password",
+      placeholder: "Password",
+      icon: Lock,
+      required: true,
+      minLength: 6,
+    },
+  ];
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm flex flex-col gap-4"
-      >
-        <h1 className="text-xl font-bold">Create an account</h1>
-        <input
-          type="text"
-          name="name"
-          placeholder="Full name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#8BAD2B] border-gray-300"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#8BAD2B] border-gray-300"
-        />
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Phone number"
-          value={formData.phone}
-          onChange={handleChange}
-          className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#8BAD2B] border-gray-300"
-        />
-        <input
-          type="address"
-          name="address"
-          placeholder="Address"
-          onChange={handleChange}
-          value={formData.address}
-          className="border rounded-lg p-2 focus:outline-none border-gray-300 focus:ring-[#8BAD2B] focus:ring-2"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          minLength={6}
-          className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#8BAD2B] border-gray-300"
-        />
-        <button
-          type="submit"
-          className="bg-[#8BAD2B] text-white rounded-lg py-2 hover:opacity-90"
+      <div className="w-full max-w-sm">
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-14 h-14 rounded-2xl bg-[#F1F5F3] flex items-center justify-center mb-4">
+            <ShoppingBasket className="text-[#8BAD2B]" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Create an account
+          </h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Start ordering from local stores
+          </p>
+        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm flex flex-col gap-4"
         >
-          Register
-        </button>
-        <p className="text-sm text-center text-gray-500">
-          Already have an account?{" "}
-          <Link to="/" className="text-[#8BAD2B] hover:underline font-medium">
-            Login
-          </Link>
-        </p>
-      </form>
+          {fields.map(
+            ({ name, type, placeholder, icon: Icon, required, minLength }) => (
+              <div className="flex items-center gap-3" key={name}>
+                <Icon size={18} />
+                <input
+                  type={type}
+                  name={name}
+                  placeholder={placeholder}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  required={required}
+                  minLength={minLength}
+                  className="w-full border border-gray-200 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#8BAD2B] focus:border-transparent transition"
+                />
+              </div>
+            ),
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-[#8BAD2B] text-white rounded-lg py-2 hover:opacity-90"
+          >
+            {loading ? "Creating account..." : "Register"}
+          </button>
+          <p className="text-sm text-center text-gray-500">
+            Already have an account?{" "}
+            <Link to="/" className="text-[#8BAD2B] hover:underline font-medium">
+              Login
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
