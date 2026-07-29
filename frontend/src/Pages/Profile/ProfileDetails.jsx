@@ -1,4 +1,4 @@
-import { Truck } from "lucide-react";
+import { Truck, User, Phone, Mail } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -86,61 +86,93 @@ const ProfileDetails = () => {
 
   if (loading) {
     return (
-      <div className="p-4 sm:p-6 bg-white rounded-lg">Loading profile...</div>
+      <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
+        <p className="text-gray-400 text-sm">Loading profile...</p>
+      </div>
     );
   }
 
+  const fields = [
+    {
+      name: "name",
+      label: t("profileDetails.name"),
+      type: "text",
+      icon: User,
+    },
+    {
+      name: "phone",
+      label: t("profileDetails.phone"),
+      type: "tel",
+      icon: Phone,
+    },
+    {
+      name: "email",
+      label: t("profileDetails.email"),
+      type: "email",
+      icon: Mail,
+    },
+  ];
+
   return (
-    <div className=" w-full  rounded-lg flex flex-col gap-4  p-4 sm:p-6 bg-white">
-      <div className="flex flex-col gap-2">
-        <h2 className="text-lg sm:text-xl  font-semibold ">
+    <div className=" w-full  rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-5  p-5 sm:p-6 bg-white">
+      <div>
+        <h2 className="text-lg sm:text-xl  font-bold text-gray-900 ">
           {t("profileDetails.title")}
         </h2>
-        <p className="text-sm text-gray-400">{t("profileDetails.subtitle")}</p>
-        <form className="flex flex-col gap-2" onSubmit={handleSave}>
-          <div className="flex flex-col gap-2 font-medium text-sm sm:text-base">
-            <label className="font-semibold">{t("profileDetails.name")}</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              readOnly={!isEditing}
-              className=" w-full border border-gray-300 px-3 py-2.5 focus:ring-2 text-sm sm:text-base  focus:ring-[var(--primary-color)] focus:outline-none rounded"
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="font-medium text-sm sm:text-base">
-              {t("profileDetails.phone")}
-            </label>
-            <input
-              type="number"
-              name="phone"
-              value={formData.phone}
-              readOnly={!isEditing}
-              onChange={handleChange}
-              className="w-full border border-gray-300 px-3 py-2.5 focus:ring-2 text-sm sm:text-base  focus:ring-[var(--primary-color)] focus:outline-none rounded"
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">{t("profileDetails.email")}</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              readOnly={!isEditing}
-              onChange={handleChange}
-              className=" w-full border border-gray-300 px-3 py-2.5 focus:ring-2 text-sm sm:text-base  focus:ring-[var(--primary-color)] focus:outline-none rounded"
-            />
+        <p className="text-sm text-gray-400 mt-0.5">
+          {t("profileDetails.subtitle")}
+        </p>
+        <form className="flex flex-col gap-4" onSubmit={handleSave}>
+          {fields.map(({ name, label, type, icon: Icon }) => (
+            <div key={name} className="flex flex-col gap-1.5 mt-3">
+              <div className="flex items-center gap-3">
+                <Icon size={18} />
+                <input
+                  type={type}
+                  name={name}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  readOnly={!isEditing}
+                  className={`w-full border rounded-xl pl-11 pr-4 py-2.5 text-sm sm:text-base transition ${
+                    isEditing
+                      ? "border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
+                      : "border-gray-100 bg-gray-50 text-gray-500 cursor-default"
+                  }`}
+                />
+              </div>
+            </div>
+          ))}
 
+          {!isEditing && (
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="text-[var(--primary-color)] hover:underline"
+              className="text-[var(--primary-color)] font-medium text-sm hover:underline"
             >
               {t("profileDetails.change")}
             </button>
-          </div>
+          )}
+          {isEditing && (
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsEditing(false);
+                  fetchProfile();
+                }}
+                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition cursor-pointer"
+              >
+                {t("common.cancel")}
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="flex-1 py-2.5 rounded-xl bg-[var(--primary-color)] text-white font-medium hover:opacity-90 transition disabled:opacity-50 cursor-pointer"
+              >
+                {saving ? "Saving..." : t("profileDetails.saveChanges")}
+              </button>
+            </div>
+          )}
           <button
             type="submit"
             disabled={!isEditing || saving}
