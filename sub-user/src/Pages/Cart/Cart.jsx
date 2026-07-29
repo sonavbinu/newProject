@@ -89,10 +89,13 @@ const Cart = () => {
                   <img
                     src={`${import.meta.env.VITE_API_URL?.replace("/api", "")}${item.image}`}
                     alt={item.productName}
-                    className="w-20 h-20 object-cover"
+                    className="w-20 h-20 rounded-xl shadow-md p-1 object-cover"
                   />
                 ) : (
-                  <ShoppingBag className="text-[#8BAD2B]" size={18} />
+                  <ShoppingBag
+                    className="text-[#8BAD2B] w-20 h-20 rounded-xl shadow-md "
+                    size={18}
+                  />
                 )}
               </div>
               <div className="flex-1 min-w-0">
@@ -127,7 +130,7 @@ const Cart = () => {
 
               <button
                 onClick={() => dispatch(removeItem(item.productId))}
-                className="text-gray-400 hover:text-red-500 transition"
+                className="text-gray-400 hover:text-red-500 transition cursor-pointer"
               >
                 <Trash2 size={16} />
               </button>
