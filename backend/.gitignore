@@ -4,3 +4,9 @@
 .env.development.local
 .env.production.local
 .env.test.local
+
+# Dependencies
+node_modules/
+
+# Uploaded files (local dev only — not suitable for git)
+backend/uploads/
