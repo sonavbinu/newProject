@@ -86,7 +86,7 @@ const ProfileDetails = () => {
 
   if (loading) {
     return (
-      <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
+      <div className="p-6 bg-white rounded-2xl">
         <p className="text-gray-400 text-sm">Loading profile...</p>
       </div>
     );
