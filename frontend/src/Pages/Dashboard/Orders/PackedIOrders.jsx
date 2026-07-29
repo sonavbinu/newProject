@@ -1,133 +1,148 @@
 import React from "react";
-import { Phone, MapPin, Clock, Trash2 } from "lucide-react";
+import {
+  Phone,
+  MapPin,
+  Clock,
+  Trash2,
+  CheckCircle2,
+  Circle,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const PackedIOrders = ({ order, onComplete, onDelete }) => {
   const { t } = useTranslation();
+
+  const formatDateTime = (date) =>
+    `${new Date(date).toLocaleDateString()} | ${new Date(
+      date,
+    ).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+
   return (
-    <div className="border border-gray-300 rounded-xl p-6 shadow hover:shadow-lg">
-      <div className="flex justify-between mb-5">
-        <p className="font-semibold text-[var(--primary-color)]">
-          {t("orders.orderId")}: {order._id}
+    <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+      <div className="flex justify-between items-start">
+        <p className="font-semibold text-[var(--primary-color)] text-sm">
+          #{order._id.slice(-8).toUpperCase()}
         </p>
-        <p className="text-gray-500">
-          {t("orders.date")}:{new Date(order.createdAt).toLocaleDateString()}
+        <p className="text-gray-400 text-xs">
+          {new Date(order.createdAt).toLocaleDateString()}
         </p>
       </div>
+
       <div>
-        <h4 className="font-semibold"> {t("orders.orderFor")}</h4>
-        <p className="font-medium">{order.customerName}</p>
+        <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
+          {t("orders.orderFor")}
+        </p>
+        <p className="font-medium text-gray-900">{order.customerName}</p>
       </div>
-      <div className="flex flex-wrap gap-3">
-        <div className="flex items-center justify-center flex-wrap gap-2">
-          <div className="flex items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
-            <Phone size={16} className="text-[var(--primary-color)]" />
+
+      <div className="flex flex-wrap gap-2">
+        {order.customerPhone && (
+          <div className="flex items-center gap-1.5 text-xs bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-1.5">
+            <Phone size={14} className="text-[var(--primary-color)]" />
             {order.customerPhone}
           </div>
-          <div className="flex flex-wrap gap-3 items-center text-sm border border-gray-200 rounded-xl p-2">
-            <MapPin size={16} className="text-[var(--primary-color)]" />
+        )}
+        {order.customerAddress && (
+          <div className="flex items-center gap-1.5 text-xs bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-1.5">
+            <MapPin size={14} className="text-[var(--primary-color)]" />
             {order.customerAddress}
           </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 text-sm border border-gray-200 rounded-xl p-2">
-          <Clock size={16} className="text-[var(--primary-color)]" />
-          <span className="text-gray-500">
-            {" "}
-            {t("orders.selfPickup")} :{" "}
-            {order.createdAt
-              ? `${new Date(order.createdAt).toLocaleDateString()} | ${new Date(
-                  order.createdAt,
-                ).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}`
-              : "-"}
-          </span>
+        )}
+        <div className="flex items-center gap-1.5 text-xs bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-1.5">
+          <Clock size={14} className="text-[var(--primary-color)]" />
+          {t("orders.selfPickup")}
         </div>
       </div>
 
       <div>
-        <h2 className="font-semibold"> {t("orders.orderItems")}:</h2>
-        <div className="border border-gray-300 px-4 py-3 mt-4 rounded-xl bg-[var(--primary-light)] ">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+          {t("orders.orderItems")}
+        </p>
+        <div className="bg-[var(--primary-light)] rounded-xl p-3 flex flex-col gap-1">
           {order.items.map((item) => (
             <div
               key={item.product}
-              className="flex justify-between py-2 border-b border-gray-300 last:border-b-0"
+              className="flex justify-between text-sm py-1.5 border-b border-white/60 last:border-b-0"
             >
-              <span>
+              <span className="text-gray-700">
                 {item.quantity} × {item.name}
               </span>
-
-              <span>₹{item.price}</span>
+              <span className="font-medium text-gray-900">₹{item.price}</span>
             </div>
           ))}
         </div>
-        <div className="flex justify-between items-center mt-2 pt-5 pb-5 border-t border-t-gray-300">
-          <h4 className="font-semibold"> {t("orders.totalBillAmount")}:</h4>
-          <div className="flex items-center">
-            <span>Rs{order.total}</span>
-          </div>
-        </div>
-        <div className="flex justify-between  p-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-green-500 rounded-full w-2 h-2"></div>
-            <span>{t("orders.storeConfirmation")}</span>
-          </div>
-          <p className="text-gray-500">
-            {order.confirmedAt
-              ? `${new Date(order.confirmedAt).toLocaleDateString()} | ${new Date(
-                  order.confirmedAt,
-                ).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}`
-              : "-"}
-          </p>
-        </div>
-        {/* <div className="flex justify-between p-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-green-500 rounded-full w-2 h-2"></div>
-            <span>{t("orders.deliveryAccepted")}</span>
-          </div>
-          <p>
-            {order.deliveryAcceptedAt
-              ? `${new Date(order.deliveryAcceptedAt).toLocaleDateString()}|${new Date(
-                  order.deliveryAcceptedAt,
-                ).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}`
-              : "-"}
-          </p>
-        </div>{" "} */}
-        <div className="flex justify-between  p-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-green-500 rounded-full w-2 h-2"></div>
-            <span>{t("orders.deliveryPickup")}</span>
-          </div>
-          <p className="text-gray-500">
-            {order.packedAt
-              ? `${new Date(order.packedAt).toLocaleDateString()} | ${new Date(
-                  order.packedAt,
-                ).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}`
-              : "-"}
-          </p>
+
+        <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
+          <h4 className="text-sm text-gray-500">
+            {t("orders.totalBillAmount")}
+          </h4>
+          <p className="text-lg font-bold text-gray-900">₹{order.total}</p>
         </div>
       </div>
-      <div className="flex gap-3">
+
+      <div className="flex flex-col gap-2.5 border-t border-gray-100 pt-3">
+        <div className="flex items-center gap-2.5">
+          <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+          <div className="flex justify-between w-full text-sm">
+            <span className="text-gray-700">{t("orders.orderPlaced")}</span>
+            <span className="text-gray-400 text-xs">
+              {formatDateTime(order.createdAt)}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5">
+          {order.confirmedAt ? (
+            <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+          ) : (
+            <Circle size={16} className="text-gray-300 shrink-0" />
+          )}
+          <div className="flex justify-between w-full text-sm">
+            <span
+              className={order.confirmedAt ? "text-gray-700" : "text-gray-400"}
+            >
+              {t("orders.storeConfirmation")}
+            </span>
+            <span className="text-gray-400 text-xs">
+              {order.confirmedAt
+                ? formatDateTime(order.confirmedAt)
+                : "Pending"}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5">
+          {order.packedAt ? (
+            <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+          ) : (
+            <Circle size={16} className="text-gray-300 shrink-0" />
+          )}
+          <div className="flex justify-between w-full text-sm">
+            <span
+              className={order.packedAt ? "text-gray-700" : "text-gray-400"}
+            >
+              {t("orders.deliveryPickup")}
+            </span>
+            <span className="text-gray-400 text-xs">
+              {order.packedAt ? formatDateTime(order.packedAt) : "Pending"}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex gap-2">
         <button
           onClick={onComplete}
-          className="bg-[var(--primary-color)] text-white py-2 px-4 w-full rounded-xl hover:opacity-90 cursor-pointer"
+          className="flex-1 bg-[var(--primary-color)] text-white py-2.5 rounded-xl font-medium hover:opacity-90 transition cursor-pointer"
         >
           {t("orders.markAsDelivered")}
         </button>
         <button
           onClick={onDelete}
-          className="bg-red-500 text-white py-2 px-4 rounded-xl hover:bg-red-600 cursor-pointer"
+          className="bg-red-50 text-red-500 p-2.5 rounded-xl hover:bg-red-100 transition cursor-pointer"
           title="Delete order"
         >
           <Trash2 size={18} />

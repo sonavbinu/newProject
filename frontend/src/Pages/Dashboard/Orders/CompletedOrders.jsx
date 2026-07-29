@@ -1,118 +1,118 @@
 import React from "react";
-import { Phone, MapPin, Clock, Trash2 } from "lucide-react";
+import { Phone, MapPin, Clock, Trash2, CheckCircle2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const CompletedOrders = ({ order, onDelete }) => {
   const { t } = useTranslation();
-  return (
-    <div>
-      <div className="border border-gray-300 rounded-xl p-6 shadow hover:shadow-lg">
-        <div className="flex justify-between mb-5">
-          <p className="font-semibold text-[var(--primary-color)]">
-            {t("orders.orderId")}: {order._id}
-          </p>
-          <p className="text-gray-500">
-            {t("orders.date")}:{new Date(order.createdAt).toLocaleDateString()}
-          </p>
-        </div>
-        <div>
-          <h4 className="font-semibold"> {t("orders.orderFor")}</h4>
-          <p className="font-medium text-gray-400">{order.customerName}</p>
-        </div>
-        <div className="flex flex-col lg:flex-row mt-3 gap-3">
-          <div className="flex items-center sm:flex-row  flex-1 gap-3">
-            <div className="flex items-center justify-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
-              <Phone size={16} className="text-[var(--primary-color)]" />
-              {order.customerPhone}
-            </div>
-            <div className="flex gap-2 text-sm items-center border border-gray-200 rounded-xl p-2">
-              <MapPin size={16} className="text-[var(--primary-color)]" />
-              {order.customerAddress}
-            </div>{" "}
-            <div className="flex  items-center gap-2 text-sm border border-gray-200 rounded-xl p-2">
-              <Clock size={16} className="text-[var(--primary-color)]" />
-              <span className="text-gray-500">
-                {t("orders.selfPickup")} :{" "}
-                {order.createdAt
-                  ? `${new Date(order.createdAt).toLocaleDateString()}  |  ${new Date(
-                      order.createdAt,
-                    ).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}`
-                  : "-"}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col ">
-          <h2 className="font-semibold"> {t("orders.orderItems")}</h2>
-          <div className="border border-gray-300 px-4 py-3 mt-4 rounded-xl bg-[var(--primary-light)] ">
-            {order.items.map((item) => (
-              <div
-                key={item.product}
-                className="flex justify-between py-2 border-b border-gray-300 last:border-b-0"
-              >
-                <span>
-                  {item.quantity} × {item.name}
-                </span>
 
-                <span>₹{item.price}</span>
-              </div>
-            ))}
+  const formatDateTime = (date) =>
+    `${new Date(date).toLocaleDateString()} | ${new Date(
+      date,
+    ).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+
+  return (
+    <div className="bg-white border border-green-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+      <div className="flex justify-between items-start">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+            <CheckCircle2 size={14} className="text-green-600" />
           </div>
-          <div className="flex justify-between items-center mt-2 pt-5 pb-5 border-t border-t-gray-300">
-            <h4 className="font-semibold"> {t("orders.totalBillAmount")}</h4>
-            <div className="flex items-center">
-              <span>Rs{order.total}</span>
-            </div>
-          </div>
-          <div className="flex  justify-between items-center p-2">
-            <div className="flex flex-col items-center gap-2">
-              <p className="text-[var(--primary-color)]">
-                {t("orders.deliveryStatus")}:
-              </p>
-              <div className="flex items-center gap-2">
-                <div className="bg-green-500 rounded-full w-2 h-2"></div>
-                <span>{t("orders.deliveryPickup")}</span>
-              </div>
-            </div>
-            <p className="text-gray-400 text-center">
-              {order.packedAt
-                ? `${new Date(order.packedAt).toLocaleDateString()} | ${new Date(
-                    order.packedAt,
-                  ).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}`
-                : "-"}
-            </p>
-          </div>
-          <div className="flex justify-between p-2">
-            <div className="flex items-center gap-2">
-              <div className="bg-green-500 rounded-full w-2 h-2"></div>
-              <span>{t("orders.delivered")}</span>
-            </div>
-            <p className="text-gray-400">
-              {order.completedAt
-                ? `${new Date(order.completedAt).toLocaleDateString()} | ${new Date(
-                    order.completedAt,
-                  ).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}`
-                : "-"}
-            </p>
-          </div>{" "}
-          <button
-            onClick={onDelete}
-            className="bg-red-500  flex justify-center text-white py-2 px-4 rounded-xl hover:bg-red-600 cursor-pointer"
-            title="Delete order"
-          >
-            <Trash2 size={18} />
-          </button>
-        </div>{" "}
+          <p className="font-semibold text-gray-900 text-sm">
+            #{order._id.slice(-8).toUpperCase()}
+          </p>
+        </div>
+        <p className="text-gray-400 text-xs">
+          {new Date(order.createdAt).toLocaleDateString()}
+        </p>
       </div>
+
+      <div>
+        <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
+          {t("orders.orderFor")}
+        </p>
+        <p className="font-medium text-gray-700">{order.customerName}</p>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {order.customerPhone && (
+          <div className="flex items-center gap-1.5 text-xs bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-1.5">
+            <Phone size={14} className="text-gray-400" />
+            {order.customerPhone}
+          </div>
+        )}
+        {order.customerAddress && (
+          <div className="flex items-center gap-1.5 text-xs bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-1.5">
+            <MapPin size={14} className="text-gray-400" />
+            {order.customerAddress}
+          </div>
+        )}
+        <div className="flex items-center gap-1.5 text-xs bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-1.5">
+          <Clock size={14} className="text-gray-400" />
+          {t("orders.selfPickup")}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+          {t("orders.orderItems")}
+        </p>
+        <div className="bg-[var(--primary-light)] rounded-xl p-3 flex flex-col gap-1">
+          {order.items.map((item) => (
+            <div
+              key={item.product}
+              className="flex justify-between text-sm py-1.5 border-b border-white last:border-b-0"
+            >
+              <span className="text-gray-600 ">
+                {item.quantity} × {item.name}
+              </span>
+              <span className="font-medium text-gray-700">₹{item.price}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
+          <h4 className="text-sm text-gray-500">
+            {t("orders.totalBillAmount")}
+          </h4>
+          <p className="text-lg font-bold text-gray-900">₹{order.total}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 border-t border-gray-100 pt-3 text-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={15} className="text-green-500" />
+            <span className="text-gray-600">{t("orders.deliveryPickup")}</span>
+          </div>
+          <span className="text-gray-400 text-xs">
+            {order.packedAt ? formatDateTime(order.packedAt) : "-"}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={15} className="text-green-500" />
+            <span className="text-gray-600 font-medium">
+              {t("orders.delivered")}
+            </span>
+          </div>
+          <span className="text-gray-400 text-xs">
+            {order.completedAt ? formatDateTime(order.completedAt) : "-"}
+          </span>
+        </div>
+      </div>
+
+      <button
+        onClick={onDelete}
+        className="flex items-center justify-center gap-2 text-red-400 hover:text-red-600 hover:bg-red-50 text-sm py-2 rounded-xl transition cursor-pointer"
+        title="Delete order"
+      >
+        <Trash2 size={16} />
+        Delete record
+      </button>
     </div>
   );
 };

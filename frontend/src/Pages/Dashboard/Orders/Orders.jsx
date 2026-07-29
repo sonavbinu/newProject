@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Search, Inbox } from "lucide-react";
 import {
   fetchStoreOrders,
   updateOrderStatus,
@@ -40,12 +41,18 @@ const Orders = () => {
     );
   });
 
+  const tabCounts = ["confirmation", "preparing", "packed", "completed"].reduce(
+    (acc, tab) => {
+      acc[tab] = orders.filter((o) => o.status === tab).length;
+      return acc;
+    },
+    {},
+  );
+
   const handleDelete = (orderId) => {
     if (
-      window.confirm("Delete this order permanently ?This cannot be undone.")
+      window.confirm("Delete this order permanently? This cannot be undone.")
     ) {
-      console.log("Deleting order:", orderId);
-
       dispatch(deleteOrder({ orderId, storeId }))
         .unwrap()
         .then(() => toast.success("Order deleted"))
@@ -54,35 +61,63 @@ const Orders = () => {
   };
 
   return (
-    <div>
-      <div className="flex flex-col gap-3">
-        <div className="flex justify-between">
-          <h2 className="text-xl sm:text-lg font-bold"> {t("orders.title")}</h2>
-          <input
-            type="text"
-            value={searchItem}
-            onChange={(e) => setSearchItem(e.target.value)}
-            placeholder={t("orders.searchPlaceholder")}
-            className="border w-[80%] border-gray-300 py-2 px-2 focus:ring-2 focus:ring-[var(--primary-color)] rounded-xl focus:outline-none"
-          />
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold text-gray-900">{t("orders.title")}</h2>
+      </div>
+
+      <div className="relative">
+        <Search
+          size={18}
+          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
+        />
+        <input
+          type="text"
+          value={searchItem}
+          onChange={(e) => setSearchItem(e.target.value)}
+          placeholder={t("orders.searchPlaceholder")}
+          className="w-full border border-gray-200 rounded-xl pl-11 pr-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-white p-1.5 rounded-xl shadow-sm border border-gray-100">
+        {["confirmation", "preparing", "packed", "completed"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`flex items-center justify-center gap-1.5 cursor-pointer rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+              activeTab === tab
+                ? "bg-[var(--primary-color)] text-white shadow-sm"
+                : "text-gray-500 hover:bg-gray-50"
+            }`}
+          >
+            {t(`orders.tabs.${tab}`)}
+            {tabCounts[tab] > 0 && (
+              <span
+                className={`text-xs px-1.5 py-0.5 rounded-full ${
+                  activeTab === tab
+                    ? "bg-white/20 text-white"
+                    : "bg-gray-100 text-gray-500"
+                }`}
+              >
+                {tabCounts[tab]}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {filteredOrders.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-16 border border-dashed border-gray-200 rounded-2xl bg-white">
+          <Inbox className="text-gray-300 mb-3" size={32} />
+          <p className="text-gray-500">
+            {searchItem
+              ? `No orders match "${searchItem}"`
+              : `No ${t(`orders.tabs.${activeTab}`).toLowerCase()} orders right now`}
+          </p>
         </div>
-        <p>{t("orders.lastUpdated")}</p>
-        <div className="flex justify-around shadow py-4 rounded-lg">
-          {["confirmation", "preparing", "packed", "completed"].map((tab) => (
-            <span
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`cursor-pointer rounded-xl p-2 transition-all ${
-                activeTab === tab
-                  ? "bg-[var(--primary-color)] text-white shadow"
-                  : "bg-[var(--primary-light)] hover:shadow"
-              }`}
-            >
-              {t(`orders.tabs.${tab}`)}
-            </span>
-          ))}
-        </div>
-        <div className=" grid md:grid-cols-2 grid-cols-1 gap-6 ">
+      ) : (
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
           {filteredOrders.map((order) => {
             if (activeTab === "packed") {
               return (
@@ -150,29 +185,30 @@ const Orders = () => {
             );
           })}
         </div>
-        {openModal && selectedOrder && (
-          <OrderVerificationModal
-            order={selectedOrder}
-            open={openModal}
-            onClose={() => {
-              setOpenModal(false);
-              setSelectedOrder(null);
-            }}
-            onPacked={() => {
-              dispatch(
-                updateOrderStatus({
-                  orderId: selectedOrder._id,
-                  storeId,
-                  status: "packed",
-                }),
-              );
-              setOpenModal(false);
-              setSelectedOrder(null);
-              setActiveTab("packed");
-            }}
-          />
-        )}
-      </div>
+      )}
+
+      {openModal && selectedOrder && (
+        <OrderVerificationModal
+          order={selectedOrder}
+          open={openModal}
+          onClose={() => {
+            setOpenModal(false);
+            setSelectedOrder(null);
+          }}
+          onPacked={() => {
+            dispatch(
+              updateOrderStatus({
+                orderId: selectedOrder._id,
+                storeId,
+                status: "packed",
+              }),
+            );
+            setOpenModal(false);
+            setSelectedOrder(null);
+            setActiveTab("packed");
+          }}
+        />
+      )}
     </div>
   );
 };
