@@ -76,7 +76,12 @@ const Cart = () => {
           <ArrowLeft size={16} />
           Back
         </button>
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Cart</h1>
+        <div className="bg-gradient-to-r from-[#EEF7D4] to-white rounded-3xl p-6 mt-3 border border-[#DDE8B5] mb-8">
+          <h1 className="text-3xl font-bold">Shopping Cart</h1>
+          <p className="text-gray-500 mt-2">
+            {items.length} item{items.length > 1 && "s"} ready for checkout
+          </p>
+        </div>
 
         <div className="flex flex-col gap-3">
           {items.map((item) => (
@@ -89,7 +94,7 @@ const Cart = () => {
                   <img
                     src={`${import.meta.env.VITE_API_URL?.replace("/api", "")}${item.image}`}
                     alt={item.productName}
-                    className="w-20 h-20 rounded-xl shadow-md p-1 object-cover"
+                    className="w-24 h-24 rounded-2xl shadow-md p-1 object-cover"
                   />
                 ) : (
                   <ShoppingBag
