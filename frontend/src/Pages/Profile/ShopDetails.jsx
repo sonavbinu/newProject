@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, User, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -14,7 +14,7 @@ const ShopDetails = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -96,6 +96,26 @@ const ShopDetails = () => {
     toast.success("Image ready to upload — click Save to confirm");
   };
 
+  const fields = [
+    {
+      name: "name",
+      label: t("shopDetails.shopName"),
+      type: "text",
+      icon: User,
+    },
+    {
+      name: "address",
+      label: t("shopDetails.address"),
+      type: "address",
+      icon: MapPin,
+    },
+    {
+      name: "phone",
+      label: t("shopDetails.phone"),
+      type: "tel",
+      icon: Phone,
+    },
+  ];
   const handleRemoveImage = async () => {
     setPreviewImage(null);
     setNewImageFile(null);
@@ -194,72 +214,125 @@ const ShopDetails = () => {
   }
 
   if (loading) {
-    return <p className="text-sm text-gray-400">Loading shop details...</p>;
+    return (
+      <div className="p-6 bg-white rounded-2xl">
+        <p className="text-gray-400 text-sm">Loading profile...</p>
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h2 className="text-lg sm:text-xl font-semibold">
+        <h2 className="text-2xl  text-gray-900 font-bold">
           {t("shopDetails.title")}
         </h2>
-        <p className="text-sm sm:text-text-base text-gray-400">
+        <p className="text-md  text-gray-500 mt-1">
           {t("shopDetails.subtitle")}
         </p>
       </div>
-      <form onSubmit={handleSave} className="flex flex-col gap-4">
-        <div className="flex flex-col gap-4">
-          <input
-            onClick={() => setIsEditing(true)}
-            type="text"
-            name="name"
-            onChange={handleChange}
-            placeholder={t("shopDetails.shopName")}
-            value={formData.name}
-            readOnly={!isEditing}
-            className="w-full border border-gray-300 px-3 py-2.5 focus:ring-2
+      <form onSubmit={handleSave} className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2 ">
+          <label className="text-sm font-medium text-gray-600">Shop Name</label>
+          <div
+            className={`flex items-center rounded-xl border transition-all duration-200 ${
+              isEditing
+                ? "border-gray-300 focus-within:border-[var(--primary-color)] focus-within:ring-4 focus-within:ring-[var(--primary-color)]/40 bg-white"
+                : "border-gray-200 bg-gray-50"
+            }`}
+          >
+            <User className="ml-2 text-[var(--primary-color)]" />{" "}
+            <input
+              onClick={() => setIsEditing(true)}
+              type="text"
+              name="name"
+              onChange={handleChange}
+              placeholder={t("shopDetails.shopName")}
+              value={formData.name}
+              readOnly={!isEditing}
+              className="w-full  px-4 py-3 
              text-sm sm:text-base focus:ring-[var(--primary-color)]
-             focus:outline-none rounded"
-          />
-          <input
-            onClick={() => setIsEditing(true)}
-            type="text"
-            name="address"
-            placeholder={t("shopDetails.address")}
-            onChange={handleChange}
-            value={formData.address}
-            readOnly={!isEditing}
-            className="w-full border border-gray-300 px-3 py-6 rounded focus:ring-2
+             focus:outline-none rounded-xl"
+            />
+          </div>
+
+          <label className="text-sm font-medium text-gray-600">Address</label>
+          <div
+            className={`flex items-center rounded-xl border transition-all duration-200 ${
+              isEditing
+                ? "border-gray-300 focus-within:border-[var(--primary-color)] focus-within:ring-4 focus-within:ring-[var(--primary-color)]/40 bg-white"
+                : "border-gray-200 bg-gray-50"
+            }`}
+          >
+            <MapPin className="ml-2 text-[var(--primary-color)]" />{" "}
+            <input
+              onClick={() => setIsEditing(true)}
+              type="text"
+              name="address"
+              placeholder={t("shopDetails.address")}
+              onChange={handleChange}
+              value={formData.address}
+              readOnly={!isEditing}
+              className="w-full   px-3 py-6 rounded-xl 
             text-sm sm:text-base focus:ring-[var(--primary-color)]
-            focus:outline-none"
-          />
-          <input
-            onClick={() => setIsEditing(true)}
-            type="text"
-            name="phone"
-            onChange={handleChange}
-            placeholder={t("shopDetails.phone")}
-            readOnly={!isEditing}
-            value={formData.phone}
-            className="w-full border border-gray-300 px-3 py-2.5 rounded focus:ring-2 text-sm
+            focus:outline-none flex"
+            ></input>
+          </div>
+
+          <label className="text-sm font-medium text-gray-600">Phone</label>
+          <div
+            className={`flex items-center rounded-xl border transition-all duration-200 ${
+              isEditing
+                ? "border-gray-300 focus-within:border-[var(--primary-color)] focus-within:ring-4 focus-within:ring-[var(--primary-color)]/40 bg-white"
+                : "border-gray-200 bg-gray-50"
+            }`}
+          >
+            <Phone className=" ml-2 text-[var(--primary-color)]" />{" "}
+            <input
+              onClick={() => setIsEditing(true)}
+              type="text"
+              name="phone"
+              onChange={handleChange}
+              placeholder={t("shopDetails.phone")}
+              readOnly={!isEditing}
+              value={formData.phone}
+              className="w-full px-3 py-2.5 rounded  text-sm
              sm:text-base focus:ring-[var(--primary-color)] focus:outline-none"
-          />
-          <h4 className="border flex justify-between border-gray-300 px-3 py-2.5 hover:bg-gray-200 transition-all duration-150 cursor-pointer rounded">
-            {t("shopDetails.mapLocation")}
+            />
+          </div>
+
+          <button
+            type="button"
+            className=" w-full border flex justify-between items-center
+           border-gray-300 px-3 py-3
+           hover:bg-gray-50 hover:border-[var(--primary-color)] transition-all duration-150 
+           cursor-pointer rounded-xl group"
+          >
+            <span className="text-sm font-medium text-gray-700">
+              {t("shopDetails.mapLocation")}
+            </span>
+
             <p>
-              <ArrowRight />
+              <ArrowRight
+                size={18}
+                className="text-gray-500 group-hover:text-[var(--primary-color)] group-hover:translate-x-1 transition-all 
+              duration-200"
+              />
             </p>
-          </h4>
+          </button>
         </div>
 
-        <div className="flex flex-col border border-gray-300 gap-2 rounded px-4 py-2">
-          <div className="flex justify-between">
-            <p className="text-md font-semibold">
+        <div className="border border-gray-200 gap-2 bg-white rounded-2xl p-5 shadow-sm">
+          <div className="flex justify-between mb-4 items-center">
+            <p className="text-base font-semibold text-gray-900">
               {t("shopDetails.workingDays")}
+            </p>
+            <p className="text-sm text-gray-500">
+              Select the days your store will be open
             </p>
             <button
               type="button"
-              className="text-[var(--primary-color)] hover:underline cursor-pointer"
+              className=" text-sm font-medium text-[var(--primary-color)] hover:underline cursor-pointer"
               onClick={handleSelectAll}
             >
               {workingDays.length === days.length
@@ -279,15 +352,17 @@ const ShopDetails = () => {
                   checked={workingDays.includes(day.key)}
                   onChange={() => handleCheckboxChange(day.key)}
                 />
-                <span>{day.label}</span>
+                <span className="text-sm font-medium text-gray-700">
+                  {day.label}
+                </span>
               </label>
             ))}
           </div>
         </div>
 
-        <div className="border border-gray-300 px-3 py-2 flex flex-col gap-2 rounded">
+        <div className="border border-gray-200 bg-white p-5 flex flex-col gap-2 rounded-2xl">
           <h2 className="font-semibold">{t("shopDetails.workingTime")}</h2>
-          <p className="text-sm sm:text-base">{t("shopDetails.selectTime")}</p>
+          <p className="text-sm sm:text-base ">{t("shopDetails.selectTime")}</p>
           <div className="flex justify-between gap-4">
             <input
               type="time"
