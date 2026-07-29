@@ -75,9 +75,19 @@ const StoreSelect = () => {
           </div>
           <hr className="text-gray-100 mb-6 mt-6" />
 
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
-            Where are you ordering from today?
-          </h1>
+          <div className="mb-10">
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#EEF7D4] text-[#8BAD2B] text-sm font-semibold">
+              Fresh Grocery Delivery
+            </span>
+            <h1 className="mt-4 text-4xl font-bold text-gray-900">
+              Choose your Store
+            </h1>
+
+            <p className="mt-2 text-gray-500 max-w-xl">
+              Browse nearby grocery stores and start shopping fresh products
+              delivered to your doorstep.
+            </p>
+          </div>
         </div>
 
         <div className="relative mb-6">
@@ -119,9 +129,12 @@ const StoreSelect = () => {
               <button
                 key={store._id}
                 onClick={() => handleSelect(store._id)}
-                className="group flex items-center gap-4 w-full cursor-pointer text-left bg-white border border-gray-200 rounded-xl p-4 hover:border-[#8BAD2B] hover:shadow-md transition-all"
+                className="group flex items-center gap-4 w-full 
+                cursor-pointer text-left bg-white border border-gray-200
+                 rounded-xl p-4 hover:border-[#8BAD2B] hover:shadow-md
+                  transition-all"
               >
-                <div className="w-14 h-14 rounded-lg bg-[#F1F5E3] flex items-center justify-center overflow-hidden shrink-0">
+                <div className="w-20 h-20 rounded-lg bg-[#F1F5E3] flex items-center justify-center overflow-hidden shrink-0">
                   {store.storeImage ? (
                     <img
                       src={`http://localhost:5000${store.storeImage}`}
@@ -143,8 +156,12 @@ const StoreSelect = () => {
                     <span className="truncate">{store.address}</span>
                   </div>
                 </div>
-                <div className="text-[#8BAD2B] opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium shrink-0">
-                  Order →
+                <div
+                  className="opacity-0 group-hover:opacity-100 transition-all duration-300
+  bg-[#8BAD2B] text-white px-4 py-2 rounded-xl text-sm font-semibold
+  shadow-md group-hover:translate-x-1"
+                >
+                  Shop Now →
                 </div>
               </button>
             ))}
