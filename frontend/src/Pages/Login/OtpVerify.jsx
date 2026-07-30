@@ -25,7 +25,6 @@ const OtpVerify = () => {
   const handleResend = async () => {
     try {
       const email = localStorage.getItem("email");
-      console.log(email);
       const res = await sendOTP(email);
 
       if (res.data.success) {
@@ -73,17 +72,13 @@ const OtpVerify = () => {
 
       const res = await verifyOTP(email, enteredOTP);
 
-      console.log("Verify response:", res.data);
-
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
-
-        console.log("Token after saving:", localStorage.getItem("token"));
 
         navigate("/select-store");
       }
     } catch (error) {
-      console.log(error.response?.data);
+      console.error(error.response?.data);
       alert(error.response?.data?.message || "OTP verification failed");
     }
   };
