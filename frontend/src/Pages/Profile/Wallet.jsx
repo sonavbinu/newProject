@@ -110,7 +110,15 @@ const Wallet = () => {
     }
   };
 
-  if (loading) return <div>{t("common.loading")}</div>;
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="h-20 rounded-2xl bg-gray-100 animate-pulse"></div>
+        <div className="h-64 rounded-2xl bg-gray-100 animate-pulse"></div>
+        <div className="h-64 rounded-2xl bg-gray-100 animate-pulse"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3 justify-center ">
