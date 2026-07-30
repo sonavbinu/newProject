@@ -44,7 +44,7 @@ const Login = () => {
           </div>
           <div className="w-full space-y-3">
             <button
-              className="btn-primary  px-4 py-3 w-full shadow-sm cursor-pointer font-medium rounded-md transition-all duraiton-200 ease-in-out hover:bg-[#7a9925] mb-5"
+              className="btn-primary  px-4 py-3 w-full shadow-sm cursor-pointer font-medium rounded-md transition-all duration-200 ease-in-out hover:bg-[#7a9925] mb-5"
               onClick={() => navigate("/mobile-input")}
             >
               {t("login.login")}
