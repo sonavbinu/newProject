@@ -96,7 +96,7 @@ const Register = () => {
           {fields.map(
             ({ name, type, placeholder, icon: Icon, required, minLength }) => (
               <div
-                className="flex items-center rounded-xl border border-gray-300 px-4 py-3 
+                className="flex items-center rounded-xl border border-gray-300 p-2 
               focus-within:ring-2 focus-within:ring-[#8BAD2B] transition gap-3"
                 key={name}
               >
