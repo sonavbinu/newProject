@@ -28,7 +28,6 @@ const Onboarding = () => {
     ifsc: "",
     qrImage: null,
   });
-  console.log("Selected Store:", selectedStore);
 
   useEffect(() => {
     if (selectedStore) {

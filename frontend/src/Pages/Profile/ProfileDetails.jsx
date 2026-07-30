@@ -1,58 +1,48 @@
-import { Truck, User, Phone, Mail } from "lucide-react";
+import { User, Phone, Mail } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { getProfile, updateProfile } from "../../api/partnerApi";
 import { useSelector } from "react-redux";
+import { getProfile, updateProfile } from "../../api/partnerApi";
+import API from "../../api/api";
 
 const ProfileDetails = () => {
   const { t } = useTranslation();
+  const selectedStore = useSelector((state) => state.store.selectedStore);
+  const storeId = selectedStore?._id || localStorage.getItem("selectedStoreId");
+
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState(() => {
-    const saved = localStorage.getItem("profile");
-    return saved
-      ? JSON.parse(saved)
-      : {
-          name: "",
-          phone: "",
-          email: "",
-        };
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
   });
 
   useEffect(() => {
-    fetchProfile();
+    const fetchEmail = async () => {
+      try {
+        const res = await getProfile();
+        setFormData((prev) => ({ ...prev, email: res.data.user.email || "" }));
+      } catch (err) {
+        toast.error(err.response?.data?.message || "Failed to load profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEmail();
   }, []);
-
-  const selectedStore = useSelector((state) => state.store.selectedStore);
 
   useEffect(() => {
     if (selectedStore) {
-      setFormData({
-        name: selectedStore.ownerName,
-        phone: selectedStore.phone,
-        email: selectedStore.email,
-      });
+      setFormData((prev) => ({
+        ...prev,
+        name: selectedStore.ownerName || "",
+        phone: selectedStore.phone || "",
+      }));
     }
   }, [selectedStore]);
-  const fetchProfile = async () => {
-    try {
-      const res = await getProfile();
-      const { name, phone, email } = res.data.user;
-      console.log("API response:", res.data);
-      console.log("user:", res.data.user);
-      setFormData({
-        name: name || "",
-        phone: phone || "",
-        email: email || "",
-      });
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to load profile");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleChange = (e) => {
     setFormData({
@@ -65,19 +55,20 @@ const ProfileDetails = () => {
     e.preventDefault();
     setSaving(true);
 
-    console.log("Sending:", formData);
     try {
-      const res = await updateProfile(formData);
-      console.log("Response:", res.data);
-      setFormData({
-        name: res.data.user.name,
-        phone: res.data.user.phone,
-        email: res.data.user.email,
-      });
+      if (storeId) {
+        await API.put("/stores/owner-info", {
+          storeId,
+          ownerName: formData.name,
+          phone: formData.phone,
+        });
+      }
+      await updateProfile({ email: formData.email });
+
       toast.success("Profile updated successfully!");
       setIsEditing(false);
     } catch (error) {
-      console.log("Error:", error.response?.data);
+      console.error("Error:", error.response?.data);
       toast.error(error.response?.data?.message || "Failed to update profile");
     } finally {
       setSaving(false);
@@ -93,12 +84,7 @@ const ProfileDetails = () => {
   }
 
   const fields = [
-    {
-      name: "name",
-      label: t("profileDetails.name"),
-      type: "text",
-      icon: User,
-    },
+    { name: "name", label: t("profileDetails.name"), type: "text", icon: User },
     {
       name: "phone",
       label: t("profileDetails.phone"),
@@ -120,7 +106,6 @@ const ProfileDetails = () => {
           <h2 className="text-2xl font-bold text-gray-900">
             {t("profileDetails.title")}
           </h2>
-
           <p className="text-gray-500 mt-1">{t("profileDetails.subtitle")}</p>
         </div>
         <form className="flex flex-col gap-5" onSubmit={handleSave}>
@@ -129,7 +114,6 @@ const ProfileDetails = () => {
               <label className="text-sm font-medium text-gray-600">
                 {label}
               </label>
-
               <div
                 className={`flex items-center rounded-xl border transition-all duration-200 ${
                   isEditing
@@ -141,7 +125,6 @@ const ProfileDetails = () => {
                   size={18}
                   className="ml-4 text-[var(--primary-color)] shrink-0"
                 />
-
                 <input
                   type={type}
                   name={name}
@@ -170,15 +153,11 @@ const ProfileDetails = () => {
             <div className="flex gap-3 pt-2">
               <button
                 type="button"
-                onClick={() => {
-                  setIsEditing(false);
-                  fetchProfile();
-                }}
+                onClick={() => setIsEditing(false)}
                 className="flex-1 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition cursor-pointer"
               >
                 {t("common.cancel")}
               </button>
-
               <button
                 type="submit"
                 disabled={saving}

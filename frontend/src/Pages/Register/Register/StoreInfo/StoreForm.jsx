@@ -67,7 +67,7 @@ const StoreForm = ({
 
       alert("OTP sent successfully!");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert(error.message);
     }
   };
@@ -80,11 +80,7 @@ const StoreForm = ({
         storeData.ownerEmail,
       );
 
-      console.log("Firebase Login Response:", res.data);
-
       localStorage.setItem("token", res.data.token);
-
-      console.log("Saved Token:", localStorage.getItem("token"));
 
       setPhoneVerified(true);
 

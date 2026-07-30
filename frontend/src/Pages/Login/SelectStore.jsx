@@ -23,7 +23,7 @@ const SelectStore = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("http://localhost:5000/api/stores", {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/stores`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
