@@ -6,6 +6,7 @@ const verifyStoreOwnership = async (storeId, userId) => {
 };
 
 const addProduct = async (req, res) => {
+  console.log("add PRODUCT CONTROLLER CALLED");
   try {
     const { storeId, categoryId, ...productData } = req.body;
     if (!storeId)
@@ -13,8 +14,8 @@ const addProduct = async (req, res) => {
 
     const store = await verifyStoreOwnership(storeId, req.user.id);
     if (!store) return res.status(404).json({ message: "Store not found" });
-
-    const image = req.file ? `/uploads/products/${req.file.filename}` : "";
+    console.log("FILE RECEIVED:", req.file);
+    const image = req.file ? req.file.path : "";
 
     const product = await Product.create({
       store: storeId,

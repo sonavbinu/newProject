@@ -7,6 +7,7 @@ import { addToCart, clearCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { logout } from "../../redux/slices/customerAuthSlice";
 import Navbar from "../../Components/Navbar";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 const categoryLabels = {
   1: "Fruits & Vegetables",
@@ -147,7 +148,7 @@ const ProductBrowse = () => {
                         <div className="relative h-30  bg-[#F1F5E3] flex items-center justify-center overflow-hidden ">
                           {product.image ? (
                             <img
-                              src={`http://localhost:5000${product.image}`}
+                              src={getImageUrl(product.image)}
                               alt={product.productName}
                               className="w-full h-full  object-cover group-hover:scale-105 transition-transform duration-300"
                             />

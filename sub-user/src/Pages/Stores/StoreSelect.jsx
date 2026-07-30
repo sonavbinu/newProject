@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { logout } from "../../redux/slices/customerAuthSlice";
 import Navbar from "../../Components/Navbar";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 const StoreSelect = () => {
   const dispatch = useDispatch();
@@ -137,7 +138,7 @@ const StoreSelect = () => {
                 <div className="w-20 h-20 rounded-lg bg-[#F1F5E3] flex items-center justify-center overflow-hidden shrink-0">
                   {store.storeImage ? (
                     <img
-                      src={`http://localhost:5000${store.storeImage}`}
+                      src={getImageUrl(store.storeImage)}
                       alt={store.storeName}
                       className="w-full h-full object-cover"
                     />
