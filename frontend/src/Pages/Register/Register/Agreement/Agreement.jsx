@@ -13,10 +13,6 @@ const Agreement = () => {
 
   const { storeData } = useOutletContext();
 
-  useEffect(() => {
-    console.log("Agreement token:", localStorage.getItem("token"));
-  }, []);
-
   const handleSubmit = async () => {
     try {
       setLoading(true);
@@ -42,11 +38,8 @@ const Agreement = () => {
 
       formData.append("email", storeData.ownerEmail ?? "");
 
-      const token = localStorage.getItem("token");
-      console.log("Agreement token:", token);
-
       const res = await axios.post(
-        "http://localhost:5000/api/stores/register",
+        `${import.meta.env.VITE_API_URL}/stores/register`,
         formData,
         {
           headers: {

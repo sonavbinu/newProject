@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getStoreById, saveStore, removeStoreImage } from "../../api/storeApi";
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = import.meta.env.VITE_API_URL?.replace("/api", "");
 
 const ShopDetails = () => {
   const { t } = useTranslation();

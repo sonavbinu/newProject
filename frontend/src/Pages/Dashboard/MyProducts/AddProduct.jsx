@@ -60,7 +60,9 @@ const AddProduct = () => {
           });
           setSelectedDelivery(product.deliveryTypes || []);
           if (product.image) {
-            setExistingImageUrl(`http://localhost:5000${product.image}`);
+            setExistingImageUrl(
+              `${import.meta.env.VITE_API_URL?.replace("/api", "")}${product.image}`,
+            );
           }
         })
         .catch((err) => toast.error(err || "Failed to load product"));
