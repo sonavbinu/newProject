@@ -4,7 +4,6 @@ import { User, Mail, Phone, MessageCircle, ShieldCheck } from "lucide-react";
 const OwnerForm = ({ storeData, setStoreData }) => {
   const [sameWhatsApp, setSameWhatsApp] = useState(true);
 
-  // Keep whatsapp same as phone when selected
   useEffect(() => {
     if (sameWhatsApp) {
       setStoreData((prev) => ({

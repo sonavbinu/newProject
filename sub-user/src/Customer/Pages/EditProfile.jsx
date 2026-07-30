@@ -65,7 +65,7 @@ const EditProfile = () => {
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center text-lg font-medium">
-        Loading...
+        <div className="h-20 bg-gray-50 animate-pulse"></div>
       </div>
     );
 
