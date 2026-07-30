@@ -8,6 +8,7 @@ import {
   updateProduct,
   fetchProductById,
 } from "../../../redux/slices/productSlice";
+import { getImageUrl } from "../../../utils/getImageUrl";
 import { useTranslation } from "react-i18next";
 
 const AddProduct = () => {
@@ -60,9 +61,7 @@ const AddProduct = () => {
           });
           setSelectedDelivery(product.deliveryTypes || []);
           if (product.image) {
-            setExistingImageUrl(
-              `${import.meta.env.VITE_API_URL?.replace("/api", "")}${product.image}`,
-            );
+            setExistingImageUrl(getImageUrl(product.image));
           }
         })
         .catch((err) => toast.error(err || "Failed to load product"));

@@ -77,8 +77,10 @@ const ProfileDetails = () => {
 
   if (loading) {
     return (
-      <div className="p-6 bg-white rounded-2xl">
-        <p className="text-gray-400 text-sm">Loading profile...</p>
+      <div className="flex flex-col gap-4">
+        <div className="h-20 rounded-2xl bg-gray-100 animate-pulse"></div>
+        <div className="h-64 rounded-2xl bg-gray-100 animate-pulse"></div>
+        <div className="h-40 rounded-2xl bg-gray-100 animate-pulse"></div>
       </div>
     );
   }

@@ -41,3 +41,15 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+app.use((err, req, res, next) => {
+  console.log("========== ERROR ==========");
+  console.dir(err, { depth: null });
+  console.log("Name:", err.name);
+  console.log("Message:", err.message);
+  console.log("Stack:", err.stack);
+  console.log("===========================");
+
+  res.status(500).json({
+    message: err.message,
+  });
+});

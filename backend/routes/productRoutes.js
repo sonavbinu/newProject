@@ -12,8 +12,24 @@ const {
   minusStock,
   deleteProduct,
 } = require("../controllers/productController");
-
-router.post("/", auth, upload.single("image"), addProduct);
+router.post(
+  "/",
+  auth,
+  (req, res, next) => {
+    upload.single("image")(req, res, (err) => {
+      if (err) {
+        console.log("UPLOAD ERROR:");
+        console.dir(err, { depth: null });
+        return res.status(500).json({
+          message: err.message,
+          error: err,
+        });
+      }
+      next();
+    });
+  },
+  addProduct,
+);
 router.get("/my-products", auth, getMyProducts);
 
 router.put("/price", auth, editPrice);

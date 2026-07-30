@@ -20,6 +20,7 @@ import { placeOrder } from "../../redux/slices/orderSlice";
 import { toast } from "react-toastify";
 import { logout } from "../../redux/slices/customerAuthSlice";
 import Navbar from "../../Components/Navbar";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -92,7 +93,7 @@ const Cart = () => {
               <div>
                 {item.image ? (
                   <img
-                    src={`${import.meta.env.VITE_API_URL?.replace("/api", "")}${item.image}`}
+                    src={getImageUrl(item.image)}
                     alt={item.productName}
                     className="w-24 h-24 rounded-2xl shadow-md p-1 object-cover"
                   />
