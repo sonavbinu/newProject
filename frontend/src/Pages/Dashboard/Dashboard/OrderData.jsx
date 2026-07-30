@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   PackageCheck,
   CircleCheckBig,
+  Inbox,
 } from "lucide-react";
 import {
   PieChart,
@@ -41,20 +42,45 @@ const OrderData = () => {
   const totalOrders =
     pendingConfirmation + confirmOrders + packedOrders + completedOrders;
 
-  const data = [
-    { name: t("dashboard.orderData.confirmed"), value: confirmOrders },
-    { name: t("dashboard.orderData.packed"), value: packedOrders },
-    { name: t("dashboard.orderData.completed"), value: completedOrders },
+  const stats = [
     {
-      name: t("dashboard.orderData.pendingConfirmation"),
+      key: "confirmed",
+      label: t("dashboard.orderData.confirmed"),
+      value: confirmOrders,
+      icon: BadgeCheck,
+      color: COLORS[0],
+    },
+    {
+      key: "packed",
+      label: t("dashboard.orderData.packed"),
+      value: packedOrders,
+      icon: PackageCheck,
+      color: COLORS[1],
+    },
+    {
+      key: "completed",
+      label: t("dashboard.orderData.completed"),
+      value: completedOrders,
+      icon: CircleCheckBig,
+      color: COLORS[2],
+    },
+    {
+      key: "pendingConfirmation",
+      label: t("dashboard.orderData.pendingConfirmation"),
       value: pendingConfirmation,
+      icon: Package,
+      color: COLORS[3],
     },
   ];
+  const data = stats.map((s) => ({
+    name: s.label,
+    value: s.value,
+  }));
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
       <div
         onClick={() => navigate("/order")}
-        className="grid grid-cols-1  sm:grid-cols-2 gap-6"
+        className="grid grid-cols-1  sm:grid-cols-2 gap-6 cursor-pointer"
       >
         <div className="bg-white p-6 rounded-xl shadow flex flex-col items-center hover:shadow-xl cursor-pointer">
           <Package size={36} className="text-[var(--primary-color)]" />
