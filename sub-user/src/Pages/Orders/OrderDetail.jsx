@@ -103,11 +103,13 @@ const OrderDetail = () => {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col gap-4">
-          <div className="flex items-center justify-between">
+        <div className="bg-gradient-to-r from-white to-lime-100 border border-lime-200 rounded-xl p-8 shadow-lg flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-[#8BAD2B]">
-              <CheckCircle2 size={20} />
-              <span className="font-semibold">Order Placed successfully</span>
+              <CheckCircle2 size={34} />
+              <span className="font-semibold text-2xl">
+                Order Placed successfully
+              </span>
             </div>
             <div>
               <span

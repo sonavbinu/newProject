@@ -55,7 +55,21 @@ const OrderHistory = () => {
           Back to stores
         </button>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">My Orders</h1>
+        <div className="mb-8 rounded-3xl border border-lime-200 bg-gradient-to-r from-white to-lime-50 p-6 shadow-sm">
+          <h1 className="text-3xl font-bold text-gray-900 ">My Orders</h1>
+          <p className="mt-2 text-gray-600">
+            View and manage your recent purchases
+          </p>
+
+          <div className="mt-5 flex gap-8">
+            <div>
+              <p className="text-2xl font-bold text-[var(--primary-color)]">
+                {orders.length}
+              </p>
+              <p className="text-sm text-gray-500">Total Orders</p>
+            </div>
+          </div>
+        </div>
 
         {loading ? (
           <div className="flex flex-col gap-4">
@@ -70,7 +84,7 @@ const OrderHistory = () => {
           <div className="text-center py-24 border border-dashed border-gray-200 rounded-xl">
             <ShoppingBag className="mx-auto text-gray-300 mb-3" size={32} />
             <p className="text-gray-500 mb-3">
-              You haven't placed any orders yet
+              No Orders yet . Browse stores to place your first order .
             </p>
             <button
               onClick={() => navigate("/stores")}
@@ -85,7 +99,7 @@ const OrderHistory = () => {
               <div
                 key={order._id}
                 onClick={() => navigate(`/orders/${order._id}`)}
-                className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer text-end "
+                className="bg-white border border-gray-200 rounded-3xl p-6 hover:shadow-sm transition-all duration-300 hover:-translate-y-1 cursor-pointer text-end "
               >
                 <button
                   onClick={(e) => handleDelete(e, order._id)}
@@ -94,7 +108,7 @@ const OrderHistory = () => {
                 >
                   <Trash2 size={16} />
                 </button>
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Package className="text-[#8BAD2B]" size={18} />
                     <span className="font-semibold text-gray-900">
